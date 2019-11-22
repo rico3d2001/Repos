@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brass.Materiais.Dominio", "Brass.Materiais.Dominio\Brass.Materiais.Dominio.csproj", "{DFAB2249-8050-4626-AE11-B34476C4CA94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brass.Materiais.UnitTest", "Brass.Materiais.UnitTest\Brass.Materiais.UnitTest.csproj", "{5A754248-1A55-499B-8B53-AC99AC1630A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFAB2249-8050-4626-AE11-B34476C4CA94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFAB2249-8050-4626-AE11-B34476C4CA94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFAB2249-8050-4626-AE11-B34476C4CA94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFAB2249-8050-4626-AE11-B34476C4CA94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A754248-1A55-499B-8B53-AC99AC1630A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A754248-1A55-499B-8B53-AC99AC1630A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A754248-1A55-499B-8B53-AC99AC1630A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A754248-1A55-499B-8B53-AC99AC1630A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {354CF846-4F71-4C39-990C-78F52B4BBFEE}
+	EndGlobalSection
+EndGlobal
