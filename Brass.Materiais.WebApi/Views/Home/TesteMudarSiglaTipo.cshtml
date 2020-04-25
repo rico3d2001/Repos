@@ -1,0 +1,74 @@
+﻿@model Brass.Materiais.RepositorioSQLServer.CT_PnPTables
+
+@{
+    ViewBag.Title = "TesteMudarSiglaTipo";
+}
+
+<h2>TesteMudarSiglaTipo</h2>
+
+<div>
+    <h4>CT_PnPTables</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TableName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TableName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BaseTable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BaseTable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Abstract)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Abstract)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Revision)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Revision)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SyncTimestamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SyncTimestamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sigla_BRASS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sigla_BRASS)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GUID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

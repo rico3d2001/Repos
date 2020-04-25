@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Brass.Materiais.Dominio.Entities.EngenhariaItem">
+    <Position X="14.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAgAAAgAAQAAAAAAAQAAAAACCAAAAAA=</HashCode>
+      <FileName>Entities\EngenhariaItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CodigoItem" />
+      <Property Name="GrupoDescricoes" />
+      <Property Name="ItemPai" />
+      <Property Name="NomeItem" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Propriedades" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Brass.Materiais.Dominio.ValueObjects.ValoresCodigo.CodigoItem">
+    <Position X="14.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ValueObjects\ValoresCodigo\CodigoItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Brass.Materiais.Dominio.ValueObjects.Descricoes.GrupoDescricoes">
+    <Position X="14.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAIgAAAAAAAAACAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>ValueObjects\Descricoes\GrupoDescricoes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Brass.Materiais.Dominio.ValueObjects.ValoresCodigo.NomeItem">
+    <Position X="17.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ValueObjects\ValoresCodigo\NomeItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Brass.Materiais.Dominio.ValueObjects.ValoresCodigo.Propriedade">
+    <Position X="11.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ValueObjects\ValoresCodigo\Propriedade.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ValorPropriedade" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Brass.Materiais.Dominio.ValueObjects.ValoresCodigo.ValorPropriedade">
+    <Position X="8.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>ValueObjects\ValoresCodigo\ValorPropriedade.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Tipo" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Brass.Materiais.Dominio.ValueObjects.ValoresCodigo.PropriedadeTipo">
+    <Position X="5.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ValueObjects\ValoresCodigo\PropriedadeTipo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -9,13 +9,13 @@ namespace Brass.Materiais.Dominio.ValueObjects.Pesagem
 {
     public class Peso
     {
-        public Peso(string nome, UnidadePeso unidadePeso)
+        public Peso(double valor, UnidadePeso unidadePeso)
         {
-            Nome = nome;
+            Valor = valor;
             UnidadePeso = unidadePeso;
         }
 
-        public string Nome { get; set; }
+        public double Valor { get; set; }
         public UnidadePeso UnidadePeso { get; set; }
     }
 }

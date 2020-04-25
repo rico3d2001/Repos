@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.ValueObjects.ValoresCodigo
 {
-    public class SiglaExtremidade: ValueObject
-    {
-        public SiglaExtremidade(string sigla)
-        {
-            Sigla = getLetras(sigla,2);
-        }
+    //public class SiglaExtremidade: Sigla
+    //{
+    //    //public SiglaExtremidade(string sigla)
+    //    //{
+    //    //    Sigla = getLetras(sigla,2);
+    //    //}
 
-        public string Sigla { get; set; }
-        public string Nome { get; set; }
-    }
+    //    public string Sigla { get; set; }
+    //    public string Nome { get; set; }
+    //}
 }

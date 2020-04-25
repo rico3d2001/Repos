@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CatalogoPlant3d">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="GUID_IDIOMA" Type="nvarchar" MaxLength="60" />
+          <Property Name="NOME" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Categorias_Catalogo">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="GUID_CATEGORIA" Type="nvarchar" MaxLength="60" />
+          <Property Name="GUID_CATALOGO" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="CODIFICACOES">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CT_Idioma">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="IDIOMA" Type="nvarchar(max)" />
+          <Property Name="PAIS" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CT_PnPTables">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="TableName" Type="nvarchar(max)" />
+          <Property Name="BaseTable" Type="nvarchar(max)" />
+          <Property Name="Abstract" Type="nvarchar" MaxLength="16" />
+          <Property Name="PhysicalName" Type="nvarchar(max)" />
+          <Property Name="Revision" Type="int" />
+          <Property Name="SyncTimestamp" Type="int" />
+          <Property Name="Sigla_BRASS" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="ItemEngenharia">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="GUID_TIPO_ITEM" Type="nvarchar" MaxLength="60" />
+          <Property Name="GUID_CATALOGO" Type="nvarchar" MaxLength="60" />
+          <Property Name="GUID_ITEM_PAI" Type="nvarchar" MaxLength="60" />
+          <Property Name="PnPID" Type="int" />
+        </EntityType>
+        <EntityType Name="PropriedadeEng">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="GUID_VALOR" Type="nvarchar(max)" />
+          <Property Name="GUID_TIPO" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="PropriedadeItemEng">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="GUID_PROPRIEDADE" Type="nvarchar" MaxLength="60" />
+          <Property Name="GUID_ITEM_ENG" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="PrpiedadesRelacionadas">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="GUID_PROPIEDADE" Type="nvarchar" MaxLength="60" />
+          <Property Name="GUID_PNPTABLE" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="SIGLA_CODIGO">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="SIGLA" Type="nchar" MaxLength="10" />
+          <Property Name="DIMENSAO_MM" Type="float" />
+          <Property Name="SIGLA_PAI" Type="nvarchar" MaxLength="60" />
+          <Property Name="GUID_NORMA" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="TipoItem">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TipoPropriedade">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="GUID_PAI" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="Valores">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="VALOR" Type="nvarchar(max)" />
+          <Property Name="Sigla_BRASS" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityContainer Name="DataBaseModelStoreContainer">
+          <EntitySet Name="CatalogoPlant3d" EntityType="Self.CatalogoPlant3d" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categorias_Catalogo" EntityType="Self.Categorias_Catalogo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CODIFICACOES" EntityType="Self.CODIFICACOES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CT_Idioma" EntityType="Self.CT_Idioma" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CT_PnPTables" EntityType="Self.CT_PnPTables" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemEngenharia" EntityType="Self.ItemEngenharia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PropriedadeEng" EntityType="Self.PropriedadeEng" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PropriedadeItemEng" EntityType="Self.PropriedadeItemEng" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrpiedadesRelacionadas" EntityType="Self.PrpiedadesRelacionadas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SIGLA_CODIGO" EntityType="Self.SIGLA_CODIGO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoItem" EntityType="Self.TipoItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoPropriedade" EntityType="Self.TipoPropriedade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Valores" EntityType="Self.Valores" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DataBaseContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CODIFICACOES" EntityType="DataBaseModel.CODIFICACOES" />
+          <EntitySet Name="SIGLA_CODIGO" EntityType="DataBaseModel.SIGLA_CODIGO" />
+          <EntitySet Name="TipoPropriedade" EntityType="DataBaseModel.TipoPropriedade" />
+          <EntitySet Name="CT_PnPTables" EntityType="DataBaseModel.CT_PnPTables" />
+          <EntitySet Name="CT_Idioma" EntityType="DataBaseModel.CT_Idioma" />
+          <EntitySet Name="PropriedadeItemEng" EntityType="DataBaseModel.PropriedadeItemEng" />
+          <EntitySet Name="PropriedadeEng" EntityType="DataBaseModel.PropriedadeEng" />
+          <EntitySet Name="Valores" EntityType="DataBaseModel.Valores" />
+          <EntitySet Name="PrpiedadesRelacionadas" EntityType="DataBaseModel.PrpiedadesRelacionadas" />
+          <EntitySet Name="TipoItem" EntityType="DataBaseModel.TipoItem" />
+          <EntitySet Name="ItemEngenharia" EntityType="DataBaseModel.ItemEngenharia" />
+          <EntitySet Name="CatalogoPlant3d" EntityType="DataBaseModel.CatalogoPlant3d" />
+          <EntitySet Name="Categorias_Catalogo" EntityType="DataBaseModel.Categorias_Catalogo" />
+        </EntityContainer>
+        <EntityType Name="CODIFICACOES">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="NOME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SIGLA_CODIGO">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="SIGLA" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DIMENSAO_MM" Type="Double" />
+          <Property Name="SIGLA_PAI" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_NORMA" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TipoPropriedade">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_PAI" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CT_PnPTables">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="TableName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BaseTable" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Abstract" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="PhysicalName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Revision" Type="Int32" />
+          <Property Name="SyncTimestamp" Type="Int32" />
+          <Property Name="Sigla_BRASS" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CT_Idioma">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="IDIOMA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PAIS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PropriedadeItemEng">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_PROPRIEDADE" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_ITEM_ENG" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PropriedadeEng">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_VALOR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_TIPO" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Valores">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="VALOR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Sigla_BRASS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PrpiedadesRelacionadas">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_PROPIEDADE" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_PNPTABLE" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TipoItem">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="NOME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ItemEngenharia">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_TIPO_ITEM" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_CATALOGO" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_ITEM_PAI" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="PnPID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CatalogoPlant3d">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_IDIOMA" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="NOME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Categorias_Catalogo">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_CATEGORIA" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="GUID_CATALOGO" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DataBaseModelStoreContainer" CdmEntityContainer="DataBaseContext">
+          <EntitySetMapping Name="CODIFICACOES">
+            <EntityTypeMapping TypeName="DataBaseModel.CODIFICACOES">
+              <MappingFragment StoreEntitySet="CODIFICACOES">
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SIGLA_CODIGO">
+            <EntityTypeMapping TypeName="DataBaseModel.SIGLA_CODIGO">
+              <MappingFragment StoreEntitySet="SIGLA_CODIGO">
+                <ScalarProperty Name="GUID_NORMA" ColumnName="GUID_NORMA" />
+                <ScalarProperty Name="SIGLA_PAI" ColumnName="SIGLA_PAI" />
+                <ScalarProperty Name="DIMENSAO_MM" ColumnName="DIMENSAO_MM" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoPropriedade">
+            <EntityTypeMapping TypeName="DataBaseModel.TipoPropriedade">
+              <MappingFragment StoreEntitySet="TipoPropriedade">
+                <ScalarProperty Name="GUID_PAI" ColumnName="GUID_PAI" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CT_PnPTables">
+            <EntityTypeMapping TypeName="DataBaseModel.CT_PnPTables">
+              <MappingFragment StoreEntitySet="CT_PnPTables">
+                <ScalarProperty Name="Sigla_BRASS" ColumnName="Sigla_BRASS" />
+                <ScalarProperty Name="SyncTimestamp" ColumnName="SyncTimestamp" />
+                <ScalarProperty Name="Revision" ColumnName="Revision" />
+                <ScalarProperty Name="PhysicalName" ColumnName="PhysicalName" />
+                <ScalarProperty Name="Abstract" ColumnName="Abstract" />
+                <ScalarProperty Name="BaseTable" ColumnName="BaseTable" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CT_Idioma">
+            <EntityTypeMapping TypeName="DataBaseModel.CT_Idioma">
+              <MappingFragment StoreEntitySet="CT_Idioma">
+                <ScalarProperty Name="PAIS" ColumnName="PAIS" />
+                <ScalarProperty Name="IDIOMA" ColumnName="IDIOMA" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropriedadeItemEng">
+            <EntityTypeMapping TypeName="DataBaseModel.PropriedadeItemEng">
+              <MappingFragment StoreEntitySet="PropriedadeItemEng">
+                <ScalarProperty Name="GUID_ITEM_ENG" ColumnName="GUID_ITEM_ENG" />
+                <ScalarProperty Name="GUID_PROPRIEDADE" ColumnName="GUID_PROPRIEDADE" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropriedadeEng">
+            <EntityTypeMapping TypeName="DataBaseModel.PropriedadeEng">
+              <MappingFragment StoreEntitySet="PropriedadeEng">
+                <ScalarProperty Name="GUID_TIPO" ColumnName="GUID_TIPO" />
+                <ScalarProperty Name="GUID_VALOR" ColumnName="GUID_VALOR" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Valores">
+            <EntityTypeMapping TypeName="DataBaseModel.Valores">
+              <MappingFragment StoreEntitySet="Valores">
+                <ScalarProperty Name="Sigla_BRASS" ColumnName="Sigla_BRASS" />
+                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrpiedadesRelacionadas">
+            <EntityTypeMapping TypeName="DataBaseModel.PrpiedadesRelacionadas">
+              <MappingFragment StoreEntitySet="PrpiedadesRelacionadas">
+                <ScalarProperty Name="GUID_PNPTABLE" ColumnName="GUID_PNPTABLE" />
+                <ScalarProperty Name="GUID_PROPIEDADE" ColumnName="GUID_PROPIEDADE" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoItem">
+            <EntityTypeMapping TypeName="DataBaseModel.TipoItem">
+              <MappingFragment StoreEntitySet="TipoItem">
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemEngenharia">
+            <EntityTypeMapping TypeName="DataBaseModel.ItemEngenharia">
+              <MappingFragment StoreEntitySet="ItemEngenharia">
+                <ScalarProperty Name="PnPID" ColumnName="PnPID" />
+                <ScalarProperty Name="GUID_ITEM_PAI" ColumnName="GUID_ITEM_PAI" />
+                <ScalarProperty Name="GUID_CATALOGO" ColumnName="GUID_CATALOGO" />
+                <ScalarProperty Name="GUID_TIPO_ITEM" ColumnName="GUID_TIPO_ITEM" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CatalogoPlant3d">
+            <EntityTypeMapping TypeName="DataBaseModel.CatalogoPlant3d">
+              <MappingFragment StoreEntitySet="CatalogoPlant3d">
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="GUID_IDIOMA" ColumnName="GUID_IDIOMA" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categorias_Catalogo">
+            <EntityTypeMapping TypeName="DataBaseModel.Categorias_Catalogo">
+              <MappingFragment StoreEntitySet="Categorias_Catalogo">
+                <ScalarProperty Name="GUID_CATALOGO" ColumnName="GUID_CATALOGO" />
+                <ScalarProperty Name="GUID_CATEGORIA" ColumnName="GUID_CATEGORIA" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

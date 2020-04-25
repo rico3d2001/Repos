@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.ValueObjects.Unidades
 {
-    public class UnidadePeso:ValueObject
+    public class UnidadePeso: Unidade
     {
         public UnidadePeso(string nome)
         {
