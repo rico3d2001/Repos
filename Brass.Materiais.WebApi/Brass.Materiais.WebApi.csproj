@@ -55,6 +55,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Flunt, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flunt.1.0.4\lib\netstandard2.0\Flunt.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -183,8 +186,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItensEngController.cs" />
+    <Compile Include="Controllers\ProjetosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -280,6 +285,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.Dominio.Service.Utils\Brass.Materiais.Dominio.Service.Utils.csproj">
+      <Project>{E33A3249-0A36-4E83-B24B-0896E52EB7CC}</Project>
+      <Name>Brass.Materiais.Dominio.Service.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.Dominio.Servico\Brass.Materiais.Dominio.Servico.csproj">
       <Project>{ECF25A8E-5C96-42FF-9360-81C19A5D04B1}</Project>
       <Name>Brass.Materiais.Dominio.Servico</Name>
@@ -288,13 +297,21 @@
       <Project>{DFAB2249-8050-4626-AE11-B34476C4CA94}</Project>
       <Name>Brass.Materiais.Dominio</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Brass.Materiais.GestaoCatalogo\Brass.Materiais.GestaoCatalogo.csproj">
-      <Project>{45EDB133-730A-4DAC-9F1C-E57AB8E49C09}</Project>
-      <Name>Brass.Materiais.GestaoCatalogo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.InjecaoDependencia\Brass.Materiais.InjecaoDependencia.csproj">
       <Project>{3DF38BD2-FE36-463F-8D54-57D619526CEC}</Project>
       <Name>Brass.Materiais.InjecaoDependencia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.PQ.Dominio.Servico\Brass.Materiais.PQ.Dominio.Servico.csproj">
+      <Project>{B144D6FB-BBFD-4C70-AB46-55AE52A449EB}</Project>
+      <Name>Brass.Materiais.PQ.Dominio.Servico</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.PQ.RepoIO\Brass.Materiais.PQ.RepoIO.csproj">
+      <Project>{B8D78B17-D1BD-4ABA-A0C4-D60BF49B2CFA}</Project>
+      <Name>Brass.Materiais.PQ.RepoIO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.PQ\Brass.Materiais.PQ.csproj">
+      <Project>{99842149-68C6-49B7-B901-C2630DA72F0D}</Project>
+      <Name>Brass.Materiais.PQ</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj">
       <Project>{AB665BB9-53D5-4982-9A50-345225C93256}</Project>

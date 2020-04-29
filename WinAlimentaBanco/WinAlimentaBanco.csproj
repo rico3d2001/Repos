@@ -109,10 +109,6 @@
       <Project>{ECF25A8E-5C96-42FF-9360-81C19A5D04B1}</Project>
       <Name>Brass.Materiais.Dominio.Servico</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Brass.Materiais.GestaoCatalogo\Brass.Materiais.GestaoCatalogo.csproj">
-      <Project>{45EDB133-730A-4DAC-9F1C-E57AB8E49C09}</Project>
-      <Name>Brass.Materiais.GestaoCatalogo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.InjecaoDependencia\Brass.Materiais.InjecaoDependencia.csproj">
       <Project>{3DF38BD2-FE36-463F-8D54-57D619526CEC}</Project>
       <Name>Brass.Materiais.InjecaoDependencia</Name>

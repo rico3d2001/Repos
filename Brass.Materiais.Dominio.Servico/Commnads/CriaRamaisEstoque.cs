@@ -3,17 +3,37 @@ using Brass.Materiais.RepoSQLServerDapper.Service;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Brass.Materiais.GestaoCatalogo.Service
+namespace Brass.Materiais.Dominio.Servico.Commnads
 {
-    public class ArvoresServiceAramazen
+    public class CriaRamaisEstoque
     {
-        //private List<Ramal> _ramaisCatalogos;
         private ItemEngenhariaService _itemEngenhariaService;
-        private PropriedadesItemService _propriedadesItemService;
+        //ArvoresServiceAramazen _arvoresServiceAramazen;
+        RamalEstoqueService _ramalEstoqueService;
+        public CriaRamaisEstoque(RamalEstoqueService ramalEstoqueService)
+        {
+           
+            _ramalEstoqueService = ramalEstoqueService;
+        }
 
-        //public List<Ramal> Arvore { get => _ramaisCatalogos; private set => _ramaisCatalogos = value; }
+        public void CarregaRamaisEstoque()
+        {
 
-        public List<RamalEstoque> ExtraiArvoreAramzen()
+
+            List<RamalEstoque> ramals = ExtraiArvoreAramzen();
+
+            _ramalEstoqueService.Carregar(ramals);
+
+        }
+
+        public List<RamalEstoque> ListaRamaisArvore()
+        {
+            List<RamalEstoque> ramaisEstoque = new List<RamalEstoque>();
+            ramaisEstoque = _ramalEstoqueService.Listar();
+            return ramaisEstoque;
+        }
+
+        private List<RamalEstoque> ExtraiArvoreAramzen()
         {
             _itemEngenhariaService = new ItemEngenhariaService();
 
@@ -67,5 +87,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service
                 categoria.Adiciona(new RamalEstoque(tipo.NOME, tipo.GUID, categoria.guid));
             }
         }
+
+
     }
 }

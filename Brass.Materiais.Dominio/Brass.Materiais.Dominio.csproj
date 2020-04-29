@@ -93,6 +93,9 @@
     <Compile Include="ValueObjects\ValueObjectDB.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="App.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Entities\ClassDiagram1.cd" />

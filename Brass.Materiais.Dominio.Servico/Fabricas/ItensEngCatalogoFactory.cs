@@ -9,8 +9,8 @@ namespace Brass.Materiais.Dominio.Servico.Fabricas
 {
     public class ItensEngCatalogoFactory : AbstractFactory
     {
-        ItensEngPlant3dService _itensEngPlant3dService;
-        public ItensEngCatalogoFactory(ItensEngPlant3dService itensEngPlant3dService)
+        CriaItensEngPlant3d _itensEngPlant3dService;
+        public ItensEngCatalogoFactory(CriaItensEngPlant3d itensEngPlant3dService)
         {
             _itensEngPlant3dService = itensEngPlant3dService;
         }

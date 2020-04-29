@@ -1,12 +1,9 @@
-﻿using Brass.Materiais.Dominio.Servico.Models;
-using Brass.Materiais.GestaoCatalogo.Service;
+﻿using Brass.Materiais.Dominio.Servico.Commnads;
+using Brass.Materiais.Dominio.Servico.Models;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Brass.Materiais.RepoSQLServerDapper.Models;
 using Brass.Materiais.RepoSQLServerDapper.Service;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Web.Http;
 
 namespace Brass.Materiais.WebApi.Controllers
@@ -52,8 +49,8 @@ namespace Brass.Materiais.WebApi.Controllers
         [Route("api/ItensEng/Arvore")]
         public IEnumerable<RamalEstoque> GetArvore()
         {
-            
-            var arvoreServiceEstoque = new ArvoreServiceEstoque(new ArvoresServiceAramazen(), new RamalEstoqueService());
+            var repositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
+            var arvoreServiceEstoque = new CriaRamaisEstoque(new RamalEstoqueService(repositorio));
 
             return arvoreServiceEstoque.ListaRamaisArvore();
         }

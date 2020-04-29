@@ -18,7 +18,7 @@ namespace Brass.Materiais.Dominio.Testes
            
 
 
-            var itensEngPlant3dService = new ItensEngPlant3dService(@"C:\Trabalho\CatalogosPlant3d\BRASS_ASME Pipes and Fittings Catalog.pcat");
+            var itensEngPlant3dService = new CriaItensEngPlant3d(@"C:\Trabalho\CatalogosPlant3d\BRASS_ASME Pipes and Fittings Catalog.pcat");
 
             List<ItemEngenhariaP3D> engineeringItems = itensEngPlant3dService.ObtemPlant3dData();
         }

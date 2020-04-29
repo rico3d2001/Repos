@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.Servico.Service
 {
-    public class ItensEngPlant3dService
+    public class CriaItensEngPlant3d
     {
        
         private EngineeringItemsService _engineeringItemsService;
         private IMapper _mapper;
 
 
-        public ItensEngPlant3dService(string endereco)
+        public CriaItensEngPlant3d(string endereco)
         {
             _engineeringItemsService = new EngineeringItemsService();
             var config = new MapperConfiguration(cfg => cfg.CreateMap<EngineeringItems, ItemEngenhariaP3D>());

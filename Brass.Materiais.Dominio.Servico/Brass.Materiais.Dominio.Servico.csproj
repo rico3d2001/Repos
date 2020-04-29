@@ -43,6 +43,9 @@
     <Reference Include="DnsClient, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.2.0\lib\net45\DnsClient.dll</HintPath>
     </Reference>
+    <Reference Include="Flunt, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flunt.1.0.4\lib\netstandard2.0\Flunt.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=2.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.10.0\lib\net452\MongoDB.Bson.dll</HintPath>
     </Reference>
@@ -82,26 +85,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commnads\CriaRamaisEstoque.cs" />
+    <Compile Include="Commnads\ItemEngenhariaEstoqueService.cs" />
+    <Compile Include="Commnads\RamalEstoqueService.cs" />
     <Compile Include="Fabricas\AbstractFactory.cs" />
     <Compile Include="Fabricas\CodigoBRASS.cs" />
     <Compile Include="Interfaces\IDominioService.cs" />
     <Compile Include="Models\ItemTubulacaoEstoque.cs" />
     <Compile Include="Models\RamalEstoque.cs" />
-    <Compile Include="Service\DominioService.cs" />
-    <Compile Include="Service\ItensEngPlant3dService.cs" />
+    <Compile Include="Commnads\DominioService.cs" />
     <Compile Include="Fabricas\ItensEngCatalogoFactory.cs" />
     <Compile Include="Fabricas\MontagemItemEngenharia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\TabelasPlant3dServices.cs" />
+    <Compile Include="Commnads\CriaItensEngPlant3d.cs" />
+    <Compile Include="Commnads\TabelasPlant3dServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SQLiteWithCSharp\SQLiteWithCSharp.Utility\SQLiteWithCSharp.Utility.csproj">
       <Project>{9AD0BCA7-7DFD-41F8-A906-753DBDF0E3E8}</Project>
       <Name>SQLiteWithCSharp.Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.Dominio.Service.Utils\Brass.Materiais.Dominio.Service.Utils.csproj">
+      <Project>{E33A3249-0A36-4E83-B24B-0896E52EB7CC}</Project>
+      <Name>Brass.Materiais.Dominio.Service.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.Dominio\Brass.Materiais.Dominio.csproj">
       <Project>{dfab2249-8050-4626-ae11-b34476c4ca94}</Project>
       <Name>Brass.Materiais.Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj">
+      <Project>{AB665BB9-53D5-4982-9A50-345225C93256}</Project>
+      <Name>Brass.Materiais.RepoMongoDBCatalogo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.RepositorioSQLitePlant\Brass.Materiais.RepositorioSQLitePlant.csproj">
       <Project>{5ECBBF65-36A4-4EB4-A3B7-B70832F3B219}</Project>
@@ -111,8 +125,14 @@
       <Project>{AC6C3BA2-36E7-4637-A605-D714266D0C5F}</Project>
       <Name>Brass.Materiais.RepositorioSQLServer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.RepoSQLServerDapper\Brass.Materiais.RepoSQLServerDapper.csproj">
+      <Project>{A9669364-DE86-499C-AA8A-2082F8A8D907}</Project>
+      <Name>Brass.Materiais.RepoSQLServerDapper</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Handlers\Request\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

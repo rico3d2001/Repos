@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services
 {
-    public class BaseRepositorio<TColecao>
+    public class BaseMDBRepositorio<TColecao>
     {
         protected IMongoClient _client;
         protected IMongoDatabase _db;
         protected IMongoCollection<TColecao> _colecao;
 
-        public BaseRepositorio(string db, string colecao)
+        public BaseMDBRepositorio(string db, string colecao)
         {
             _client = new MongoClient("mongodb://localhost");
             _db = _client.GetDatabase(db);
@@ -53,6 +53,11 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services
         {
             var filtroPorId = Builders<TColecao>.Filter.Eq("_id", modelo.ToBsonDocument().GetElement("_id").Value);
             _colecao.DeleteOne(filtroPorId);
+        }
+
+        public virtual List<TColecao> Encontrar(FilterDefinition<TColecao> filtro)
+        {
+            return _colecao.Find(filtro).ToList();
         }
 
 

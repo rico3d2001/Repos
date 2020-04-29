@@ -1,17 +1,11 @@
 ﻿using Brass.Materiais.Dominio.Servico.Service;
-using Brass.Materiais.GestaoCatalogo.Service;
 using Brass.Materiais.InjecaoDependencia;
 using Brass.Materiais.RepositorioSQLitePlant.Common;
 using Brass.Materiais.RepositorioSQLitePlant.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 

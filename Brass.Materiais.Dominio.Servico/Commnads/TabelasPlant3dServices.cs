@@ -3,11 +3,6 @@ using Brass.Materiais.Dominio.ValueObjects.Plant3D;
 using Brass.Materiais.RepositorioSQLitePlant.Common;
 using Brass.Materiais.RepositorioSQLitePlant.Models;
 using Brass.Materiais.RepositorioSQLitePlant.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.Servico.Service
 {
