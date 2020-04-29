@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5ECBBF65-36A4-4EB4-A3B7-B70832F3B219}</ProjectGuid>
+    <ProjectGuid>{43E25E7A-DAE4-4A1A-92DC-6DD7FF5B6BB0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Brass.Materiais.RepositorioSQLitePlant</RootNamespace>
-    <AssemblyName>Brass.Materiais.RepositorioSQLitePlant</AssemblyName>
+    <RootNamespace>Brass.Materiais.Spec</RootNamespace>
+    <AssemblyName>Brass.Materiais.Spec</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,15 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\SQLiteWithCSharp\SQLiteWithCSharp.Utility\bin\Debug\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.EF6">
-      <HintPath>..\..\SQLiteWithCSharp\SQLiteWithCSharp.Utility\bin\Debug\System.Data.SQLite.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\..\SQLiteWithCSharp\SQLiteWithCSharp.Utility\bin\Debug\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,22 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\ConexaoSQLite.cs" />
-    <Compile Include="Common\Storage.cs" />
-    <Compile Include="Models\BleedRing.cs" />
-    <Compile Include="Models\EngineeringItems.cs" />
-    <Compile Include="Models\PnPTables.cs" />
+    <Compile Include="Entidades\ItemSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\Catalogo\BleedRingService.cs" />
-    <Compile Include="Service\Catalogo\EngineeringItemsService.cs" />
-    <Compile Include="Service\Catalogo\PnPTablesService.cs" />
-    <Compile Include="Service\Spec\SpecEngineeringItens.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\SQLiteWithCSharp\SQLiteWithCSharp.Utility\SQLiteWithCSharp.Utility.csproj">
-      <Project>{9ad0bca7-7dfd-41f8-a906-753dbdf0e3e8}</Project>
-      <Name>SQLiteWithCSharp.Utility</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

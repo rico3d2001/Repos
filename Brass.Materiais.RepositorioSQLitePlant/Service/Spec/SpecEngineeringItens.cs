@@ -7,17 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brass.Materiais.RepositorioSQLitePlant.Service
+namespace Brass.Materiais.RepositorioSQLitePlant.Service.Spec
 {
-    public class EngineeringItemsService : RepositorioService<EngineeringItems>
+    public class SpecEngineeringItens : RepositorioService<EngineeringItems>
     {
-
-
-        public EngineeringItemsService() : base(Storage.ConnectionString)
+        public SpecEngineeringItens() : base(Storage.ConnectionString)
         {
 
         }
-
-        // you can write extended methods here
     }
 }

@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commnads\CriaRamaisEstoque.cs" />
+    <Compile Include="Commnads\InjetaItemCompleto.cs" />
     <Compile Include="Commnads\ItemEngenhariaEstoqueService.cs" />
     <Compile Include="Commnads\RamalEstoqueService.cs" />
     <Compile Include="Fabricas\AbstractFactory.cs" />

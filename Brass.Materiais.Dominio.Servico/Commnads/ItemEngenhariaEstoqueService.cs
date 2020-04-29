@@ -16,10 +16,10 @@ namespace Brass.Materiais.Dominio.Servico.Commnads
         BaseMDBRepositorio<ItemTubulacaoEstoque> _repositorio;
         private PropriedadesItemService propriedadesItemService;
 
-        //public ItemEngenhariaEstoqueService(PropriedadesItemService propriedadesItemService)
-        //{
+        public ItemEngenhariaEstoqueService(PropriedadesItemService propriedadesItemService)
+        {
             //this.propriedadesItemService = propriedadesItemService;
-        //}
+        }
 
         public ItemEngenhariaEstoqueService(PropriedadesItemService propriedadesItemService, BaseMDBRepositorio<ItemTubulacaoEstoque> repositorio) //: base("Catalogo", "ItensEstoque")
         {

@@ -2,7 +2,7 @@
 using Brass.Materiais.Dominio.ValueObjects.Plant3D;
 using Brass.Materiais.RepositorioSQLitePlant.Common;
 using Brass.Materiais.RepositorioSQLitePlant.Models;
-using Brass.Materiais.RepositorioSQLitePlant.Service;
+using Brass.Materiais.RepositorioSQLitePlant.Service.Catalogo;
 
 namespace Brass.Materiais.Dominio.Servico.Service
 {

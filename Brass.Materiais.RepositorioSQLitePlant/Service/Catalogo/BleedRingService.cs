@@ -2,7 +2,7 @@
 using Brass.Materiais.RepositorioSQLitePlant.Models;
 using SQLiteWithCSharp.Utility;
 
-namespace Brass.Materiais.RepositorioSQLitePlant.Service
+namespace Brass.Materiais.RepositorioSQLitePlant.Service.Catalogo
 {
     public class BleedRingService: RepositorioService<BleedRing>
     {

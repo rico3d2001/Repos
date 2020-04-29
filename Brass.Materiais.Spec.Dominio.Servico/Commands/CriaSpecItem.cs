@@ -2,23 +2,23 @@
 using Brass.Materiais.Dominio.Entities;
 using Brass.Materiais.RepositorioSQLitePlant.Common;
 using Brass.Materiais.RepositorioSQLitePlant.Models;
-using Brass.Materiais.RepositorioSQLitePlant.Service.Catalogo;
+using Brass.Materiais.RepositorioSQLitePlant.Service.Spec;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Brass.Materiais.Dominio.Servico.Service
+namespace Brass.Materiais.Spec.Dominio.Servico.Commands
 {
-    public class CriaItensEngPlant3d
+    public class CriaSpecItem
     {
-       
-        private EngineeringItemsService _engineeringItemsService;
+        SpecEngineeringItens _specEngineeringItens;
         private IMapper _mapper;
 
-
-        public CriaItensEngPlant3d(string endereco)
+        public CriaSpecItem(string endereco)
         {
-            _engineeringItemsService = new EngineeringItemsService();
+            _specEngineeringItens = new SpecEngineeringItens();
             var config = new MapperConfiguration(cfg => cfg.CreateMap<EngineeringItems, ItemEngenhariaP3D>());
 
             //teste
@@ -28,13 +28,13 @@ namespace Brass.Materiais.Dominio.Servico.Service
 
             ConexaoSQLite.BuildConnectionString(endereco);
 
-            _engineeringItemsService = new EngineeringItemsService();
+            //_engineeringItemsService = new EngineeringItemsService();
         }
 
         public List<ItemEngenhariaP3D> ObtemPlant3dData()
         {
-             var engineeringItems = _engineeringItemsService.GetAll().ToList();
-             return _mapper.Map<List<ItemEngenhariaP3D>>(engineeringItems);
+            var engineeringItems = _specEngineeringItens.GetAll().ToList();
+            return _mapper.Map<List<ItemEngenhariaP3D>>(engineeringItems);
         }
 
         public void BuildConnectionString()
@@ -44,9 +44,6 @@ namespace Brass.Materiais.Dominio.Servico.Service
                 Storage.ConnectionString = string.Format("Data Source={0};Version=3;", @"C:\Trabalho\CatalogosPlant3d\BRASS_ASME Pipes and Fittings Catalog.pcat");
             }
         }
-
-
-
 
     }
 }

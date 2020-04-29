@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brass.Materiais.RepositorioSQLitePlant.Service
+namespace Brass.Materiais.RepositorioSQLitePlant.Service.Catalogo
 {
     public class PnPTablesService : RepositorioService<PnPTables>
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Brass.Materiais.Dominio.Servico.Commnads;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Brass.Materiais.RepoSQLServerDapper.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -33,7 +34,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
             InjetaItemCompleto injetaPropriedade = new InjetaItemCompleto(endereco, idioma, pais, conexao);
             injetaPropriedade.Injetar();
         }
-
+        /*
         [TestMethod]
         public void AlimentaArvoreEstoque()
         {
@@ -111,7 +112,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
             
 
         }
-
+        */
 
 
         [TestMethod]
