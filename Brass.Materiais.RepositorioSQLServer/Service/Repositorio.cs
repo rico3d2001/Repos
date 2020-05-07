@@ -1,11 +1,7 @@
-﻿using Brass.Materiais.RepositorioAzure;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepositorioSQLServer.Service
 {
@@ -30,11 +26,11 @@ namespace Brass.Materiais.RepositorioSQLServer.Service
                 case "Local":
                         _contexto = new DataBaseContext();
                     break;
-                case "Azure":
-                    {
-                        _contexto = new CatalogoBRASSEntities();
-                    }
-                    break;
+                //case "Azure":
+                    //{
+                        //_contexto = new CatalogoBRASSEntities();
+                    //}
+                    //break;
             }
 
             _model = _contexto.Set<T>();

@@ -46,9 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Catalogo.cs" />
+    <Compile Include="Entities\Categoria.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EngenhariaItem.cs" />
+    <Compile Include="Entities\Familia.cs" />
+    <Compile Include="Entities\Idioma.cs" />
     <Compile Include="Entities\ItemEngenhariaP3D.cs" />
+    <Compile Include="Entities\ItemPipe.cs" />
+    <Compile Include="Entities\PropriedadeItem.cs" />
+    <Compile Include="Entities\RelacaoEntrePropriedades.cs" />
+    <Compile Include="Entities\RelacaoFamiliaItem.cs" />
+    <Compile Include="Entities\RelacaoPropriedadeItem.cs" />
+    <Compile Include="Entities\NomeTipoPropriedade.cs" />
+    <Compile Include="Entities\TipoItemEng.cs" />
+    <Compile Include="Entities\ValorTabelado.cs" />
     <Compile Include="Formatacao\FormataCaracteres.cs" />
     <Compile Include="Formatacao\FormataInteiros.cs" />
     <Compile Include="Formatacao\FormataLetras.cs" />
@@ -101,7 +113,12 @@
     <None Include="Entities\ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
+      <Project>{7DD22068-369A-47C4-9DFB-CAF52FF1C541}</Project>
+      <Name>Brass.Materiais.Dominio.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

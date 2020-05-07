@@ -16,10 +16,10 @@ namespace Brass.Materiais.Dominio.Servico.Commnads
         BaseMDBRepositorio<ItemTubulacaoEstoque> _repositorio;
         private PropriedadesItemService propriedadesItemService;
 
-        //public ItemEngenhariaEstoqueService(PropriedadesItemService propriedadesItemService)
-        //{
-            //this.propriedadesItemService = propriedadesItemService;
-        //}
+        public ItemEngenhariaEstoqueService(PropriedadesItemService propriedadesItemService)
+        {
+            this.propriedadesItemService = propriedadesItemService;
+        }
 
         public ItemEngenhariaEstoqueService(PropriedadesItemService propriedadesItemService, BaseMDBRepositorio<ItemTubulacaoEstoque> repositorio) //: base("Catalogo", "ItensEstoque")
         {
@@ -47,5 +47,39 @@ namespace Brass.Materiais.Dominio.Servico.Commnads
             //return _colecao.Find(filter).ToList();
 
         }
+
+        public void CarregaItensPorTipoItem(string guidCatalogo, string guidCategoria, string guidTipoItem)
+        {
+
+            List<ItemTubulacaoEstoque> tubulacaoEstoques = new List<ItemTubulacaoEstoque>();
+
+            var ids = _propriedadesItemService.ObterPropriedadesID(guidCatalogo, guidCategoria, guidTipoItem);
+
+            foreach (var id in ids)
+            {
+
+                ItemTubulacaoEstoque itemTubulacaoEstoque = new ItemTubulacaoEstoque(id.PnPID, id.GUID_CATALOG, id.GUID, guidCategoria, guidTipoItem);
+
+                var props = _propriedadesItemService.ObterPropriedadesItemDTO(id, guidCategoria, guidTipoItem);
+
+                foreach (var prop in props)
+                {
+
+                    foreach (var item in props)
+                    {
+                        string valor = item.VALOR_PROPRIEDADE.Replace('"', '¨');
+                        itemTubulacaoEstoque.GetType().GetProperty(item.PROPRIEDADE).SetValue(itemTubulacaoEstoque, valor);
+                    }
+
+
+                }
+
+                InserirItem(itemTubulacaoEstoque);
+
+            }
+        }
+
+
+
     }
 }

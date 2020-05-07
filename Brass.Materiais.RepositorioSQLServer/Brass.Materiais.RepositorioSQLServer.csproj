@@ -136,11 +136,5 @@
       <LastGenOutput>DataBaseModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Brass.Materiais.RepositorioAzure\Brass.Materiais.RepositorioAzure.csproj">
-      <Project>{809072B4-5D46-4EA3-9CAB-A6C7BE5B0340}</Project>
-      <Name>Brass.Materiais.RepositorioAzure</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

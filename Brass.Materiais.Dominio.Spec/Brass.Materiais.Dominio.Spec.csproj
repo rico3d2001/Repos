@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{99842149-68C6-49B7-B901-C2630DA72F0D}</ProjectGuid>
+    <ProjectGuid>493e8145-519e-44aa-9edc-f992785d3228</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Brass.Materiais.PQ</RootNamespace>
-    <AssemblyName>Brass.Materiais.PQ</AssemblyName>
+    <RootNamespace>Brass.Materiais.Dominio.Spec</RootNamespace>
+    <AssemblyName>Brass.Materiais.Dominio.Spec</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,40 +31,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Flunt, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flunt.1.0.4\lib\netstandard2.0\Flunt.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System"/>
+    
+    <Reference Include="System.Core"/>
+    <Reference Include="System.Xml.Linq"/>
+    <Reference Include="System.Data.DataSetExtensions"/>
+    
+    
+    <Reference Include="Microsoft.CSharp"/>
+    
+    <Reference Include="System.Data"/>
+    
+    <Reference Include="System.Net.Http"/>
+    
+    <Reference Include="System.Xml"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Entities\Area.cs" />
-    <Compile Include="Entities\EAP.cs" />
-    <Compile Include="Entities\Hub.cs" />
-    <Compile Include="Entities\Projeto.cs" />
-    <Compile Include="ObjetosValor\Enumeracoes\TipoDisciplina.cs" />
-    <Compile Include="ObjetosValor\Nomes\NomeArea.cs" />
-    <Compile Include="ObjetosValor\Nomes\NomeProjeto.cs" />
-    <Compile Include="ObjetosValor\Siglas\SiglaDisciplina.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
-      <Project>{7dd22068-369a-47c4-9dfb-caf52ff1c541}</Project>
-      <Name>Brass.Materiais.Dominio.Utils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-</Project>
+ </Project>

@@ -85,7 +85,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commnads\ArvoreServiceEstoque.cs" />
+    <Compile Include="Commnads\ArvoresServiceAramazen.cs" />
     <Compile Include="Commnads\CriaRamaisEstoque.cs" />
+    <Compile Include="Commnads\InjetaItemCompletoEstoque.cs" />
+    <Compile Include="Commnads\InjetaItemCompleto.cs" />
     <Compile Include="Commnads\ItemEngenhariaEstoqueService.cs" />
     <Compile Include="Commnads\RamalEstoqueService.cs" />
     <Compile Include="Fabricas\AbstractFactory.cs" />
@@ -108,6 +112,10 @@
     <ProjectReference Include="..\Brass.Materiais.Dominio.Service.Utils\Brass.Materiais.Dominio.Service.Utils.csproj">
       <Project>{E33A3249-0A36-4E83-B24B-0896E52EB7CC}</Project>
       <Name>Brass.Materiais.Dominio.Service.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
+      <Project>{7DD22068-369A-47C4-9DFB-CAF52FF1C541}</Project>
+      <Name>Brass.Materiais.Dominio.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.Dominio\Brass.Materiais.Dominio.csproj">
       <Project>{dfab2249-8050-4626-ae11-b34476c4ca94}</Project>

@@ -100,9 +100,13 @@
       <Project>{ECF25A8E-5C96-42FF-9360-81C19A5D04B1}</Project>
       <Name>Brass.Materiais.Dominio.Servico</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Brass.Materiais.GestaoCatalogo\Brass.Materiais.GestaoCatalogo.csproj">
-      <Project>{45edb133-730a-4dac-9f1c-e57ab8e49c09}</Project>
-      <Name>Brass.Materiais.GestaoCatalogo</Name>
+    <ProjectReference Include="..\Brass.Materiais.Dominio\Brass.Materiais.Dominio.csproj">
+      <Project>{DFAB2249-8050-4626-AE11-B34476C4CA94}</Project>
+      <Name>Brass.Materiais.Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.PQ.Dominio.Servico\Brass.Materiais.PQ.Dominio.Servico.csproj">
+      <Project>{B144D6FB-BBFD-4C70-AB46-55AE52A449EB}</Project>
+      <Name>Brass.Materiais.PQ.Dominio.Servico</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj">
       <Project>{AB665BB9-53D5-4982-9A50-345225C93256}</Project>

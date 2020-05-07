@@ -46,7 +46,8 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services
         public virtual void Atualizar(TColecao modelo)
         {
             var filtroPorId = Builders<TColecao>.Filter.Eq("_id", modelo.ToBsonDocument().GetElement("_id").Value);
-            _colecao.ReplaceOne(filtroPorId, modelo);
+            _colecao.FindOneAndReplace(filtroPorId, modelo);
+            //_colecao.UpdateOne(filtroPorId,modelo);//.ReplaceOne(filtroPorId, modelo);
         }
 
         public virtual void Remover(TColecao modelo)
@@ -59,6 +60,8 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services
         {
             return _colecao.Find(filtro).ToList();
         }
+
+        
 
 
     }
