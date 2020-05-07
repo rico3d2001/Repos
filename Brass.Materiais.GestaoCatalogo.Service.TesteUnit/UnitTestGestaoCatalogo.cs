@@ -51,10 +51,27 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
         {
 
             CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
-            //var propriedades = criaArvoreCatalogo.ExtraiNomes();
+            var propriedades = criaArvoreCatalogo.ExtraiNomes();
 
+        }
+
+
+        [TestMethod]
+        public void Mongo_ExtraiItensCategoria()
+        {
+
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
             criaArvoreCatalogo.ExtraiItensCategoria("532f43f4-59eb-4962-a4a9-edf7cee699a5", "9dcd21a8-43f0-4875-bf95-04255f7b2e68");
         }
+
+        [TestMethod]
+        public void Mongo_ExtraiOTroncoArvoreCatalogo()
+        {
+
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            criaArvoreCatalogo.ExtraiTroncoCatalogo("532f43f4-59eb-4962-a4a9-edf7cee699a5");
+        }
+
 
         [TestMethod]
         public void Mongo_CriaFamilias()

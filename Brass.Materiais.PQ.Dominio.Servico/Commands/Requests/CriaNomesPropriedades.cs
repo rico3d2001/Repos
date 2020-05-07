@@ -119,6 +119,11 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
             return lista; //_itemEngenhariaService.ObterCatalogos();
         }
 
+        public void ExtraiTroncoCatalogo(string v)
+        {
+            throw new NotImplementedException();
+        }
+
         public void CriaFamilias(string guidCatalogo)
         {
             var familiasRepositorio = new BaseMDBRepositorio<Familia>("Catalogo", "Familias");
