@@ -22,7 +22,7 @@ namespace Brass.Materiais.Dominio.Servico.Commnads
 
             foreach (var catalogo in catalogos)
             {
-                ramaisCatalogos.Add(new RamalEstoque(catalogo.NOME, catalogo.GUID, string.Empty));
+                ramaisCatalogos.Add(new RamalEstoque(catalogo.NOME, catalogo.GUID, string.Empty,1));
             }
 
             ramaisCatalogos = ramaisCatalogos.OrderBy(x => x.name).ToList();
@@ -45,7 +45,7 @@ namespace Brass.Materiais.Dominio.Servico.Commnads
             {
                 foreach (var categoria in listaCategorias)
                 {
-                    var ramal = new RamalEstoque(categoria.NOME, categoria.GUID, guidcatalogo);
+                    var ramal = new RamalEstoque(categoria.NOME, categoria.GUID, guidcatalogo,1);
                     adicionaRamalTipoItem(guidcatalogo, ramal);
                     cat.Adiciona(ramal);
 
@@ -62,7 +62,7 @@ namespace Brass.Materiais.Dominio.Servico.Commnads
 
             foreach (var tipo in listaTipos)
             {
-                categoria.Adiciona(new RamalEstoque(tipo.NOME, tipo.GUID, categoria.guid));
+                categoria.Adiciona(new RamalEstoque(tipo.NOME, tipo.GUID, categoria.guid,2));
             }
         }
     }

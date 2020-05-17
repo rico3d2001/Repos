@@ -11,5 +11,7 @@ namespace Brass.Materiais.Dominio.Entities
     {
         public string VALOR { get; set; }
         public string Sigla_BRASS { get; set; }
+
+       
     }
 }

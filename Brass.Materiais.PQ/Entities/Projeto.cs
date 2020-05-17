@@ -23,5 +23,7 @@ namespace Brass.Materiais.PQ.Entities
         public EAP EAP { get; set; }
 
         public NomeProjeto NomeProjeto { get; private set; }
+
+       
     }
 }

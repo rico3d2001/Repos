@@ -11,12 +11,20 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
 {
+
     public class CriaArvoreCatalogo
     {
+
+        BaseMDBRepositorio<Catalogo> _catalogoRepositorio;
+        BaseMDBRepositorio<Familia> _familiasRepositorio;
+
+
         //BaseMDBRepositorio<RamalEstoque> _ramalEstoqueService;
         public CriaArvoreCatalogo()
         {
-           
+            _catalogoRepositorio = new BaseMDBRepositorio<Catalogo>("Catalogo", "Catalogo");
+            _familiasRepositorio = new BaseMDBRepositorio<Familia>("Catalogo", "Familias");
+
             //_ramalEstoqueService = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
         }
 
@@ -30,20 +38,22 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
 
         }
 
+       
+
         public List<RamalEstoque> ExtraiArvoreEstoque()
         {
             //_itemEngenhariaService = new ItemEngenhariaService();
 
-            var catalogoRepositorio = new BaseMDBRepositorio<Catalogo>("Catalogo", "Catalogo");
+           
 
-            var catalogos = catalogoRepositorio.Obter(); //_itemEngenhariaService.ObterCatalogos();
+            var catalogos = _catalogoRepositorio.Obter(); //_itemEngenhariaService.ObterCatalogos();
 
 
             var ramais = new List<RamalEstoque>();
 
             foreach (var catalogo in catalogos)
             {
-                ramais.Add(new RamalEstoque(catalogo.NOME, catalogo.GUID, string.Empty));
+                ramais.Add(new RamalEstoque(catalogo.NOME, catalogo.GUID, string.Empty,1));
             }
 
             ramais = ramais.OrderBy(x => x.name).ToList();
@@ -86,7 +96,7 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
                 {
                     var filtroTipo = Builders<TipoItemEng>.Filter.Eq(x => x.GUID, categoria.GUID_TIPO);
                     var tipo = tipoRepositorio.Encontrar(filtroTipo).First();
-                    var categ = new RamalEstoque(tipo.NOME, categoria.GUID, guidcatalogo);
+                    var categ = new RamalEstoque(tipo.NOME, categoria.GUID, guidcatalogo,2);
                     adicionaRamalFamilia(guidcatalogo, categ);
                     cat.Adiciona(categ);
 
@@ -100,17 +110,17 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
             //var listaPlanilhas = new TemplateEstoqueService().ObterPorArquivo(arquivo.id);
             //var listaTipos = _itemEngenhariaService.ObterTiposItem(guidCatalogo, categoria.guid);
 
-            var familiasRepositorio = new BaseMDBRepositorio<Familia>("Catalogo", "Familias");
-            var builderFamilias = Builders<Familia>.Filter;
-            var filtroFamilia = builderFamilias.Eq(x => x.GUID_CATALOGO, guidCatalogo)
-                                            & builderFamilias.Eq(x => x.GUID_CATEGORIA, categoria.guid);
-            var listaFamilias = familiasRepositorio.Encontrar(filtroFamilia);
+            
+            //var builderFamilias = Builders<Familia>.Filter;
+            //var filtroFamilia = Builders<Familia>.Filter.Eq(x => x.GUID_CATALOGO, guidCatalogo)
+                                            //& builderFamilias.Eq(x => x.GUID_CATEGORIA, categoria.guid);
+            var listaFamilias = _familiasRepositorio.Encontrar(Builders<Familia>.Filter.Eq(x => x.GUID_CATEGORIA, categoria.guid));
 
 
             foreach (var familia in listaFamilias)
             {
-                var ramalFamilia = new RamalEstoque(familia.PartFamilyLongDesc, familia.GUID, categoria.guid);
-                adicionaDiametros(categoria.guid, ramalFamilia);
+                var ramalFamilia = new RamalEstoque(familia.PartFamilyLongDesc.VALOR, familia.GUID, categoria.guid,3);
+                //adicionaDiametros(categoria.guid, ramalFamilia);
                 categoria.Adiciona(ramalFamilia);
             }
         }
@@ -144,7 +154,7 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
 
                     var diametro = diametrosNominaisDisponiveis.FirstOrDefault(x => x.GUID == GUID_PROPRIEDADE);
 
-                    //teste
+                    
                     var filtroPropriedadeItemTESTE = Builders<PropriedadeItem>.Filter.Eq(x => x.GUID_TIPO, nomeTipoPropriedade_GUID);
                     var propriedadeTESTE = propriedadeItemRepositorio.Encontrar(filtroPropriedadeItemTESTE);
 
@@ -152,31 +162,14 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
                     {
 
 
-                        //if (propriedadeTESTE.Count() > 0)
-                        //{
-                        //var nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>("Catalogo", "NomeTipoPropriedade");
-                        //var filtroNomeTipoPropriedade = Builders<NomeTipoPropriedade>.Filter.Eq(x => x.GUID, nomeTipoPropriedade_GUID);
-                        //var propTeste = nomeTipoPropriedadeRepositorio.Encontrar(filtroNomeTipoPropriedade).First();
-
-                        //if (propTeste.NOME == "NominalDiameter")
-                        //{
-
-
-                        //teste
-
-
-
-                        //if (diametro != null)
-                        //{
+                
                             var valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>("Catalogo", "ValorTabelado");
                             var filtroValorTabelado = Builders<ValorTabelado>.Filter
                                                   .Eq(x => x.GUID, p.GUID_VALOR);
                             var valor = valorTabeladoRepositorio.Encontrar(filtroValorTabelado).First();
 
-                            var ramalValor = new RamalEstoque(valor.VALOR, p.GUID, relacaoFamilia.GUID_ITEM);
-                        //}
-                        // }
-                        //}
+                            var ramalValor = new RamalEstoque(valor.VALOR, p.GUID, relacaoFamilia.GUID_ITEM,5);
+                     
                     }
                 }
 

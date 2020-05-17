@@ -35,7 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Flunt, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,17 +51,20 @@
   <ItemGroup>
     <Compile Include="Entities\Catalogo.cs" />
     <Compile Include="Entities\Categoria.cs" />
+    <Compile Include="Entities\Cliente.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EngenhariaItem.cs" />
     <Compile Include="Entities\Familia.cs" />
     <Compile Include="Entities\Idioma.cs" />
     <Compile Include="Entities\ItemEngenhariaP3D.cs" />
     <Compile Include="Entities\ItemPipe.cs" />
+    <Compile Include="Entities\PropriedadeCadastro.cs" />
     <Compile Include="Entities\PropriedadeItem.cs" />
     <Compile Include="Entities\RelacaoEntrePropriedades.cs" />
     <Compile Include="Entities\RelacaoFamiliaItem.cs" />
     <Compile Include="Entities\RelacaoPropriedadeItem.cs" />
     <Compile Include="Entities\NomeTipoPropriedade.cs" />
+    <Compile Include="Entities\Siglas.cs" />
     <Compile Include="Entities\TipoItemEng.cs" />
     <Compile Include="Entities\ValorTabelado.cs" />
     <Compile Include="Formatacao\FormataCaracteres.cs" />
@@ -67,7 +73,13 @@
     <Compile Include="Formatacao\IFormatacao.cs" />
     <Compile Include="Interfaces\ICodificacao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueObjects\Dimensoes\DimensaoFamilia.cs" />
+    <Compile Include="ValueObjects\Nomes\Nome.cs" />
     <Compile Include="ValueObjects\Plant3D\TabelaP3D.cs" />
+    <Compile Include="Entities\Codigo.cs" />
+    <Compile Include="ValueObjects\Propriedades\PropriedadeTextoPipeCatalogo.cs" />
+    <Compile Include="ValueObjects\Siglas\Sigla.cs" />
+    <Compile Include="ValueObjects\Siglas\SiglaCodigo.cs" />
     <Compile Include="ValueObjects\ValoresCodigo\NomePropriedade.cs" />
     <Compile Include="ValueObjects\ValoresCodigo\PropriedadeTipo.cs" />
     <Compile Include="ValueObjects\ValoresCodigo\ValorPropriedade.cs" />
@@ -103,6 +115,7 @@
     <Compile Include="ValueObjects\ValoresCodigo\SiglaEspessura.cs" />
     <Compile Include="ValueObjects\ValueObject.cs" />
     <Compile Include="ValueObjects\ValueObjectDB.cs" />
+    <Compile Include="ValueObjects\Versionamentos\Versao.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">
@@ -119,6 +132,7 @@
       <Name>Brass.Materiais.Dominio.Utils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

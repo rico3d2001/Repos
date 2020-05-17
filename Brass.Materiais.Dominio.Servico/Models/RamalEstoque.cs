@@ -11,12 +11,13 @@ namespace Brass.Materiais.Dominio.Servico.Models
     public class RamalEstoque
     {
 
-        public RamalEstoque(string nome, string ident, string ident_pai)
+        public RamalEstoque(string nome, string ident, string ident_pai, int nivel)
         {
             name = nome;
             guid = ident;
             guid_pai = ident_pai;
             children = new List<RamalEstoque>();
+            level = nivel;
 
         }
 
@@ -31,6 +32,7 @@ namespace Brass.Materiais.Dominio.Servico.Models
         public string name { get; set; }
         public string guid { get; set; }
         public string guid_pai { get; set; }
+        public int level { get; set; }
         public List<RamalEstoque> children { get; set; }
 
     }

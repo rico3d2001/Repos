@@ -12,6 +12,7 @@ namespace Brass.Materiais.Dominio.Entities
        
         public string IDIOMA { get; set; }
         public string PAIS { get; set; }
+
     }
 
   

@@ -12,5 +12,6 @@ namespace Brass.Materiais.Dominio.Entities
         public string GUID_CATALOGO { get; set; }
         public string GUID_TIPO { get; set; }
 
+      
     }
 }

@@ -11,5 +11,6 @@ namespace Brass.Materiais.Dominio.Entities
         public string GUID_ITEM_PAI { get; set; }
         public int PnPID { get; set; }
 
+        
     }
 }

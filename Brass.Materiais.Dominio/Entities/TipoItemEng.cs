@@ -8,5 +8,7 @@ namespace Brass.Materiais.Dominio.Entities
         //public virtual string Id { get; private set; }
         //public string GUID { get; set; }
         public string NOME { get; set; }
+
+       
     }
 }

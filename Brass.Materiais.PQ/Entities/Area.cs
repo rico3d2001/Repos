@@ -19,7 +19,7 @@ namespace Brass.Materiais.PQ.Entities
             var nmArea = pasta.Split('\\').Last();
             NomeArea = new NomeArea(nmArea);
 
-            NomeArea.Validate();
+            
             //AreaSuperior = areaSuperior;
             children = new List<Area>();
         }
@@ -44,6 +44,6 @@ namespace Brass.Materiais.PQ.Entities
             return _pasta;
         }
 
-
+      
     }
 }

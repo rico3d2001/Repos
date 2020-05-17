@@ -12,5 +12,6 @@ namespace Brass.Materiais.Dominio.Entities
 
         public string GUID_PROPIEDADE { get; set; }
         public string GUID_PNPTABLE { get; set; }
+
     }
 }

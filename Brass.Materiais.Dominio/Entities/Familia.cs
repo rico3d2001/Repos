@@ -9,18 +9,34 @@ namespace Brass.Materiais.Dominio.Entities
 {
     public class Familia:Entidade
     {
-       
 
-        public Familia(string gUID_CATALOGO, string gUID_CATEGORIA)
+        List<string> _idsItens;
+
+        public Familia(string gUID_CATALOGO, string gUID_CATEGORIA, ValorTabelado valor)
         {
             GUID_CATALOGO = gUID_CATALOGO;
             GUID_CATEGORIA = gUID_CATEGORIA;
+            PartFamilyLongDesc = valor;
+            _idsItens = new List<string>();
         }
+
+        public void AdicionaIdentificadorItem(string guidItem)
+        {
+            _idsItens.Add(guidItem);
+        }
+
+     
+
+
+        //public override bool Equals(Object obj)
+        //{
+
+        //    return familia.PartFamilyLongDesc.VALOR == PartFamilyLongDesc.VALOR ? true : false;
+        //}
 
         public string GUID_CATALOGO { get; set; }
         public string GUID_CATEGORIA { get; set; }
-        public string PartFamilyLongDesc { get; set; }
-
-
+        public ValorTabelado PartFamilyLongDesc { get; set; }
+        public List<string> IdsItens { get => _idsItens; set => _idsItens = value; }
     }
 }

@@ -87,14 +87,22 @@
   <ItemGroup>
     <Compile Include="Commnads\ArvoreServiceEstoque.cs" />
     <Compile Include="Commnads\ArvoresServiceAramazen.cs" />
+    <Compile Include="Commnads\CreateClienteCommand.cs" />
     <Compile Include="Commnads\CriaRamaisEstoque.cs" />
     <Compile Include="Commnads\InjetaItemCompletoEstoque.cs" />
     <Compile Include="Commnads\InjetaItemCompleto.cs" />
     <Compile Include="Commnads\ItemEngenhariaEstoqueService.cs" />
+    <Compile Include="Commnads\RecuperaClientesRequest.cs" />
     <Compile Include="Commnads\RamalEstoqueService.cs" />
+    <Compile Include="Commnads\RecuperaPropriedadesColunas.cs" />
     <Compile Include="Fabricas\AbstractFactory.cs" />
     <Compile Include="Fabricas\CodigoBRASS.cs" />
+    <Compile Include="Commnads\CommnadClienteCreate.cs" />
+    <Compile Include="Handlers\Commnads\HandleCreateCliente.cs" />
+    <Compile Include="Handlers\Request\HandlerClientesRequest.cs" />
+    <Compile Include="Handlers\Request\HandlerPropriedadesColunasPipeRequest.cs" />
     <Compile Include="Interfaces\IDominioService.cs" />
+    <Compile Include="Models\DynamicFlatNode.cs" />
     <Compile Include="Models\ItemTubulacaoEstoque.cs" />
     <Compile Include="Models\RamalEstoque.cs" />
     <Compile Include="Commnads\DominioService.cs" />
@@ -138,9 +146,7 @@
       <Name>Brass.Materiais.RepoSQLServerDapper</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Handlers\Request\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

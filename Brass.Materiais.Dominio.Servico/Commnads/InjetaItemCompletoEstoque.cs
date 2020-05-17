@@ -334,11 +334,8 @@ namespace Brass.Materiais.Dominio.Servico.Commnads
                                     if (propriedades.Count == 0)
                                     {
 
-                                        propriedadeEng = new PropriedadeItem()
-                                        {
-                                            GUID_TIPO = nomeTipoPropriedade.GUID,
-                                            GUID_VALOR = valorTabelado.GUID
-                                        };
+                                        propriedadeEng = new PropriedadeItem(nomeTipoPropriedade.GUID, valorTabelado.GUID);
+                                      
 
                                         propriedadeRepositorio.Inserir(propriedadeEng);
 
@@ -354,11 +351,8 @@ namespace Brass.Materiais.Dominio.Servico.Commnads
                                         new BaseMDBRepositorio<RelacaoPropriedadeItem>("Catalogo", "RelacaoPropriedadeItem");
 
 
-                                    var relacaoPropriedadeItem = new RelacaoPropriedadeItem()
-                                    {
-                                        GUID_ITEM_ENG = itemPipe.GUID,
-                                        GUID_PROPRIEDADE = propriedadeEng.GUID
-                                    };
+                                    var relacaoPropriedadeItem = new RelacaoPropriedadeItem(propriedadeEng.GUID, itemPipe.GUID);
+                                    
 
 
                                     relacaoPropriedadeItemRepositorio.Inserir(relacaoPropriedadeItem);

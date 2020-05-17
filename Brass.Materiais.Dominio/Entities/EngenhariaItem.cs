@@ -22,13 +22,13 @@ namespace Brass.Materiais.Dominio.Entities
 
         public NomeItem NomeItem { get; set; }
         public EngenhariaItem ItemPai { get; set; }
-        public CodigoItem CodigoItem { get { return _codificacao.Codificar(Propriedades); }  }
+        //public CodigoItem CodigoItem { get { return _codificacao.Codificar(Propriedades); }  }
         public GrupoDescricoes GrupoDescricoes { get; set; }
-        public List<Propriedade> Propriedades { get; set; }
+        public List<PropriedadeCadastro> Propriedades { get; set; }
 
 
 
-        public void AddPropriedade(Propriedade propriedade)
+        public void AddPropriedade(PropriedadeCadastro propriedade)
         {
             
 

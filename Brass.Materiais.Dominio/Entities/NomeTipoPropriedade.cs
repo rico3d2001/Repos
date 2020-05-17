@@ -11,5 +11,7 @@ namespace Brass.Materiais.Dominio.Entities
     {
         public string NOME { get; set; }
         public string GUID_PAI { get; set; }
+        public bool CODIFICAVEL { get; set; }
+
     }
 }

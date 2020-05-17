@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
 {
     [TestClass]
-    public class UnitTestGestaoCatalogo
+    public class TestesCatalogo
     {
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
         }
 
         [TestMethod]
-        public void Mongo_Cria_ArvoreCatalogo()
+        public void Mongo_ExtraiArvoreEstoque()
         {
 
             CriaArvoreCatalogo criaArvoreCatalogo = new CriaArvoreCatalogo();
@@ -65,11 +65,12 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
         }
 
         [TestMethod]
-        public void Mongo_ExtraiOTroncoArvoreCatalogo()
+        public void Mongo_ExtraiTroncoArvoreCatalogo()
         {
 
             CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
-            criaArvoreCatalogo.ExtraiTroncoCatalogo("532f43f4-59eb-4962-a4a9-edf7cee699a5");
+            var lista = criaArvoreCatalogo.ExtraiTroncoCatalogo();
+            Assert.IsTrue(lista.Count > 0);
         }
 
 
@@ -80,6 +81,39 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
             criaArvoreCatalogo.CriaFamilias("532f43f4-59eb-4962-a4a9-edf7cee699a5");
         }
 
+        [TestMethod]
+        public void Mongo_ObtemRamalFamilias()
+        {
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            var familias = criaArvoreCatalogo.ObtemRamalFamilias("1f13670d-499c-4a9d-bcbf-23707ec4761e");
+        }
+
+        [TestMethod]
+        public void Mongo_ObtemItensFamilia()
+        {
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            var familias = criaArvoreCatalogo
+                .ObtemItensFamilia("1f13670d-499c-4a9d-bcbf-23707ec4761e");//"5cc94792-63f0-4517-8805-400412f28cb6");
+            Assert.IsTrue(familias.Count == 189);
+        }
+
+        [TestMethod]
+        public void Mongo_ObtemClientes()
+        {
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            var propriedades = criaArvoreCatalogo
+                .ObtemPropriedades("bb75ebe3-c93f-4fb2-8713-05eba1f4e1f6");
+            Assert.IsTrue(propriedades.Count == 189);
+        }
+
+        [TestMethod]
+        public void Mongo_ObtemPropriedades()
+        {
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            var propriedades = criaArvoreCatalogo
+                .ObtemPropriedades("bb75ebe3-c93f-4fb2-8713-05eba1f4e1f6");
+            Assert.IsTrue(propriedades.Count == 189);
+        }
 
 
         [TestMethod]

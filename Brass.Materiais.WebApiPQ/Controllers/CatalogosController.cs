@@ -2,12 +2,14 @@
 using Brass.Materiais.Dominio.Entities;
 using Brass.Materiais.Dominio.Servico.Commnads;
 using Brass.Materiais.Dominio.Servico.Models;
+using Brass.Materiais.Dominio.ValueObjects.Dimensoes;
 using Brass.Materiais.PQ.Dominio.Servico.Commands.Requests;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Brass.Materiais.RepoSQLServerDapper.Models;
 using Brass.Materiais.RepoSQLServerDapper.Service;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Brass.Materiais.WebApiPQ.Controllers
 {
@@ -52,6 +54,19 @@ namespace Brass.Materiais.WebApiPQ.Controllers
             return _itemEngenhariaService.ObterPorId(id_item);
         }
 
+
+
+
+        //
+        // GET: catalogos/Familias/1f13670d-499c-4a9d-bcbf-23707ec4761e
+        [HttpGet("Familias/{id_categoria}")]
+        public IEnumerable<Familia> GetFamilias(string id_categoria)
+        {
+            CriaNomesPropriedades criaNomesPropriedades = new CriaNomesPropriedades();
+            return criaNomesPropriedades.ObtemFamilias(id_categoria);
+        }
+
+
         // GET: catalogos/ItensEng/Arvore
         [HttpGet("ItensEng/Arvore")]
         public IEnumerable<RamalEstoque> GetArvore()
@@ -63,6 +78,42 @@ namespace Brass.Materiais.WebApiPQ.Controllers
 
             CriaArvoreCatalogo criaArvoreCatalogo = new CriaArvoreCatalogo();
             return criaArvoreCatalogo.ExtraiArvoreEstoque();
+            /*
+            List<DynamicFlatNode> lista = new List<DynamicFlatNode>();
+
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            var ramais = criaArvoreCatalogo.ExtraiTroncoCatalogo();
+
+            ramais.ForEach(x => lista.Add(new DynamicFlatNode(x.name,x.level,true)));
+           
+            return lista;
+             */
+        }
+
+        // GET: catalogos/Ramal/Familias/1f13670d-499c-4a9d-bcbf-23707ec4761e
+        [HttpGet("Ramal/Familias/{id_item}")]
+        public IEnumerable<RamalEstoque> GetRamalFamilias(string id_item)
+        {
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            return criaArvoreCatalogo.ObtemRamalFamilias(id_item);
+        }
+
+        // GET: catalogos/Dimensoes/5cc94792-63f0-4517-8805-400412f28cb6
+        [HttpGet("Dimensoes/{guid_familia}")]
+        public IEnumerable<DimensaoFamilia> GetDimensoes(string guid_familia)
+        {
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            return criaArvoreCatalogo.ObtemItensFamilia(guid_familia);
+        }
+
+       
+
+        // GET: catalogos/Ramal/Familias/1f13670d-499c-4a9d-bcbf-23707ec4761e
+        [HttpGet("Ramal/Familias/{id_item}")]
+        public IEnumerable<RamalEstoque> GetDimensoesFamilia(string id_item)
+        {
+            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            return criaArvoreCatalogo.ObtemRamalFamilias(id_item);
         }
 
         // GET: ItensEng/Linhas/0154689d-a6af-4504-a5c2-5552d2522f70

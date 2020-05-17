@@ -19,5 +19,7 @@ namespace Brass.Materiais.Dominio.Entities
         //public string GUID { get; set; }
         public string GUID_IDIOMA { get; set; }
         public string NOME { get; set; }
+
+      
     }
 }
