@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Servico.Commnads;
-using Brass.Materiais.Dominio.Servico.Models;
+﻿using Brass.Materiais.Dominio.Servico.Commnads;
 using Brass.Materiais.PQ.Dominio.Servico.Commands.Requests;
+using Brass.Materiais.PQ.Dominio.Servico.QuerySide.Queries.ObterFamilias;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
-using Brass.Materiais.RepoSQLServerDapper.Models;
 using Brass.Materiais.RepoSQLServerDapper.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.ComponentModel;
 
 namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
 {
@@ -38,13 +34,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
 
         }
 
-        [TestMethod]
-        public void Mongo_ExtraiArvoreEstoque()
-        {
-
-            CriaArvoreCatalogo criaArvoreCatalogo = new CriaArvoreCatalogo();
-            criaArvoreCatalogo.ExtraiArvoreEstoque();
-        }
+        
 
         [TestMethod]
         public void Mongo_CriaNomesPropriedades()
@@ -88,14 +78,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
             var familias = criaArvoreCatalogo.ObtemRamalFamilias("1f13670d-499c-4a9d-bcbf-23707ec4761e");
         }
 
-        [TestMethod]
-        public void Mongo_ObtemItensFamilia()
-        {
-            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
-            var familias = criaArvoreCatalogo
-                .ObtemItensFamilia("1f13670d-499c-4a9d-bcbf-23707ec4761e");//"5cc94792-63f0-4517-8805-400412f28cb6");
-            Assert.IsTrue(familias.Count == 189);
-        }
+        
 
         [TestMethod]
         public void Mongo_ObtemClientes()
@@ -152,42 +135,46 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
             injetaPropriedade.Injetar();
         }
         */
-        [TestMethod]
-        public void AlimentaArvoreEstoque()
-        {
-            ArvoresServiceAramazen arvoresServiceAramazen = new ArvoresServiceAramazen();
-            var baseMDBRepositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
-            RamalEstoqueService ramalEstoqueService = new RamalEstoqueService(baseMDBRepositorio);
-            ArvoreServiceEstoque arvoreServiceEstoque = new ArvoreServiceEstoque(arvoresServiceAramazen, ramalEstoqueService);
 
-            arvoreServiceEstoque.CarregaRamaisEstoque();
+        //Armazen
+        //[TestMethod]
+        //public void AlimentaArvoreEstoque()
+        //{
+        //    ArvoresServiceAramazen arvoresServiceAramazen = new ArvoresServiceAramazen();
+        //    var baseMDBRepositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
+        //    RamalEstoqueService ramalEstoqueService = new RamalEstoqueService(baseMDBRepositorio);
+        //    ArvoreServiceEstoque arvoreServiceEstoque = new ArvoreServiceEstoque(arvoresServiceAramazen, ramalEstoqueService);
 
-
-        }
-
-        [TestMethod]
-        public void DoEstoqueAlimentaArvoreEstoque()
-        {
-            ArvoresServiceAramazen arvoresServiceAramazen = new ArvoresServiceAramazen();
-            var baseMDBRepositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
-            RamalEstoqueService ramalEstoqueService = new RamalEstoqueService(baseMDBRepositorio);
-            ArvoreServiceEstoque arvoreServiceEstoque = new ArvoreServiceEstoque(arvoresServiceAramazen, ramalEstoqueService);
-
-            arvoreServiceEstoque.CarregaRamaisEstoque();
+        //    arvoreServiceEstoque.CarregaRamaisEstoque();
 
 
-        }
+        //}
 
-        [TestMethod]
-        public void RecuperaArvoreEstoque()
-        {
-            ArvoresServiceAramazen arvoresServiceAramazen = new ArvoresServiceAramazen();
-            var baseMDBRepositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
-            RamalEstoqueService ramalEstoqueService = new RamalEstoqueService(baseMDBRepositorio);
-            ArvoreServiceEstoque arvoreServiceEstoque = new ArvoreServiceEstoque(arvoresServiceAramazen, ramalEstoqueService);
+        //Armazen
+        //[TestMethod]
+        //public void DoEstoqueAlimentaArvoreEstoque()
+        //{
+        //    ArvoresServiceAramazen arvoresServiceAramazen = new ArvoresServiceAramazen();
+        //    var baseMDBRepositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
+        //    RamalEstoqueService ramalEstoqueService = new RamalEstoqueService(baseMDBRepositorio);
+        //    ArvoreServiceEstoque arvoreServiceEstoque = new ArvoreServiceEstoque(arvoresServiceAramazen, ramalEstoqueService);
 
-            var lista = arvoreServiceEstoque.ListaRamaisArvore();
-        }
+        //    arvoreServiceEstoque.CarregaRamaisEstoque();
+
+
+        //}
+
+        //Armazen
+        //[TestMethod]
+        //public void RecuperaArvoreEstoque()
+        //{
+        //    ArvoresServiceAramazen arvoresServiceAramazen = new ArvoresServiceAramazen();
+        //    var baseMDBRepositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
+        //    RamalEstoqueService ramalEstoqueService = new RamalEstoqueService(baseMDBRepositorio);
+        //    ArvoreServiceEstoque arvoreServiceEstoque = new ArvoreServiceEstoque(arvoresServiceAramazen, ramalEstoqueService);
+
+        //    var lista = arvoreServiceEstoque.ListaRamaisArvore();
+        //}
 
         [TestMethod]
         public void AlimentaTabelaEstoque()

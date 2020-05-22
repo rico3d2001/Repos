@@ -1,89 +1,60 @@
 ﻿using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Servico.Commnads;
-using Brass.Materiais.Dominio.Servico.Models;
+using Brass.Materiais.Dominio.Service.Utils;
+using Brass.Materiais.PQ.Dominio.Servico.QuerySide.Queries.ViewModel;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
+namespace Brass.Materiais.PQ.Dominio.Servico.QuerySide.Queries.ObtemArvoreCatalogo
 {
 
-    public class CriaArvoreCatalogo
+    public class ObtemArvoreCatalogoQuery : IComando
     {
 
-        BaseMDBRepositorio<Catalogo> _catalogoRepositorio;
-        BaseMDBRepositorio<Familia> _familiasRepositorio;
-
-
-        //BaseMDBRepositorio<RamalEstoque> _ramalEstoqueService;
-        public CriaArvoreCatalogo()
+        public void Validate()
         {
-            _catalogoRepositorio = new BaseMDBRepositorio<Catalogo>("Catalogo", "Catalogo");
-            _familiasRepositorio = new BaseMDBRepositorio<Familia>("Catalogo", "Familias");
-
-            //_ramalEstoqueService = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
+            throw new System.NotImplementedException();
         }
 
-        public void CarregaRamaisEstoque()
+
+     
+    
+        public List<RamalArvoreCatalogo> ExtraiArvoreCatalogoEstoque(BaseMDBRepositorio<Catalogo> catalogoRepositorio, BaseMDBRepositorio<Familia> familiasRepositorio)
         {
+          
+
+            var catalogos = catalogoRepositorio.Obter(); 
 
 
-            List<RamalEstoque> ramals = ExtraiArvoreEstoque();
-
-            //_ramalEstoqueService.Carregar(ramals);
-
-        }
-
-       
-
-        public List<RamalEstoque> ExtraiArvoreEstoque()
-        {
-            //_itemEngenhariaService = new ItemEngenhariaService();
-
-           
-
-            var catalogos = _catalogoRepositorio.Obter(); //_itemEngenhariaService.ObterCatalogos();
-
-
-            var ramais = new List<RamalEstoque>();
+            var ramais = new List<RamalArvoreCatalogo>();
 
             foreach (var catalogo in catalogos)
             {
-                ramais.Add(new RamalEstoque(catalogo.NOME, catalogo.GUID, string.Empty,1));
+                ramais.Add(new RamalArvoreCatalogo(catalogo.NOME, catalogo.GUID, string.Empty,1));
             }
 
             ramais = ramais.OrderBy(x => x.name).ToList();
 
             foreach (var ramalCatalogo in ramais)
             {
-                adicionaRamalCategoria(ramalCatalogo.guid, ramais);
+                adicionaRamalCategoria(ramalCatalogo.guid, ramais, familiasRepositorio);
             }
 
-            var ramalEstoqueRepositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
+            var ramalEstoqueRepositorio = new BaseMDBRepositorio<RamalArvoreCatalogo>("Catalogo", "RamalEstoque");
 
             ramalEstoqueRepositorio.Inserir(ramais);
 
             return ramais;
         }
 
-        private void adicionaRamalCategoria(string guidcatalogo, List<RamalEstoque> ramaisCatalogos)
+        private void adicionaRamalCategoria(string guidcatalogo, List<RamalArvoreCatalogo> ramaisCatalogos, BaseMDBRepositorio<Familia> familiasRepositorio)
         {
-            /*
-           string qry = "SELECT Categoria.GUID, Categoria.NOME"
-                         + " FROM Categorias_Catalogo INNER JOIN"
-                         + " Categoria ON Categorias_Catalogo.GUID_CATEGORIA = Categoria.GUID"
-                         + " WHERE(Categorias_Catalogo.GUID_CATALOGO = '" + guidCatalogo + "')";
-            
-              */
+       
             var categoriaRepositorio = new BaseMDBRepositorio<Categoria>("Catalogo", "Categorias");
 
             var filtroCategorias = Builders<Categoria>.Filter.Eq(x => x.GUID_CATALOGO, guidcatalogo);
 
-            //var itensPipeCategoria = itemPipeEstoqueRepositorio.Encontrar(filtro);
             var tipoRepositorio = new BaseMDBRepositorio<TipoItemEng>("Catalogo", "TipoItemEng");
 
             var listaCategoriasCatalogo = categoriaRepositorio.Encontrar(filtroCategorias);//_itemEngenhariaService.ObterCategorias(guidcatalogo);//new ArquivoEstoqueService().ObterPorConfiguracao(guidcatalogo);
@@ -96,8 +67,8 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
                 {
                     var filtroTipo = Builders<TipoItemEng>.Filter.Eq(x => x.GUID, categoria.GUID_TIPO);
                     var tipo = tipoRepositorio.Encontrar(filtroTipo).First();
-                    var categ = new RamalEstoque(tipo.NOME, categoria.GUID, guidcatalogo,2);
-                    adicionaRamalFamilia(guidcatalogo, categ);
+                    var categ = new RamalArvoreCatalogo(tipo.NOME, categoria.GUID, guidcatalogo,2);
+                    adicionaRamalFamilia(guidcatalogo, categ, familiasRepositorio);
                     cat.Adiciona(categ);
 
                 }
@@ -105,27 +76,21 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
            
         }
 
-        private void adicionaRamalFamilia(string guidCatalogo, RamalEstoque categoria )
+        private void adicionaRamalFamilia(string guidCatalogo, RamalArvoreCatalogo categoria, BaseMDBRepositorio<Familia> familiasRepositorio)
         {
-            //var listaPlanilhas = new TemplateEstoqueService().ObterPorArquivo(arquivo.id);
-            //var listaTipos = _itemEngenhariaService.ObterTiposItem(guidCatalogo, categoria.guid);
-
             
-            //var builderFamilias = Builders<Familia>.Filter;
-            //var filtroFamilia = Builders<Familia>.Filter.Eq(x => x.GUID_CATALOGO, guidCatalogo)
-                                            //& builderFamilias.Eq(x => x.GUID_CATEGORIA, categoria.guid);
-            var listaFamilias = _familiasRepositorio.Encontrar(Builders<Familia>.Filter.Eq(x => x.GUID_CATEGORIA, categoria.guid));
+            var listaFamilias = familiasRepositorio.Encontrar(Builders<Familia>.Filter.Eq(x => x.GUID_CATEGORIA, categoria.guid));
 
 
             foreach (var familia in listaFamilias)
             {
-                var ramalFamilia = new RamalEstoque(familia.PartFamilyLongDesc.VALOR, familia.GUID, categoria.guid,3);
-                //adicionaDiametros(categoria.guid, ramalFamilia);
+                var ramalFamilia = new RamalArvoreCatalogo(familia.PartFamilyLongDesc.VALOR, familia.GUID, categoria.guid,3);
+              
                 categoria.Adiciona(ramalFamilia);
             }
         }
 
-        private void adicionaDiametros (string guidCategoria, RamalEstoque ramalFamilia)
+        private void adicionaDiametros (string guidCategoria, RamalArvoreCatalogo ramalFamilia)
         {
             var relacaoFamiliaItemRepositorio = new BaseMDBRepositorio<RelacaoFamiliaItem>("Catalogo", "RelacaoFamiliaItem");
             var builderRelacaoFamiliaItem = Builders<RelacaoFamiliaItem>.Filter;
@@ -168,7 +133,7 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
                                                   .Eq(x => x.GUID, p.GUID_VALOR);
                             var valor = valorTabeladoRepositorio.Encontrar(filtroValorTabelado).First();
 
-                            var ramalValor = new RamalEstoque(valor.VALOR, p.GUID, relacaoFamilia.GUID_ITEM,5);
+                            var ramalValor = new RamalArvoreCatalogo(valor.VALOR, p.GUID, relacaoFamilia.GUID_ITEM,5);
                      
                     }
                 }
@@ -177,5 +142,7 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
 
             }
         }
+
+        
     }
 }

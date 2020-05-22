@@ -1,13 +1,12 @@
-﻿using Brass.Materiais.Dominio.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brass.Materiais.Dominio.ValueObjects.Versionamentos
+namespace Brass.Materiais.Nucleo
 {
-    public class Versao:ObjetoValor
+    public class Versao
     {
         public Versao(int numero, string origem, string descricao, DateTime dataInsercao)
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.Service.Utils
 {
-    public interface IHandler<T, U> where T : IComando
+    public interface IHandlerCommand<T, U> where T : IComando
     {
         IComandoResult<U> Handle(T command);
     }

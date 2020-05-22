@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bdb1922_PipingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PnPDrawings">
+          <Key>
+            <PropertyRef Name="PnPID" />
+          </Key>
+          <Property Name="PnPDrawingGuid" Type="nvarchar" MaxLength="40" />
+          <Property Name="PnPParentGuid" Type="nvarchar" MaxLength="40" />
+          <Property Name="PnPType" Type="nvarchar" MaxLength="40" />
+          <Property Name="PnPTimestampGuid" Type="uniqueidentifier" />
+          <Property Name="PnID" Type="nvarchar" MaxLength="255" />
+          <Property Name="Dwg Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="Path" Type="nvarchar" MaxLength="512" />
+          <Property Name="PnPRelativePath" Type="nvarchar" MaxLength="512" />
+          <Property Name="PnPUnc" Type="nvarchar" MaxLength="512" />
+          <Property Name="PnPPromptForTemplate" Type="bit" />
+          <Property Name="PnPTemplateFile" Type="nvarchar" MaxLength="512" />
+          <Property Name="PnPTemplateFileRelative" Type="nvarchar" MaxLength="512" />
+          <Property Name="PnPTemplateFileUnc" Type="nvarchar" MaxLength="512" />
+          <Property Name="PnPDwgOutOfSync" Type="bit" />
+          <Property Name="Revision" Type="nvarchar" MaxLength="255" />
+          <Property Name="Area" Type="nvarchar" MaxLength="255" />
+          <Property Name="Author" Type="nvarchar" MaxLength="255" />
+          <Property Name="PnPID" Type="bigint" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+          <Property Name="Carimbo_Escala" Type="nvarchar" MaxLength="255" />
+          <Property Name="Carimbo_Nº Brass" Type="nvarchar" MaxLength="255" />
+          <Property Name="Carimbo_Nº Cliente" Type="nvarchar" MaxLength="255" />
+          <Property Name="Carimbo_Revisão" Type="nvarchar" MaxLength="255" />
+          <Property Name="Carimbo_Subtítulo 1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Carimbo_Subtítulo 2" Type="nvarchar" MaxLength="255" />
+          <Property Name="Carimbo_Área do Desenho" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityContainer Name="bdb1922_PipingModelStoreContainer">
+          <EntitySet Name="PnPDrawings" EntityType="Self.PnPDrawings" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bdb1922_PipingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PnPDrawings">
+          <Key>
+            <PropertyRef Name="PnPID" />
+          </Key>
+          <Property Name="PnPDrawingGuid" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="PnPParentGuid" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="PnPType" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="PnPTimestampGuid" Type="Guid" />
+          <Property Name="PnID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Dwg_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Path" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PnPRelativePath" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PnPUnc" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PnPPromptForTemplate" Type="Boolean" />
+          <Property Name="PnPTemplateFile" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PnPTemplateFileRelative" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PnPTemplateFileUnc" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PnPDwgOutOfSync" Type="Boolean" />
+          <Property Name="Revision" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PnPID" Type="Int64" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Carimbo_Escala" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Carimbo_Nº_Brass" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Carimbo_Nº_Cliente" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Carimbo_Revisão" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Carimbo_Subtítulo_1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Carimbo_Subtítulo_2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Carimbo_Área_do_Desenho" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="Plant3d_PipingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PnPDrawings" EntityType="Self.PnPDrawings" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bdb1922_PipingModelStoreContainer" CdmEntityContainer="Plant3d_PipingEntities">
+          <EntitySetMapping Name="PnPDrawings">
+            <EntityTypeMapping TypeName="bdb1922_PipingModel.PnPDrawings">
+              <MappingFragment StoreEntitySet="PnPDrawings">
+                <ScalarProperty Name="PnPDrawingGuid" ColumnName="PnPDrawingGuid" />
+                <ScalarProperty Name="PnPParentGuid" ColumnName="PnPParentGuid" />
+                <ScalarProperty Name="PnPType" ColumnName="PnPType" />
+                <ScalarProperty Name="PnPTimestampGuid" ColumnName="PnPTimestampGuid" />
+                <ScalarProperty Name="PnID" ColumnName="PnID" />
+                <ScalarProperty Name="Dwg_Name" ColumnName="Dwg Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="PnPRelativePath" ColumnName="PnPRelativePath" />
+                <ScalarProperty Name="PnPUnc" ColumnName="PnPUnc" />
+                <ScalarProperty Name="PnPPromptForTemplate" ColumnName="PnPPromptForTemplate" />
+                <ScalarProperty Name="PnPTemplateFile" ColumnName="PnPTemplateFile" />
+                <ScalarProperty Name="PnPTemplateFileRelative" ColumnName="PnPTemplateFileRelative" />
+                <ScalarProperty Name="PnPTemplateFileUnc" ColumnName="PnPTemplateFileUnc" />
+                <ScalarProperty Name="PnPDwgOutOfSync" ColumnName="PnPDwgOutOfSync" />
+                <ScalarProperty Name="Revision" ColumnName="Revision" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="PnPID" ColumnName="PnPID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Carimbo_Escala" ColumnName="Carimbo_Escala" />
+                <ScalarProperty Name="Carimbo_Nº_Brass" ColumnName="Carimbo_Nº Brass" />
+                <ScalarProperty Name="Carimbo_Nº_Cliente" ColumnName="Carimbo_Nº Cliente" />
+                <ScalarProperty Name="Carimbo_Revisão" ColumnName="Carimbo_Revisão" />
+                <ScalarProperty Name="Carimbo_Subtítulo_1" ColumnName="Carimbo_Subtítulo 1" />
+                <ScalarProperty Name="Carimbo_Subtítulo_2" ColumnName="Carimbo_Subtítulo 2" />
+                <ScalarProperty Name="Carimbo_Área_do_Desenho" ColumnName="Carimbo_Área do Desenho" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

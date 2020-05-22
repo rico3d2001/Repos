@@ -5,7 +5,7 @@ using Flunt.Notifications;
 
 namespace Brass.Materiais.PQ.Dominio.Servico.Handlers.Request
 {
-    public class HandlerEAPRequest : Notifiable, IHandler<CriaEAPRequest, Area>
+    public class HandlerEAPRequest : Notifiable, IHandlerCommand<CriaEAPRequest, Area>
     {
 
         //O:\Ativos\BdB1922_NEXA_BONSUCESSO\3D\PLANT3D\BdB1922\Plant 3D Models

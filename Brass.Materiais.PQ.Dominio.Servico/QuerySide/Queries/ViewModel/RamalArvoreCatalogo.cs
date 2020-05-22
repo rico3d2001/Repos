@@ -6,22 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brass.Materiais.Dominio.Servico.Models
+namespace Brass.Materiais.PQ.Dominio.Servico.QuerySide.Queries.ViewModel
 {
-    public class RamalEstoque
+    public class RamalArvoreCatalogo
     {
-
-        public RamalEstoque(string nome, string ident, string ident_pai, int nivel)
+        public RamalArvoreCatalogo(string nome, string ident, string ident_pai, int nivel)
         {
             name = nome;
             guid = ident;
             guid_pai = ident_pai;
-            children = new List<RamalEstoque>();
+            children = new List<RamalArvoreCatalogo>();
             level = nivel;
 
         }
 
-        public void Adiciona(RamalEstoque ramal)
+        public void Adiciona(RamalArvoreCatalogo ramal)
         {
             children.Add(ramal);
         }
@@ -33,7 +32,6 @@ namespace Brass.Materiais.Dominio.Servico.Models
         public string guid { get; set; }
         public string guid_pai { get; set; }
         public int level { get; set; }
-        public List<RamalEstoque> children { get; set; }
-
+        public List<RamalArvoreCatalogo> children { get; set; }
     }
 }

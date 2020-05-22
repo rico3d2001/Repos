@@ -5,7 +5,7 @@ using Flunt.Notifications;
 
 namespace Brass.Materiais.PQ.Dominio.Servico.Handlers.Request
 {
-    public class HandlerProjetosRequest : Notifiable, IHandler<CriaProjetosRequest, Projeto>
+    public class HandlerProjetosRequest : Notifiable, IHandlerCommand<CriaProjetosRequest, Projeto>
     {
         public IComandoResult<Projeto> Handle(CriaProjetosRequest command)
         {

@@ -21,22 +21,22 @@ namespace Brass.Materiais.TesteBulkload.Templates
         }
 
 
-        public List<CodigoMaterial> Ler(Worksheet wsPlanilha)
-        {
-            var celula = new Celula(wsPlanilha);
+        //public List<CodigoMaterial> Ler(Worksheet wsPlanilha)
+        //{
+        //    var celula = new Celula(wsPlanilha);
 
-            do
-            {
-                LerPorLinha(celula);
-                _numeroLinha++;
+        //    do
+        //    {
+        //        LerPorLinha(celula);
+        //        _numeroLinha++;
 
-            } while (!Fim(celula));
+        //    } while (!Fim(celula));
 
-            return _lista;
+        //    return _lista;
 
-        }
+        //}
 
-        private void LerPorLinha(Celula celula)
+        protected override void LerPorLinha(Celula celula)
         {
             if (!string.IsNullOrEmpty(celula.GetString(_numeroLinha, 1)))
             {

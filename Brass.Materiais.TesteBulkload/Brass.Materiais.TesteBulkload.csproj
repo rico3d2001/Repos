@@ -88,7 +88,11 @@
     <Compile Include="Templates\ClassePressaoXLS.cs" />
     <Compile Include="Templates\CodigoFluidoXLS.cs" />
     <Compile Include="Templates\CodigoMaterialXLS.cs" />
+    <Compile Include="Templates\DescritivoOutraLinguaXLS.cs" />
+    <Compile Include="Templates\DescritivoBrassXLS.cs" />
+    <Compile Include="Templates\EstruturaDescricaoXLS.cs" />
     <Compile Include="Templates\MaterialBaseXLS.cs" />
+    <Compile Include="Templates\MontagensXLS\MontagemXLS.cs" />
     <Compile Include="TesteCarga.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -112,6 +116,14 @@
     <ProjectReference Include="..\Brass.Materiais.Dominio\Brass.Materiais.Dominio.csproj">
       <Project>{DFAB2249-8050-4626-AE11-B34476C4CA94}</Project>
       <Name>Brass.Materiais.Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.Nucleo\Brass.Materiais.Nucleo.csproj">
+      <Project>{8B40F3E2-9CB1-44E4-A05F-FFBB0B655B12}</Project>
+      <Name>Brass.Materiais.Nucleo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.PQ\Brass.Materiais.PQ.csproj">
+      <Project>{99842149-68c6-49b7-b901-c2630da72f0d}</Project>
+      <Name>Brass.Materiais.PQ</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj">
       <Project>{AB665BB9-53D5-4982-9A50-345225C93256}</Project>

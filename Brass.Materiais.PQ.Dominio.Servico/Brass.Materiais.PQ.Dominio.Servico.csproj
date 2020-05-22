@@ -78,7 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Requests\CriaArvoreCatalogo.cs" />
+    <Compile Include="QuerySide\Queries\ObterArvoreCatalogo\ObtemArvoreCatalogoQuery.cs" />
     <Compile Include="Commands\Requests\CriaCategorias.cs" />
     <Compile Include="Commands\Requests\CriaEAPRequest.cs" />
     <Compile Include="Commands\Requests\CriaNomesPropriedades.cs" />
@@ -86,13 +86,20 @@
     <Compile Include="Handlers\Request\HandlerEAPRequest.cs" />
     <Compile Include="Handlers\Request\HandlerProjetosRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuerySide\Queries\ObterArvoreCatalogo\ObtemArvoreCatalogoQueryHandler.cs" />
+    <Compile Include="QuerySide\Queries\ObterFamilias\ObterItensFamiliaQuery.cs" />
+    <Compile Include="QuerySide\Queries\ObterFamilias\ObterItensFamiliaQueryHandler.cs" />
+    <Compile Include="QuerySide\Queries\ViewModel\DimensaoFamilia.cs" />
+    <Compile Include="QuerySide\Queries\ViewModel\RamalArvoreCatalogo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CommandSide\Commands\" />
     <Folder Include="Commands\Responses\" />
+    <Folder Include="QuerySide\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Brass.Materiais.Dominio.Service.Utils\Brass.Materiais.Dominio.Service.Utils.csproj">

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Brass.Materiais.Dominio.Entities;
 using Brass.Materiais.Dominio.Service.Utils;
 using Brass.Materiais.Dominio.Servico.Commnads;
+using Brass.Materiais.Dominio.Servico.Handlers.Queries;
 using Brass.Materiais.Dominio.Servico.Handlers.Request;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Microsoft.AspNetCore.Cors;

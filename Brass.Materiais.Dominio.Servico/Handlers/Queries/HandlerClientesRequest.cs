@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brass.Materiais.Dominio.Servico.Handlers.Request
+namespace Brass.Materiais.Dominio.Servico.Handlers.Queries
 {
-    public class HandlerClientesRequest : Notifiable, IHandler<RecuperaClientesRequest, Cliente>
+    public class HandlerClientesRequest : Notifiable, IHandlerCommand<RecuperaClientesRequest, Cliente>
     {
 
         BaseMDBRepositorio<Cliente> _clientesRepositorio;

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.Servico.Handlers.Commnads
 {
-    public class HandleCreateCliente : Notifiable, IHandler<CreateClienteCommand, Cliente>
+    public class HandleCreateCliente : Notifiable, IHandlerCommand<CreateClienteCommand, Cliente>
     {
         BaseMDBRepositorio<Cliente> _clientesRepositorio;
 

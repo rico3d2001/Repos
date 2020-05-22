@@ -2,6 +2,7 @@
 using Brass.Materiais.Dominio.Service.Utils;
 using Brass.Materiais.Dominio.Servico.Commnads;
 using Brass.Materiais.Dominio.Servico.Handlers.Commnads;
+using Brass.Materiais.Dominio.Servico.Handlers.Queries;
 using Brass.Materiais.Dominio.Servico.Handlers.Request;
 using Brass.Materiais.Dominio.ValueObjects.Siglas;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;

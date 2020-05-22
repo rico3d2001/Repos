@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Servico.Commnads;
-using Brass.Materiais.Dominio.Servico.Models;
+﻿using Brass.Materiais.Dominio.Entities;
+using Brass.Materiais.Dominio.Service.Utils;
 using Brass.Materiais.Dominio.ValueObjects.Dimensoes;
 using Brass.Materiais.PQ.Dominio.Servico.Commands.Requests;
+using Brass.Materiais.PQ.Dominio.Servico.QuerySide.Queries.ObtemArvoreCatalogo;
+using Brass.Materiais.PQ.Dominio.Servico.QuerySide.Queries.ObterFamilias;
+using Brass.Materiais.PQ.Dominio.Servico.QuerySide.Queries.ViewModel;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Brass.Materiais.RepoSQLServerDapper.Models;
 using Brass.Materiais.RepoSQLServerDapper.Service;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
+using System.Collections.Generic;
 
 namespace Brass.Materiais.WebApiPQ.Controllers
 {
@@ -69,48 +70,50 @@ namespace Brass.Materiais.WebApiPQ.Controllers
 
         // GET: catalogos/ItensEng/Arvore
         [HttpGet("ItensEng/Arvore")]
-        public IEnumerable<RamalEstoque> GetArvore()
+        public IEnumerable<RamalArvoreCatalogo> GetArvore()//IEnumerable<RamalEstoque> GetArvore()
         {
-            //var repositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
-            //var arvoreServiceEstoque = new CriaRamaisEstoque(new RamalEstoqueService(repositorio));
-
-            //return arvoreServiceEstoque.ListaRamaisArvore();
-
-            CriaArvoreCatalogo criaArvoreCatalogo = new CriaArvoreCatalogo();
-            return criaArvoreCatalogo.ExtraiArvoreEstoque();
-            /*
-            List<DynamicFlatNode> lista = new List<DynamicFlatNode>();
-
-            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
-            var ramais = criaArvoreCatalogo.ExtraiTroncoCatalogo();
-
-            ramais.ForEach(x => lista.Add(new DynamicFlatNode(x.name,x.level,true)));
            
-            return lista;
-             */
+            ObtemArvoreCatalogoQuery obtemArvoreCatalogoQuery = new ObtemArvoreCatalogoQuery();
+            BaseMDBRepositorio<RamalArvoreCatalogo> ramalEstoqueRepositorio = new BaseMDBRepositorio<RamalArvoreCatalogo>("Catalogo", "RamalEstoque");
+            ObtemArvoreCatalogoQueryHandler handler = new ObtemArvoreCatalogoQueryHandler(ramalEstoqueRepositorio);
+
+            var result = handler.Handle(obtemArvoreCatalogoQuery);
+
+
+            return result.Result;
+
+   
+
         }
 
-        // GET: catalogos/Ramal/Familias/1f13670d-499c-4a9d-bcbf-23707ec4761e
-        [HttpGet("Ramal/Familias/{id_item}")]
-        public IEnumerable<RamalEstoque> GetRamalFamilias(string id_item)
-        {
-            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
-            return criaArvoreCatalogo.ObtemRamalFamilias(id_item);
-        }
+        //// GET: catalogos/Ramal/Familias/1f13670d-499c-4a9d-bcbf-23707ec4761e
+        //[HttpGet("Ramal/Familias/{id_item}")]
+        //public IEnumerable<RamalArvoreCatalogo> GetRamalFamilias(string id_item)
+        //{
+        //    CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+        //    return criaArvoreCatalogo.ObtemRamalFamilias(id_item);
+        //}
 
-        // GET: catalogos/Dimensoes/5cc94792-63f0-4517-8805-400412f28cb6
+        // GET: catalogos/Dimensoes/764398e4-1de1-40a4-9fb1-2f66c39d5ec2
         [HttpGet("Dimensoes/{guid_familia}")]
         public IEnumerable<DimensaoFamilia> GetDimensoes(string guid_familia)
         {
-            CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
-            return criaArvoreCatalogo.ObtemItensFamilia(guid_familia);
+            //CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
+            //return criaArvoreCatalogo.ObtemItensFamilia(guid_familia);
+            ObterItensFamiliaQuery query = new ObterItensFamiliaQuery(guid_familia);
+            var familiaItemRepositorio = new BaseMDBRepositorio<Familia>("Catalogo", "Familias");
+            ObterItensFamiliaQueryHandler handler = new ObterItensFamiliaQueryHandler(familiaItemRepositorio);
+            var result = handler.Handle(query);
+
+
+            return result.Result;
         }
 
        
 
         // GET: catalogos/Ramal/Familias/1f13670d-499c-4a9d-bcbf-23707ec4761e
         [HttpGet("Ramal/Familias/{id_item}")]
-        public IEnumerable<RamalEstoque> GetDimensoesFamilia(string id_item)
+        public IEnumerable<RamalArvoreCatalogo> GetDimensoesFamilia(string id_item)
         {
             CriaNomesPropriedades criaArvoreCatalogo = new CriaNomesPropriedades();
             return criaArvoreCatalogo.ObtemRamalFamilias(id_item);

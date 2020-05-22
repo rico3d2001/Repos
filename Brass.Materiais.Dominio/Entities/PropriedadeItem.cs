@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.Entities
 {
-    public class PropriedadeItem: Entidade
+    public class PropriedadeItem : Entidade
     {
         public PropriedadeItem(string gUID_VALOR, string gUID_TIPO)
         {
@@ -18,6 +18,6 @@ namespace Brass.Materiais.Dominio.Entities
         public string GUID_VALOR { get; set; }
         public string GUID_TIPO { get; set; }
 
-       
+
     }
 }

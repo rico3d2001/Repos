@@ -1,13 +1,10 @@
 ﻿using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Servico.Models;
 using Brass.Materiais.Dominio.ValueObjects.Dimensoes;
+using Brass.Materiais.PQ.Dominio.Servico.QuerySide.Queries.ViewModel;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
 {
@@ -30,6 +27,7 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
                         .Filter.Eq(x => x.GUID_CATEGORIA, guidCategoria));
         }
 
+        /*
         public List<DimensaoFamilia> ObtemItensFamilia(string guidFamilia)
         {
             var familiaItemRepositorio = new BaseMDBRepositorio<Familia>("Catalogo", "Familias");
@@ -88,6 +86,9 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
             return listaItens;
         }
 
+        */
+        
+        
         private List<Familia> distinguir(List<Familia> familias)
         {
             List<Familia> resposta = new List<Familia>();
@@ -102,7 +103,7 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
 
             return resposta;
         }
-
+        
         public List<PropriedadeCadastro> ObtemPropriedades(string guidItem)
         {
             List<PropriedadeCadastro> listaResult = new List<PropriedadeCadastro>();
@@ -331,9 +332,9 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
 
 
 
-        public List<RamalEstoque> ObtemRamalFamilias(string guidCategoria)
+        public List<RamalArvoreCatalogo> ObtemRamalFamilias(string guidCategoria)
         {
-            List<RamalEstoque> lista = new List<RamalEstoque>();
+            List<RamalArvoreCatalogo> lista = new List<RamalArvoreCatalogo>();
 
             //var categoriasRepositorio = new BaseMDBRepositorio<Categoria>("Catalogo", "Categorias");
             //var filtroCategorias = Builders<Categoria>.Filter.Eq(x => x.GUID, guidCategoria);
@@ -343,7 +344,7 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
             var filtroFamilias = Builders<Familia>.Filter.Eq(x => x.GUID_CATEGORIA, guidCategoria);
             var familias = familiasRepositorio.Encontrar(filtroFamilias);
 
-            familias.ForEach(x => lista.Add(new RamalEstoque(x.PartFamilyLongDesc.VALOR, x.GUID, x.GUID_CATEGORIA, 2)));
+            familias.ForEach(x => lista.Add(new RamalArvoreCatalogo(x.PartFamilyLongDesc.VALOR, x.GUID, x.GUID_CATEGORIA, 2)));
 
 
 
@@ -352,16 +353,16 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
 
 
 
-        public List<RamalEstoque> ExtraiTroncoCatalogo()
+        public List<RamalArvoreCatalogo> ExtraiTroncoCatalogo()
         {
-            List<RamalEstoque> lista = new List<RamalEstoque>();
+            List<RamalArvoreCatalogo> lista = new List<RamalArvoreCatalogo>();
 
             var catalogoRepositorio = new BaseMDBRepositorio<Catalogo>("Catalogo", "Catalogo");
             var catalogos = catalogoRepositorio.Obter();
             foreach (var catalogo in catalogos)
             {
 
-                RamalEstoque ramal = new RamalEstoque(catalogo.NOME, catalogo.GUID, "raiz", 0);
+                RamalArvoreCatalogo ramal = new RamalArvoreCatalogo(catalogo.NOME, catalogo.GUID, "raiz", 0);
 
                 var categoriasRepositorio = new BaseMDBRepositorio<Categoria>("Catalogo", "Categorias");
                 var filtroCategorias = Builders<Categoria>.Filter.Eq(x => x.GUID_CATALOGO, catalogo.GUID);
@@ -375,7 +376,7 @@ namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
                     if (nomes.Count() > 0)
                     {
                         ramal.children.Add(
-                            new RamalEstoque(
+                            new RamalArvoreCatalogo(
                                 nomes.First().NOME,
                                 categoria.GUID,
                                 catalogo.GUID,

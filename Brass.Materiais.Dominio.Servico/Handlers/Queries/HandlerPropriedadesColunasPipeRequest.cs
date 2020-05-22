@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brass.Materiais.Dominio.Servico.Handlers.Request
+namespace Brass.Materiais.Dominio.Servico.Handlers.Queries
 {
-    public class HandlerPropriedadesColunasPipeRequest : Notifiable, IHandler<RecuperaClientesRequest, Codigo>
+    public class HandlerPropriedadesColunasPipeRequest : Notifiable, IHandlerCommand<RecuperaClientesRequest, Codigo>
     {
         public IComandoResult<Codigo> Handle(RecuperaClientesRequest command)
         {

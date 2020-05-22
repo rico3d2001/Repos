@@ -1,7 +1,7 @@
 ﻿using Brass.ExcelLeitura.App.Comandos;
 using Brass.ExcelLeitura.App.Interface;
 using Brass.Materiais.Dominio.Spec.Entidades;
-using Brass.Materiais.Dominio.ValueObjects.Versionamentos;
+using Brass.Materiais.Nucleo;
 using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 
@@ -22,22 +22,25 @@ namespace Brass.Materiais.TesteBulkload.Templates
         }
 
 
-        public List<MaterialBase> Ler(Worksheet wsPlanilha)
-        {
-            var celula = new Celula(wsPlanilha);
 
-            do
-            {
-                LerPorLinha(celula);
-                _numeroLinha++;
 
-            } while (!Fim(celula));
 
-            return _lista;
+        //public List<MaterialBase> Ler(Worksheet wsPlanilha)
+        //{
+        //    var celula = new Celula(wsPlanilha);
 
-        }
+        //    do
+        //    {
+        //        LerPorLinha(celula);
+        //        _numeroLinha++;
 
-        private void LerPorLinha(Celula celula)
+        //    } while (!Fim(celula));
+
+        //    return _lista;
+
+        //}
+
+        protected override void LerPorLinha(Celula celula)
         {
             if (!string.IsNullOrEmpty(celula.GetString(_numeroLinha, 1)))
             {

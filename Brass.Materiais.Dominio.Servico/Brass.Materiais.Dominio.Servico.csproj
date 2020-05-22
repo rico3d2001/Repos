@@ -99,12 +99,11 @@
     <Compile Include="Fabricas\CodigoBRASS.cs" />
     <Compile Include="Commnads\CommnadClienteCreate.cs" />
     <Compile Include="Handlers\Commnads\HandleCreateCliente.cs" />
-    <Compile Include="Handlers\Request\HandlerClientesRequest.cs" />
-    <Compile Include="Handlers\Request\HandlerPropriedadesColunasPipeRequest.cs" />
+    <Compile Include="Handlers\Queries\HandlerClientesRequest.cs" />
+    <Compile Include="Handlers\Queries\HandlerPropriedadesColunasPipeRequest.cs" />
     <Compile Include="Interfaces\IDominioService.cs" />
     <Compile Include="Models\DynamicFlatNode.cs" />
     <Compile Include="Models\ItemTubulacaoEstoque.cs" />
-    <Compile Include="Models\RamalEstoque.cs" />
     <Compile Include="Commnads\DominioService.cs" />
     <Compile Include="Fabricas\ItensEngCatalogoFactory.cs" />
     <Compile Include="Fabricas\MontagemItemEngenharia.cs" />
@@ -146,7 +145,11 @@
       <Name>Brass.Materiais.RepoSQLServerDapper</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CommandSide\Commands\" />
+    <Folder Include="Queries\" />
+    <Folder Include="QuerySide\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

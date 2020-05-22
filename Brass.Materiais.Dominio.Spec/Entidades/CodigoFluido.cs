@@ -1,10 +1,5 @@
 ﻿using Brass.Materiais.Dominio.Utils;
-using Brass.Materiais.Dominio.ValueObjects.Versionamentos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Brass.Materiais.Nucleo;
 
 namespace Brass.Materiais.Dominio.Spec.Entidades
 {

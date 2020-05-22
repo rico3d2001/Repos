@@ -1,6 +1,5 @@
 ﻿using Brass.Materiais.Dominio.Servico.Commnads;
 using Brass.Materiais.Dominio.Servico.Models;
-using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Brass.Materiais.RepoSQLServerDapper.Models;
 using Brass.Materiais.RepoSQLServerDapper.Service;
 using System.Collections.Generic;
@@ -46,14 +45,14 @@ namespace Brass.Materiais.WebApi.Controllers
         }
 
         // GET: /api/ItensEng/Arvore
-        [Route("api/ItensEng/Arvore")]
-        public IEnumerable<RamalEstoque> GetArvore()
-        {
-            var repositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
-            var arvoreServiceEstoque = new CriaRamaisEstoque(new RamalEstoqueService(repositorio));
+        //[Route("api/ItensEng/Arvore")]
+        //public IEnumerable<RamalEstoque> GetArvore()
+        //{
+        //    var repositorio = new BaseMDBRepositorio<RamalEstoque>("Catalogo", "RamalEstoque");
+        //    var arvoreServiceEstoque = new CriaRamaisEstoque(new RamalEstoqueService(repositorio));
 
-            return arvoreServiceEstoque.ListaRamaisArvore();
-        }
+        //    return arvoreServiceEstoque.ListaRamaisArvore();
+        //}
 
 
 

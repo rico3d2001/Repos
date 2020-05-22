@@ -48,6 +48,8 @@
     <Compile Include="Entities\Area.cs" />
     <Compile Include="Entities\EAP.cs" />
     <Compile Include="Entities\Hub.cs" />
+    <Compile Include="Entities\Montagens\Atividade.cs" />
+    <Compile Include="Entities\Montagens\NivelAtividade.cs" />
     <Compile Include="Entities\Projeto.cs" />
     <Compile Include="ObjetosValor\Enumeracoes\TipoDisciplina.cs" />
     <Compile Include="ObjetosValor\Nomes\NomeArea.cs" />
@@ -60,6 +62,10 @@
     <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
       <Project>{7dd22068-369a-47c4-9dfb-caf52ff1c541}</Project>
       <Name>Brass.Materiais.Dominio.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.Nucleo\Brass.Materiais.Nucleo.csproj">
+      <Project>{8B40F3E2-9CB1-44E4-A05F-FFBB0B655B12}</Project>
+      <Name>Brass.Materiais.Nucleo</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

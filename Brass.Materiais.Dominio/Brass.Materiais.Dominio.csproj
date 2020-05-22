@@ -73,7 +73,6 @@
     <Compile Include="Formatacao\IFormatacao.cs" />
     <Compile Include="Interfaces\ICodificacao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValueObjects\Dimensoes\DimensaoFamilia.cs" />
     <Compile Include="ValueObjects\Nomes\Nome.cs" />
     <Compile Include="ValueObjects\Plant3D\TabelaP3D.cs" />
     <Compile Include="Entities\Codigo.cs" />
@@ -115,7 +114,6 @@
     <Compile Include="ValueObjects\ValoresCodigo\SiglaEspessura.cs" />
     <Compile Include="ValueObjects\ValueObject.cs" />
     <Compile Include="ValueObjects\ValueObjectDB.cs" />
-    <Compile Include="ValueObjects\Versionamentos\Versao.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">
