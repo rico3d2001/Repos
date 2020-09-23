@@ -44,21 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Entities\Area.cs" />
-    <Compile Include="Entities\EAP.cs" />
-    <Compile Include="Entities\Hub.cs" />
-    <Compile Include="Entities\Montagens\Atividade.cs" />
-    <Compile Include="Entities\Montagens\NivelAtividade.cs" />
-    <Compile Include="Entities\Projeto.cs" />
-    <Compile Include="ObjetosValor\Enumeracoes\TipoDisciplina.cs" />
-    <Compile Include="ObjetosValor\Nomes\NomeArea.cs" />
-    <Compile Include="ObjetosValor\Nomes\NomeProjeto.cs" />
-    <Compile Include="ObjetosValor\Siglas\SiglaDisciplina.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Folder Include="Entities\Montagens\" />
+    <Folder Include="ObjetosValor\Enumeracoes\" />
+    <Folder Include="ObjetosValor\MontagemPlanilha\" />
+    <Folder Include="ObjetosValor\Nomes\" />
+    <Folder Include="ObjetosValor\Siglas\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.BIM\Brass.Materiais.BIM.csproj">
+      <Project>{B808222A-3DE1-4E02-BCC9-0C39C5EA5E01}</Project>
+      <Name>Brass.Materiais.BIM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
       <Project>{7dd22068-369a-47c4-9dfb-caf52ff1c541}</Project>
       <Name>Brass.Materiais.Dominio.Utils</Name>

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Brass.Materiais.Dominio.ValueObjects.Plant3D;
+using Brass.Materiais.DominioPQ.Catalogo.ValueObjects;
 using Brass.Materiais.RepositorioSQLitePlant.Common;
-using Brass.Materiais.RepositorioSQLitePlant.Models;
-using Brass.Materiais.RepositorioSQLitePlant.Service;
+using Brass.Materiais.RepositorioSQLitePlant.Service.CatalogoPipe;
+using Brass.Materiais.RepositorioSQLitePlant.Service.CatalogoPipe.Models;
 
 namespace Brass.Materiais.Dominio.Servico.Service
 {

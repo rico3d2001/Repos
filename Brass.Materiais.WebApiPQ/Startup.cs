@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Brass.Materiais.AppCatalogoP3D.QuerySide.ObterArvoreCatalogo;
+using Brass.Materiais.AppPQClean.CommandSide.AtivarItens;
+using Brass.Materiais.AppPQClean.QuerySide.ObterItenParaAtivarDeItemPQ;
+using Brass.Materiais.AppPQClean.QuerySide.ObterItensFamilia;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Reflection;
 
 namespace Brass.Materiais.WebApiPQ
 {
@@ -28,6 +30,10 @@ namespace Brass.Materiais.WebApiPQ
         public void ConfigureServices(IServiceCollection services)
         {
 
+            
+
+           
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -45,19 +51,52 @@ namespace Brass.Materiais.WebApiPQ
                 });
             });
 
+            
+
+
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            //Leituras   
+            services.AddMediatR(typeof(ObterItensFamiliaQuery).GetTypeInfo().Assembly);
+      
+           
+    
+   
+   
+            services.AddMediatR(typeof(ObtemArvoreCatalogoQuery).GetTypeInfo().Assembly);
+
+            services.AddMediatR(typeof(ObterItenParaAtivarDeItemPQQuery).GetTypeInfo().Assembly);
+        
+        
+        
+            //Comandos  
+   
+      
+       
+            
+            services.AddMediatR(typeof(AtivarItensCommand).GetTypeInfo().Assembly);
+          
+    
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseMvc();
+
+            app.UseCors(MyAllowSpecificOrigins);
         }
     }
 }

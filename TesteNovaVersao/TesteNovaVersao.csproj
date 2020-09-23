@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flunt" Version="1.0.5" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.AppCatalogoPlant3d\Brass.Materiais.AppCatalogoPlant3d.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.Dominio.Servico\Brass.Materiais.Dominio.Servico.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.DominioPQ\Brass.Materiais.DominioPQ.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepositorioAppEFSQLite\Brass.Materiais.RepositorioAppEFSQLite.csproj" />
+  </ItemGroup>
+
+</Project>

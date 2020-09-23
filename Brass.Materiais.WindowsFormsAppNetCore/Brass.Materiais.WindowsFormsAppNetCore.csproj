@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity" Version="5.11.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SQLiteWithCSharp\SQLiteWithCSharp.Utility\SQLiteWithCSharp.Utility.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.AppCatalogoPlant3d\Brass.Materiais.AppCatalogoPlant3d.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.AspNetCoreInjecaoDependencia\Brass.Materiais.AspNetCoreInjecaoDependencia.csproj" />
+  </ItemGroup>
+
+</Project>

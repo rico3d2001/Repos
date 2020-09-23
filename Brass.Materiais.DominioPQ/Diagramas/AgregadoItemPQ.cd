@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Brass.Materiais.DominioPQ.BIM.Entities.ItemPQ">
+    <Position X="4.5" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAIJAAQAAAAACgEgABAAAAQgCAAAAAAAAAAABAAIg=</HashCode>
+      <FileName>BIM\Entities\ItemPQ.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Atividade" />
+      <Property Name="ItemPipe" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Brass.Materiais.DominioPQ.Catalogo.Entities.ItemPipe">
+    <Position X="8" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAABAAABAAAAAAAAAAACQAAAAAAAAQAABAAA=</HashCode>
+      <FileName>Catalogo\Entities\ItemPipe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Brass.Materiais.DominioPQ.PQ.Entities.Atividade">
+    <Position X="0.75" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQABAACIAAAECAAAAAAAAABAAAAAAIAAAAA=</HashCode>
+      <FileName>PQ\Entities\Atividade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Brass.Materiais.DominioPQ.Catalogo.Entities.RelacaoPropriedadeItem">
+    <Position X="11.25" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Catalogo\Entities\RelacaoPropriedadeItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Brass.Materiais.DominioPQ.Catalogo.Entities.PropriedadeItem">
+    <Position X="14.75" Y="2.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Catalogo\Entities\PropriedadeItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

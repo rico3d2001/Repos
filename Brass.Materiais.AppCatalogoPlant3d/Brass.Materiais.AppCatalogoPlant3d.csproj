@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flunt" Version="1.0.5" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.3" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SQLiteWithCSharp\SQLiteWithCSharp.Utility\SQLiteWithCSharp.Utility.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.AppNetCoreUtil\Brass.Materiais.AppNetCoreUtil.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepositorioSQLitePlant\Brass.Materiais.RepositorioSQLitePlant.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepositorioSQLServer\Brass.Materiais.RepositorioSQLServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="QuerySide\" />
+  </ItemGroup>
+
+</Project>

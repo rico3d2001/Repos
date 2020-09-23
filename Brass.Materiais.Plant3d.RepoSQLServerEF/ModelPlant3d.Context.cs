@@ -15,10 +15,20 @@ namespace Brass.Materiais.Plant3d.RepoSQLServerEF
     
     public partial class Plant3d_PipingEntities : DbContext
     {
+
         public Plant3d_PipingEntities()
             : base("name=Plant3d_PipingEntities")
         {
         }
+        //public Plant3d_PipingEntities(string siglaProjeto)
+        //{
+        //    //_bdb1922_Piping
+        //    var database = "_" + siglaProjeto.ToLower() + "_Piping";
+
+        //    var connString = $"metadata = res://*/DiagramasPlant3d.csdl|res://*/DiagramasPlant3d.ssdl|res://*/DiagramasPlant3d.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=192.168.20.240;initial catalog={database};persist security info=True;user id=BrassDataBase;password=brass2019;MultipleActiveResultSets=True;App=EntityFramework&quot;";
+
+        //    this.Database.Connection.ConnectionString = connString;
+        //}
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

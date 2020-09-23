@@ -33,16 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Brass.Materiais.GestaoCatalogo.Service.TesteUnit\bin\Debug\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\Brass.Materiais.GestaoCatalogo.Service.TesteUnit\bin\Debug\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="SQLiteWithCSharp.Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Brass.Materiais.GestaoCatalogo.Service.TesteUnit\bin\Debug\SQLiteWithCSharp.Utility.dll</HintPath>
+      <HintPath>..\..\SQLiteWithCSharp\SQLiteWithCSharp.Utility\bin\Debug\SQLiteWithCSharp.Utility.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -105,17 +98,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.ApiCatalogoPlant\Brass.Materiais.ApiCatalogoPlant.csproj">
+      <Project>{4c2ae44f-0d7c-4a95-877b-5653046f4443}</Project>
+      <Name>Brass.Materiais.ApiCatalogoPlant</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.Dominio.Servico\Brass.Materiais.Dominio.Servico.csproj">
       <Project>{ECF25A8E-5C96-42FF-9360-81C19A5D04B1}</Project>
       <Name>Brass.Materiais.Dominio.Servico</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Brass.Materiais.InjecaoDependencia\Brass.Materiais.InjecaoDependencia.csproj">
-      <Project>{3DF38BD2-FE36-463F-8D54-57D619526CEC}</Project>
-      <Name>Brass.Materiais.InjecaoDependencia</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Brass.Materiais.RepositorioAzure\Brass.Materiais.RepositorioAzure.csproj">
-      <Project>{809072b4-5d46-4ea3-9cab-a6c7be5b0340}</Project>
-      <Name>Brass.Materiais.RepositorioAzure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.RepositorioSQLitePlant\Brass.Materiais.RepositorioSQLitePlant.csproj">
       <Project>{5ECBBF65-36A4-4EB4-A3B7-B70832F3B219}</Project>

@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  brass.materiais.apipq:
+    image: ${DOCKER_REGISTRY-}brassmateriaisapipq
+    build:
+      context: .
+      dockerfile: Brass.Materiais.ApiPQ\Dockerfile
+
+  brass.materiais.apipqgestao:
+    image: ${DOCKER_REGISTRY-}brassmateriaisapipqgestao
+    build:
+      context: .
+      dockerfile: Brass.Materiais.ApiPQGestao\Dockerfile
+
+
+  brass.materiais.apicatalogoplant:
+    image: ${DOCKER_REGISTRY-}brassmateriaisapicatalogoplant
+    build:
+      context: .
+      dockerfile: Brass.Materiais.ApiCatalogoPlant\Dockerfile
+

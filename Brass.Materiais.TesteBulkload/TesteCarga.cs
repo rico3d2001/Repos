@@ -1,8 +1,9 @@
 ﻿using Brass.ExcelLeitura.App.Comandos;
-using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Spec.Entidades;
-using Brass.Materiais.Nucleo;
-using Brass.Materiais.PQ.Entities.Montagens;
+using Brass.Materiais.DominioPQ.BIM.Entities;
+using Brass.Materiais.DominioPQ.Catalogo.Entities;
+using Brass.Materiais.DominioPQ.PQ.Entities;
+using Brass.Materiais.DominioPQ.Spec.Entities;
+using Brass.Materiais.Nucleo.ValueObjects;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Brass.Materiais.TesteBulkload.Templates;
 using Brass.Materiais.TesteBulkload.Templates.MontagensXLS;
@@ -186,24 +187,46 @@ namespace Brass.Materiais.TesteBulkload
 
         }
 
-        [TestMethod]
-        public void E_Carga_Disiciplina_Assertivo()
-        {
-            
 
+
+
+
+
+
+
+        [TestMethod]
+        public void I_Carga_EAPPlanejada_Assertivo()
+        {
+            var repoEAPsPlanejadas = new BaseMDBRepositorio<AreaPlanejada>("BIM", "AreasPlanejadas");
+
+            string guidProjeto = "a050dc55-009d-4f19-b867-4bdbe0ee3523";
 
             Versao versao = new Versao(0, "SPE Vale - EG-T-401 Rev.11", "Inicio do banco de dados", DateTime.Now);
 
-            var repoDisciplina = new BaseMDBRepositorio<Disciplina>("MontagemPQ", "Disciplina");
+            var xls = new AreasPlanejadaXLS(2, guidProjeto, versao);
 
-            Disciplina disciplina = new Disciplina("Tubulação");
+            var leituraArquivo = new LeituraArquivo<AreaPlanejada>(xls);
 
-            repoDisciplina.Inserir(disciplina);
+            string siglaProjeto = "BdB1901";
+
+
+            var areas = leituraArquivo.Ler(@"C:\Trabalho\EAPs.xlsx", siglaProjeto);
+
+            foreach (var area in areas)
+            {
+                repoEAPsPlanejadas.Inserir(area);
+            }
+
+            var inseridos = repoEAPsPlanejadas
+                .Encontrar(Builders<AreaPlanejada>.Filter.Eq(x => x.GUID_PROJETO, guidProjeto));
+
+
+            Assert.IsTrue(inseridos.Count > 0);
 
         }
 
         [TestMethod]
-        public void F_Carga_NiveisAtividade_Assertivo()
+        public void J_Carga_NiveisAtividade_Assertivo()
         {
 
 
@@ -232,7 +255,7 @@ namespace Brass.Materiais.TesteBulkload
         }
 
         [TestMethod]
-        public void G_Carga_MontagemXLS_Assertivo()
+        public void K_Carga_MontagemXLS_Assertivo()
         {
 
             var repoAtividade = new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
@@ -250,17 +273,26 @@ namespace Brass.Materiais.TesteBulkload
             var niveisAtividade = repoNiveisAtividade
                 .Encontrar(Builders<NivelAtividade>.Filter.Eq(x => x.GUID_CLIENTE, guidClienteVALE));
 
+            var atividadesEstoque = repoAtividade.Obter();
+
 
             var xls = new MontagemXLS(guidDisicplina, guidClienteVALE, guidIdiomaPTBR, versao, 8, niveisAtividade);
 
             var leituraArquivo = new LeituraArquivo<Atividade>(xls);
 
-            var lista = leituraArquivo.Ler(@"C:\Trabalho\LeituraPlan\PE-F-641_Biblioteca_Atividades_Montagem_Mecanica_Rev_2.xlsx", "Mont e Desm. Eqtos e Mat Mec. ");
+            //var lista = leituraArquivo.Ler(@"C:\Trabalho\LeituraPlan\PE-F-641_Biblioteca_Atividades_Montagem_Mecanica_Rev_2.xlsx", "Mont e Desm. Eqtos e Mat Mec. ");
 
-            foreach (var item in lista)
-            {
-                repoAtividade.Inserir(item);
-            }
+            var lista = leituraArquivo.Ler(@"C:\Trabalho\LeituraPlan\AtividadesAdiconais.xlsx", "Atividade");
+
+            //var lista = leituraArquivo.Ler(@"C:\Trabalho\LeituraPlan\Atividades.xlsx", "Mont e Desm. Eqtos e Mat Mec. ");
+
+
+
+            //foreach (var item in lista)
+            //{
+
+            //    repoAtividade.Inserir(item);
+            //}
 
             var inseridos = repoAtividade
                 .Encontrar(Builders<Atividade>.Filter.Eq(x => x.GUID_CLIENTE, guidClienteVALE)
@@ -275,7 +307,7 @@ namespace Brass.Materiais.TesteBulkload
 
 
         [TestMethod]
-        public void H_Carga_EstruturaDescricao_Assertivo()
+        public void L_Carga_EstruturaDescricao_Assertivo()
         {
             var repoEstruturaDescricao = new BaseMDBRepositorio<EstruturaDescricao>("Catalogo", "EstruturaDescricao");
 
@@ -304,7 +336,7 @@ namespace Brass.Materiais.TesteBulkload
         }
 
         [TestMethod]
-        public void I_LeituraDecricaoFamilia_Assertivo()
+        public void M_LeituraDecricaoFamilia_Assertivo()
         {
 
             string guidIdiomaPTBR = "2c69c17b-fe23-4654-bade-6f7fc2eb2b5f";
@@ -441,14 +473,113 @@ namespace Brass.Materiais.TesteBulkload
 
             }
         }
-       
+
+        [TestMethod]
+        public void N_Relacao_TipoItemEng_AtividadeVVV()
+        {
+            var tipoItemDiag = "TUBO";
+            var repositorioAtividade = new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
+            var repositorioTipoItemEng = new BaseMDBRepositorio<TipoItemEng>("Catalogo", "TipoItemEng");
+
+            var atividades = repositorioAtividade.Obter();
+
+            var atividades_K = atividades.Where(x => x.Codigo == "M").ToList();
+
+            var atividades_TT = atividades_K.Where(x => x.Codigo == "60").ToList();
+
+            var atividades_UU = atividades_TT.Where(x => x.NivelAtividade == "TT" && x.Codigo == "60").ToList();
 
 
-        //[TestMethod]
-        //public void Carga_CodigoMaterial_Assertivo()
-        //{
 
-        //}
+            var atividades_VVV = atividades.Where(x => x.NivelAtividade == "VVV").ToList();
+
+            var atividade = atividades_VVV.FirstOrDefault(x => x.Codigo == "010");
+
+            var tipos = repositorioTipoItemEng.Encontrar(Builders<TipoItemEng>.Filter.Eq(x => x.NOME, tipoItemDiag));
+
+            var tipo = tipos.First();
+
+            tipo.AtividadeVVV = atividade;
+
+        }
+
+
+
+
+        [TestMethod]
+        public void O_ItemizaAtividades()
+        {
+           
+
+            var repositorioNivelAtividade = new BaseMDBRepositorio<NivelAtividade>("MontagemPQ", "NivelAtividade");
+            var repositorioAtividade = new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
+           
+
+            var atividades = repositorioAtividade.Obter();
+            var niveis = repositorioNivelAtividade.Obter();
+
+            
+
+            
+
+
+            
+
+            //ItemizaAtividades.Itemizar("1", "MONTAGEM DE EQUIPAMENTOS E COMPONENTES ELETROMECÂNICOS", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1", "MONTAGEM DE TUBULAÇÕES, CONEXÕES E ACESSÓRIOS", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1.1", "MONTAGEM DE TUBULAÇÕES", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1.1.1", "MONTAGEM DE TUBO, CC, AC", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1.2", "MONTAGEM DE VÁLVULAS", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1.2.1", "MONTAGEM DE VÁLVULAS BORBOLETA", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1.2.2", "MONTAGEM DE VÁLVULA GAVETA", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1.2.3", "MONTAGEM DE VÁLVULA GAVETA", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1.2.4", "MONTAGEM DE VÁLVULA DE RETENÇÃO", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1.5", "MONTAGEM DE ESTRUTURAS METÁLICAS", atividades, niveis, null);
+            //ItemizaAtividades.Itemizar("1.1.5.1", "MONTAGEM DE SUPORTE DE TUBULAÇÃO", atividades, niveis, null);
+        }
+
+        [TestMethod]
+        public void P_DefinirAtividades()
+        {
+
+            //var tipoItemDiag = "TUBO";
+            //var codigo = "M"; //Codigo para montagem
+
+
+            //var repositorioTipoItemEng = new BaseMDBRepositorio<TipoItemEng>("Catalogo", "TipoItemEng");
+            var repositorioNivelAtividade = new BaseMDBRepositorio<NivelAtividade>("MontagemPQ", "NivelAtividade");
+            var repositorioAtividade = new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
+
+            var atividades = repositorioAtividade.Obter();
+
+            var niveis = repositorioNivelAtividade.Obter();
+
+
+            //var tipos = repositorioTipoItemEng.Encontrar(Builders<TipoItemEng>.Filter.Eq(x => x.NOME, tipoItemDiag));
+
+     
+            var leituraArquivo = new LeituraArquivo<Atividade>(new OrganizaAtividadesXLS(8, niveis, atividades));
+
+            var lista = leituraArquivo.Ler(@"C:\Trabalho\LeituraPlan\Atividades.xlsx", "Mont e Desm. Eqtos e Mat Mec. ");
+
+            foreach (var atividade in lista)
+            {
+                var atividadeExistente = atividades.FirstOrDefault(x => x.GUID == atividade.GUID);
+                if (atividadeExistente == null)
+                {
+                    repositorioAtividade.Inserir(atividade);
+                }
+                else
+                {
+                    repositorioAtividade.Atualizar(atividadeExistente);
+                }
+            }
+
+
+
+
+
+        }
 
 
 

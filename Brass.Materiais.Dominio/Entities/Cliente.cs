@@ -11,15 +11,15 @@ namespace Brass.Materiais.Dominio.Entities
 {
     public class Cliente:Entidade
     {
-        public Cliente(Sigla sigla, Nome nome)
+        public Cliente(string sigla, string nome)
         {
             Sigla = sigla;
             Nome = nome;
         }
 
      
-        public Sigla Sigla { get; set; }
-        public Nome Nome { get; set; }
+        public string Sigla { get; set; }
+        public string Nome { get; set; }
 
         
     }

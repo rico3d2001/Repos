@@ -1,27 +1,22 @@
-﻿using Brass.Materiais.Dominio.Servico.Models;
+﻿using Brass.Materiais.DominioPQ.Catalogo.Entities;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
-using Brass.Materiais.RepoSQLServerDapper.Service;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.Servico.Commnads
 {
     public class ItemEngenhariaEstoqueService
     {
-        PropriedadesItemService _propriedadesItemService;
+        PropriedadesItemServiceSQL _propriedadesItemService;
         BaseMDBRepositorio<ItemTubulacaoEstoque> _repositorio;
-        private PropriedadesItemService propriedadesItemService;
+        private PropriedadesItemServiceSQL propriedadesItemService;
 
-        public ItemEngenhariaEstoqueService(PropriedadesItemService propriedadesItemService)
+        public ItemEngenhariaEstoqueService(PropriedadesItemServiceSQL propriedadesItemService)
         {
             this.propriedadesItemService = propriedadesItemService;
         }
 
-        public ItemEngenhariaEstoqueService(PropriedadesItemService propriedadesItemService, BaseMDBRepositorio<ItemTubulacaoEstoque> repositorio) //: base("Catalogo", "ItensEstoque")
+        public ItemEngenhariaEstoqueService(PropriedadesItemServiceSQL propriedadesItemService, BaseMDBRepositorio<ItemTubulacaoEstoque> repositorio) //: base("Catalogo", "ItensEstoque")
         {
             _repositorio = repositorio;
             _propriedadesItemService = propriedadesItemService;

@@ -66,9 +66,9 @@
       <Project>{ecf25a8e-5c96-42ff-9360-81c19a5d04b1}</Project>
       <Name>Brass.Materiais.Dominio.Servico</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Brass.Materiais.Dominio\Brass.Materiais.Dominio.csproj">
-      <Project>{DFAB2249-8050-4626-AE11-B34476C4CA94}</Project>
-      <Name>Brass.Materiais.Dominio</Name>
+    <ProjectReference Include="..\Brass.Materiais.DominioPQ\Brass.Materiais.DominioPQ.csproj">
+      <Project>{038B303F-4C27-4A2E-BF4A-D38BCA4BB4E1}</Project>
+      <Name>Brass.Materiais.DominioPQ</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.RepositorioSQLitePlant\Brass.Materiais.RepositorioSQLitePlant.csproj">
       <Project>{5ECBBF65-36A4-4EB4-A3B7-B70832F3B219}</Project>

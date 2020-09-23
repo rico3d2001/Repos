@@ -1,5 +1,5 @@
-﻿using Brass.Materiais.Dominio.Interfaces;
-using Brass.Materiais.Dominio.ValueObjects.ValoresCodigo;
+﻿using Brass.Materiais.DominioPQ.Catalogo.Interfaces;
+using Brass.Materiais.DominioPQ.Catalogo.ValueObjects;
 using System.Collections.Generic;
 
 namespace Brass.Materiais.Dominio.Servico.Fabricas

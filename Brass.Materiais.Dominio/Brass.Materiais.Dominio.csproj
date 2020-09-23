@@ -129,6 +129,10 @@
       <Project>{7DD22068-369A-47C4-9DFB-CAF52FF1C541}</Project>
       <Name>Brass.Materiais.Dominio.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.PQ\Brass.Materiais.PQ.csproj">
+      <Project>{99842149-68C6-49B7-B901-C2630DA72F0D}</Project>
+      <Name>Brass.Materiais.PQ</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

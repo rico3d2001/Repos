@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Servico.Fabricas;
-using Brass.Materiais.Dominio.Servico.Service;
-using Brass.Materiais.RepositorioSQLitePlant.Common;
-using Brass.Materiais.RepositorioSQLitePlant.Models;
+﻿using Brass.Materiais.Dominio.Servico.Service;
+using Brass.Materiais.DominioPQ.Catalogo.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace Brass.Materiais.Dominio.Testes
 {

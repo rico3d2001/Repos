@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Flunt, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flunt.1.0.5\lib\netstandard2.0\Flunt.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,12 +44,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
     <Folder Include="ObjetosValor\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
+      <Project>{7DD22068-369A-47C4-9DFB-CAF52FF1C541}</Project>
+      <Name>Brass.Materiais.Dominio.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.Nucleo\Brass.Materiais.Nucleo.csproj">
+      <Project>{8B40F3E2-9CB1-44E4-A05F-FFBB0B655B12}</Project>
+      <Name>Brass.Materiais.Nucleo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.RepositorioSQLServer\Brass.Materiais.RepositorioSQLServer.csproj">
+      <Project>{AC6C3BA2-36E7-4637-A605-D714266D0C5F}</Project>
+      <Name>Brass.Materiais.RepositorioSQLServer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

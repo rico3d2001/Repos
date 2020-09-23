@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
-using Brass.Materiais.Dominio.Entities;
+using Brass.Materiais.DominioPQ.Catalogo.Entities;
 using Brass.Materiais.RepositorioSQLitePlant.Common;
-using Brass.Materiais.RepositorioSQLitePlant.Models;
-using Brass.Materiais.RepositorioSQLitePlant.Service;
+using Brass.Materiais.RepositorioSQLitePlant.Service.CatalogoPipe;
+using Brass.Materiais.RepositorioSQLitePlant.Service.CatalogoPipe.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.Servico.Service
 {

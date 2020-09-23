@@ -73,10 +73,6 @@
       <Project>{ECF25A8E-5C96-42FF-9360-81C19A5D04B1}</Project>
       <Name>Brass.Materiais.Dominio.Servico</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Brass.Materiais.Dominio\Brass.Materiais.Dominio.csproj">
-      <Project>{DFAB2249-8050-4626-AE11-B34476C4CA94}</Project>
-      <Name>Brass.Materiais.Dominio</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

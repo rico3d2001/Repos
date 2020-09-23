@@ -1,15 +1,6 @@
-﻿using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Servico.Interfaces;
-using Brass.Materiais.Dominio.Servico.Service;
-using Brass.Materiais.Dominio.ValueObjects.Plant3D;
-using Brass.Materiais.RepositorioSQLitePlant.Common;
-using Brass.Materiais.RepositorioSQLitePlant.Models;
+﻿using Brass.Materiais.Dominio.Servico.Service;
+using Brass.Materiais.RepositorioSQLitePlant.Service.CatalogoPipe.Models;
 using SQLiteWithCSharp.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity;
 using Unity.Lifetime;
 

@@ -40,7 +40,7 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services
 
         public virtual void Inserir(TColecao modelo)
         {
-            _colecao.InsertOne(modelo);
+            _colecao.InsertOneAsync(modelo);
         }
 
         public virtual void Atualizar(TColecao modelo)
@@ -61,8 +61,9 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services
             return _colecao.Find(filtro).ToList();
         }
 
-        
-
-
+        public object Encontrar()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

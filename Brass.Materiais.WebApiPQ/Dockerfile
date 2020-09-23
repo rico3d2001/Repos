@@ -1,0 +1,40 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
+#For more information, please see https://aka.ms/containercompat
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-nanoserver-1903 AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-nanoserver-1903 AS build
+WORKDIR /src
+COPY ["Brass.Materiais.WebApiPQ/Brass.Materiais.WebApiPQ.csproj", "Brass.Materiais.WebApiPQ/"]
+COPY ["Brass.Materiais.PQ.AppNetCoreSQLite/Brass.Materiais.PQ.AppNetCoreSQLite.csproj", "Brass.Materiais.PQ.AppNetCoreSQLite/"]
+COPY ["Brass.Materiais.RepositorioAppEFSQLite/Brass.Materiais.RepositorioAppEFSQLite.csproj", "Brass.Materiais.RepositorioAppEFSQLite/"]
+COPY ["Brass.Materiais.RepoMongoDBCatalogo/Brass.Materiais.RepoMongoDBCatalogo.csproj", "Brass.Materiais.RepoMongoDBCatalogo/"]
+COPY ["Brass.Materiais.Dominio.Utils/Brass.Materiais.Dominio.Utils.csproj", "Brass.Materiais.Dominio.Utils/"]
+COPY ["Brass.Materiais.DominioPQ/Brass.Materiais.DominioPQ.csproj", "Brass.Materiais.DominioPQ/"]
+COPY ["Brass.Materiais.Nucleo/Brass.Materiais.Nucleo.csproj", "Brass.Materiais.Nucleo/"]
+COPY ["Brass.Materiais.Dominio.Service.Utils/Brass.Materiais.Dominio.Service.Utils.csproj", "Brass.Materiais.Dominio.Service.Utils/"]
+COPY ["Brass.Materiais.PQ.Dominio.Servico/Brass.Materiais.PQ.Dominio.Servico.csproj", "Brass.Materiais.PQ.Dominio.Servico/"]
+COPY ["Brass.Materiais.Dominio.Servico/Brass.Materiais.Dominio.Servico.csproj", "Brass.Materiais.Dominio.Servico/"]
+COPY ["../SQLiteWithCSharp/SQLiteWithCSharp.Utility/SQLiteWithCSharp.Utility.csproj", "../SQLiteWithCSharp/SQLiteWithCSharp.Utility/"]
+COPY ["Brass.Materiais.RepositorioSQLitePlant/Brass.Materiais.RepositorioSQLitePlant.csproj", "Brass.Materiais.RepositorioSQLitePlant/"]
+COPY ["Brass.Materiais.RepositorioSQLServer/Brass.Materiais.RepositorioSQLServer.csproj", "Brass.Materiais.RepositorioSQLServer/"]
+COPY ["Brass.Materiais.RepoSQLServerDapper/Brass.Materiais.RepoSQLServerDapper.csproj", "Brass.Materiais.RepoSQLServerDapper/"]
+COPY ["Brass.Materiais.InjecaoDependencia/Brass.Materiais.InjecaoDependencia.csproj", "Brass.Materiais.InjecaoDependencia/"]
+COPY ["Brass.Materiais.PQ.RepoIO/Brass.Materiais.PQ.RepoIO.csproj", "Brass.Materiais.PQ.RepoIO/"]
+COPY ["Brass.Materiais.AppBIM/Brass.Materiais.AppBIM.csproj", "Brass.Materiais.AppBIM/"]
+RUN dotnet restore "Brass.Materiais.WebApiPQ/Brass.Materiais.WebApiPQ.csproj"
+COPY . .
+WORKDIR "/src/Brass.Materiais.WebApiPQ"
+RUN dotnet build "Brass.Materiais.WebApiPQ.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Brass.Materiais.WebApiPQ.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Brass.Materiais.WebApiPQ.dll"]

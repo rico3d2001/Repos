@@ -1,8 +1,4 @@
-﻿using Brass.Materiais.RepoSQLServerDapper.Service;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Brass.Materiais.Dominio.Servico.Commnads
+﻿namespace Brass.Materiais.Dominio.Servico.Commnads
 {
     //public class CriaRamaisEstoque
     //{
@@ -11,7 +7,7 @@ namespace Brass.Materiais.Dominio.Servico.Commnads
     //    RamalEstoqueService _ramalEstoqueService;
     //    public CriaRamaisEstoque(RamalEstoqueService ramalEstoqueService)
     //    {
-           
+
     //        _ramalEstoqueService = ramalEstoqueService;
     //    }
 

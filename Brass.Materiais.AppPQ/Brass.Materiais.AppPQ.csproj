@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flunt" Version="1.0.5" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CommandSide\CargaItensPQDiagramas\VPN\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.DominioPQ\Brass.Materiais.DominioPQ.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj" />
+  </ItemGroup>
+
+</Project>

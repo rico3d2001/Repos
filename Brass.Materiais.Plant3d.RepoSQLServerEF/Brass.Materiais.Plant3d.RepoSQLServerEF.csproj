@@ -69,6 +69,8 @@
       <DependentUpon>ModelPlant3d.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\IRepositorioBIM.cs" />
+    <Compile Include="Service\RepositorioBIM.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="ModelPlant3d.edmx">
@@ -97,6 +99,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.Plant3dDiagramas.RepoSQLServerEF\Brass.Materiais.Plant3dDiagramas.RepoSQLServerEF.csproj">
+      <Project>{B6A1D4C0-B96E-4B81-BCC9-603DA5BB52C6}</Project>
+      <Name>Brass.Materiais.Plant3dDiagramas.RepoSQLServerEF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.RepositorioSQLServer\Brass.Materiais.RepositorioSQLServer.csproj">
+      <Project>{AC6C3BA2-36E7-4637-A605-D714266D0C5F}</Project>
+      <Name>Brass.Materiais.RepositorioSQLServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

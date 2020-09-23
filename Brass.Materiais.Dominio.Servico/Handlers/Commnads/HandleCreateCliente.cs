@@ -1,14 +1,11 @@
-﻿using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Service.Utils;
+﻿using Brass.Materiais.Dominio.Service.Utils;
 using Brass.Materiais.Dominio.Servico.Commnads;
+using Brass.Materiais.DominioPQ.Catalogo.Entities;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Flunt.Notifications;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Brass.Materiais.Dominio.Servico.Handlers.Commnads
 {
@@ -35,7 +32,7 @@ namespace Brass.Materiais.Dominio.Servico.Handlers.Commnads
 
 
             var cliente = _clientesRepositorio
-                .Encontrar(Builders<Cliente>.Filter.Eq(x => x.Nome.Texto, command.NomeCliente.Texto)).FirstOrDefault();
+                .Encontrar(Builders<Cliente>.Filter.Eq(x => x.Nome, command.NomeCliente)).FirstOrDefault();
             if (cliente != null)
             {
                 return new CommandResult<Cliente>(false, "Não foi possível requisitar clientes.", null);
@@ -44,7 +41,7 @@ namespace Brass.Materiais.Dominio.Servico.Handlers.Commnads
 
 
             cliente = _clientesRepositorio
-                .Encontrar(Builders<Cliente>.Filter.Eq(x => x.Sigla.Texto, command.SiglaCliente.Texto)).FirstOrDefault();
+                .Encontrar(Builders<Cliente>.Filter.Eq(x => x.Sigla, command.SiglaCliente)).FirstOrDefault();
             if (cliente != null)
             {
                 return new CommandResult<Cliente>(false, "Não foi possível requisitar clientes.", null);

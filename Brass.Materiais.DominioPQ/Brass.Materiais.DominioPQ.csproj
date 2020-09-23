@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{038B303F-4C27-4A2E-BF4A-D38BCA4BB4E1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Brass.Materiais.DominioPQ</RootNamespace>
+    <AssemblyName>Brass.Materiais.DominioPQ</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BIM\Coleta\Coletados.cs" />
+    <Compile Include="BIM\Entities\Area.cs" />
+    <Compile Include="BIM\Entities\AreaPlanejada.cs" />
+    <Compile Include="BIM\Entities\AreaPlanejadaAbstrata.cs" />
+    <Compile Include="BIM\Entities\EAP.cs" />
+    <Compile Include="BIM\Entities\Hub.cs" />
+    <Compile Include="BIM\Entities\ItemModelado.cs" />
+    <Compile Include="BIM\Entities\ItemPQ.cs" />
+    <Compile Include="BIM\Entities\ItemTag.cs" />
+    <Compile Include="BIM\Entities\Projeto.cs" />
+    <Compile Include="BIM\Entities\QtdArea.cs" />
+    <Compile Include="BIM\Entities\QtdLinear.cs" />
+    <Compile Include="BIM\Entities\QtdUnidade.cs" />
+    <Compile Include="BIM\Entities\QtdVolumetrica.cs" />
+    <Compile Include="BIM\Entities\Quantidade.cs" />
+    <Compile Include="BIM\Entities\Resumo.cs" />
+    <Compile Include="BIM\Enumerations\TipoProjeto.cs" />
+    <Compile Include="BIM\TabelasPlant\Pipe.cs" />
+    <Compile Include="BIM\TabelasPlant\PipeLine.cs" />
+    <Compile Include="BIM\TabelasPlant\PnPTables.cs" />
+    <Compile Include="BIM\ValueObjects\AreaTag.cs" />
+    <Compile Include="BIM\ValueObjects\ArquivoOrigem.cs" />
+    <Compile Include="BIM\ValueObjects\NomeArea.cs" />
+    <Compile Include="BIM\ValueObjects\NomeProjeto.cs" />
+    <Compile Include="BIM\ValueObjects\Usuario.cs" />
+    <Compile Include="BIM\ViewsPlant\BaseComponentesPlant.cs" />
+    <Compile Include="BIM\ViewsPlant\BlancPipe.cs" />
+    <Compile Include="BIM\ViewsPlant\ConfigurableEntity.cs" />
+    <Compile Include="BIM\ViewsPlant\UnidadePipe.cs" />
+    <Compile Include="BIM\ViewsPlant\Gasket_PNP.cs" />
+    <Compile Include="BIM\ViewsPlant\P3dDrawingLineGroupRelationship_PNP.cs" />
+    <Compile Include="BIM\ViewsPlant\P3dLineGroup_PNP.cs" />
+    <Compile Include="BIM\ViewsPlant\Pipe_PNP.cs" />
+    <Compile Include="BIM\ViewsPlant\PnPDrawings_PNP.cs" />
+    <Compile Include="BIM\ViewsPlant\Valve_PNP.cs" />
+    <Compile Include="Catalogo\Entities\ItemSPE.cs" />
+    <Compile Include="Catalogo\Entities\ItemTubulacaoEstoque.cs" />
+    <Compile Include="Catalogo\Entities\SPEBook.cs" />
+    <Compile Include="PQ\Entities\EstadoApp.cs" />
+    <Compile Include="PQ\ValueObjects\CabecalhoTabelaAtividades.cs" />
+    <Compile Include="Catalogo\Entities\CatalogoEntidade.cs" />
+    <Compile Include="Catalogo\Entities\Categoria.cs" />
+    <Compile Include="Catalogo\Entities\Cliente.cs" />
+    <Compile Include="Catalogo\Entities\Codigo.cs" />
+    <Compile Include="Catalogo\Entities\Familia.cs" />
+    <Compile Include="Catalogo\Entities\Idioma.cs" />
+    <Compile Include="Catalogo\Entities\ItemEngenhariaP3D.cs" />
+    <Compile Include="Catalogo\Entities\ItemPipe.cs" />
+    <Compile Include="Catalogo\Entities\NomeTipoPropriedade.cs" />
+    <Compile Include="Catalogo\Entities\PropriedadeCadastro.cs" />
+    <Compile Include="Catalogo\Entities\PropriedadeItem.cs" />
+    <Compile Include="Catalogo\Entities\RelacaoEntrePropriedades.cs" />
+    <Compile Include="Catalogo\Entities\RelacaoFamiliaItem.cs" />
+    <Compile Include="Catalogo\Entities\RelacaoPropriedadeItem.cs" />
+    <Compile Include="Catalogo\Entities\Siglas.cs" />
+    <Compile Include="PQ\Entities\TabelaAtividades.cs" />
+    <Compile Include="Catalogo\Entities\TipoItemEng.cs" />
+    <Compile Include="Catalogo\Entities\ValorTabelado.cs" />
+    <Compile Include="Catalogo\Interfaces\ICodificacao.cs" />
+    <Compile Include="Catalogo\ValueObjects\CodigoItem.cs" />
+    <Compile Include="Catalogo\ValueObjects\NomePropriedade.cs" />
+    <Compile Include="Catalogo\ValueObjects\Propriedade.cs" />
+    <Compile Include="Catalogo\ValueObjects\PropriedadeTipo.cs" />
+    <Compile Include="Catalogo\ValueObjects\Sigla.cs" />
+    <Compile Include="Catalogo\ValueObjects\SiglaCodigo.cs" />
+    <Compile Include="Catalogo\ValueObjects\TabelaP3D.cs" />
+    <Compile Include="Catalogo\ValueObjects\ValorPropriedade.cs" />
+    <Compile Include="PQ\Entities\Atividade.cs" />
+    <Compile Include="PQ\Entities\DataPQ.cs" />
+    <Compile Include="PQ\Entities\NivelAtividade.cs" />
+    <Compile Include="PQ\Enumeration\TipoDisciplina.cs" />
+    <Compile Include="PQ\ValueObjects\CabecalhoPQ.cs" />
+    <Compile Include="PQ\ValueObjects\CelulaPQ.cs" />
+    <Compile Include="PQ\ValueObjects\CelulaVale.cs" />
+    <Compile Include="PQ\ValueObjects\IdentidadeEstado.cs" />
+    <Compile Include="PQ\ValueObjects\IdentidadePQ.cs" />
+    <Compile Include="PQ\ValueObjects\LinhaDataPQ.cs" />
+    <Compile Include="PQ\ValueObjects\LinhaNexa.cs" />
+    <Compile Include="PQ\ValueObjects\LinhaPQ.cs" />
+    <Compile Include="PQ\ValueObjects\LinhaVale.cs" />
+    <Compile Include="PQ\ValueObjects\PlanilhaPQ.cs" />
+    <Compile Include="PQ\ValueObjects\PlanilhaVale.cs" />
+    <Compile Include="PQ\ValueObjects\PlanPIPEVale.cs" />
+    <Compile Include="PQ\ValueObjects\SiglaDisciplina.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spec\Entities\ClassePressao.cs" />
+    <Compile Include="Spec\Entities\CodigoFluido.cs" />
+    <Compile Include="Spec\Entities\CodigoMaterial.cs" />
+    <Compile Include="Spec\Entities\Descritivo.cs" />
+    <Compile Include="Spec\Entities\EstruturaDescricao.cs" />
+    <Compile Include="Spec\Entities\MaterialBase.cs" />
+    <Compile Include="Spec\Entities\RelacaoEstruturaDescricaoCategoria.cs" />
+    <Compile Include="Spec\Entities\ValorSPEC.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
+      <Project>{7DD22068-369A-47C4-9DFB-CAF52FF1C541}</Project>
+      <Name>Brass.Materiais.Dominio.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.Nucleo\Brass.Materiais.Nucleo.csproj">
+      <Project>{8B40F3E2-9CB1-44E4-A05F-FFBB0B655B12}</Project>
+      <Name>Brass.Materiais.Nucleo</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Spec\ValueObjects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Diagramas\AgregadoItemPQ.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

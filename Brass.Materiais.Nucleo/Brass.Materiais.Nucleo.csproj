@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Disciplina.cs" />
-    <Compile Include="Versao.cs" />
+    <Compile Include="Entities\Disciplina.cs" />
+    <Compile Include="ValueObjects\Versao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,5 +51,6 @@
       <Name>Brass.Materiais.Dominio.Utils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -77,6 +77,34 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BaseMDBRepositorio.cs" />
+    <Compile Include="Services\Catalogo\RepoAreasDiagramas.cs" />
+    <Compile Include="Services\Catalogo\RepoAreasPlanejadas.cs" />
+    <Compile Include="Services\Catalogo\RepoAtividade.cs" />
+    <Compile Include="Services\Catalogo\RepoColetadosPipe.cs" />
+    <Compile Include="Services\Catalogo\RepoCatalogo.cs" />
+    <Compile Include="Services\Catalogo\RepoCategoria.cs" />
+    <Compile Include="Services\Catalogo\RepoClientes.cs" />
+    <Compile Include="Services\Catalogo\RepoDisciplinas.cs" />
+    <Compile Include="Services\Catalogo\RepoEAP.cs" />
+    <Compile Include="Services\Catalogo\RepoEstadoApp.cs" />
+    <Compile Include="Services\Catalogo\RepoFamilia.cs" />
+    <Compile Include="Services\Catalogo\RepoHub.cs" />
+    <Compile Include="Services\Catalogo\RepoIdioma.cs" />
+    <Compile Include="Services\Catalogo\RepoItemDiagramasPlant3d.cs" />
+    <Compile Include="Services\Catalogo\RepoItemModelado.cs" />
+    <Compile Include="Services\Catalogo\RepoItemPipe.cs" />
+    <Compile Include="Services\Catalogo\RepoItemPQ.cs" />
+    <Compile Include="Services\Catalogo\RepoNomeTipoPropriedade.cs" />
+    <Compile Include="Services\Catalogo\RepoPQ.cs" />
+    <Compile Include="Services\Catalogo\RepoProjetos.cs" />
+    <Compile Include="Services\Catalogo\RepoPropriedadeItem.cs" />
+    <Compile Include="Services\Catalogo\RepoRamalEstoque.cs" />
+    <Compile Include="Services\Catalogo\RepoRelacaoPropriedadeItem.cs" />
+    <Compile Include="Services\Catalogo\RepoResumo.cs" />
+    <Compile Include="Services\Catalogo\RepoSPE.cs" />
+    <Compile Include="Services\Catalogo\RepoTipoDeItem.cs" />
+    <Compile Include="Services\Catalogo\RepoValores.cs" />
+    <Compile Include="ViewModel\RamalArvoreCatalogo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -84,6 +112,20 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
+      <Project>{7DD22068-369A-47C4-9DFB-CAF52FF1C541}</Project>
+      <Name>Brass.Materiais.Dominio.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.DominioPQ\Brass.Materiais.DominioPQ.csproj">
+      <Project>{038B303F-4C27-4A2E-BF4A-D38BCA4BB4E1}</Project>
+      <Name>Brass.Materiais.DominioPQ</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.Nucleo\Brass.Materiais.Nucleo.csproj">
+      <Project>{8B40F3E2-9CB1-44E4-A05F-FFBB0B655B12}</Project>
+      <Name>Brass.Materiais.Nucleo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MongoDB.Libmongocrypt.1.0.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.0.0\build\MongoDB.Libmongocrypt.targets')" />

@@ -1,27 +1,132 @@
-﻿using Brass.Materiais.Dominio.Servico.Commnads;
+﻿using Brass.Materiais.Dominio.Servico.CommandSide.Commands.CarregaCatalogoCompleto.Tubulacao;
+using Brass.Materiais.Dominio.Servico.CommandSide.Commands.CarregaValoresTabelasDoArquivoCatalogo.Tubulacao;
+using Brass.Materiais.Dominio.Servico.Commnads;
+using Brass.Materiais.DominioPQ.PQ.Entities;
+using Brass.Materiais.Nucleo.ValueObjects;
 using Brass.Materiais.PQ.Dominio.Servico.Commands.Requests;
-using Brass.Materiais.PQ.Dominio.Servico.QuerySide.Queries.ObterFamilias;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Brass.Materiais.RepoSQLServerDapper.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Driver;
+using System;
 using System.ComponentModel;
+using System.Threading;
 
 namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
 {
     [TestClass]
     public class TestesCatalogo
     {
+        
+      
 
         [TestMethod]
-        public void Mongo_InjetaItemCompleto()
+        public void A_Mongo_InjetaItemCompleto_SPE()
         {
-            string endereco = @"C:\Trabalho\CatalogosAtuais\BRASS_ASME Pipes and Fittings Catalog.pcat"; //ASME Pipes and Fittings Catalog.pcat//BRASS_ASME Pipes and Fittings Catalog.pcat";
+
+           // var repoNiveisAtividade = new BaseMDBRepositorio<NivelAtividade>("MontagemPQ", "NivelAtividade");
+
+           // string guidClienteVALE = "2a2000fd-b8a3-4619-8b78-2be372851cf9";
+           // string guidIdiomaPTBR = "2c69c17b-fe23-4654-bade-6f7fc2eb2b5f";
+           // string guidDisicplina = "f8858d95-5eba-4d21-8606-4b813efa568b";
+
+           // var niveisAtividade = repoNiveisAtividade
+           //.Encontrar(Builders<NivelAtividade>.Filter.Eq(x => x.GUID_CLIENTE, guidClienteVALE));
+
+
+           // Versao versao = new Versao(0, "SPE Vale - EG-T-401 Rev.11", "Inicio do banco de dados", DateTime.Now);
+
+           // var xls = new MontagemXLS(guidDisicplina, guidClienteVALE, guidIdiomaPTBR, versao, 8, niveisAtividade);
+
+           // var leituraArquivo = new LeituraArquivo<Atividade>(xls);
+
+          
+
+           // var lista = leituraArquivo.Ler(@"C:\Trabalho\LeituraPlan\CATALOG_SPE_MEC_TUB_EST.xlsx", "Atividade");
+
+
+
+
+
+
+
+
+
+
+
+
+
+           // string endereco = @"C:\Trabalho\CatalogosAtuais\BRASS_ASME Pipes and Fittings Catalog.pcat";
+           // string idioma = "Portugues";
+           // string pais = "Brasil";
+           // string conexao = "Local";
+           // string guidDisciplina = "ee720acb-5be3-4e5d-a1f3-51eafe5e6422";
+
+
+
+
+
+           // var command = new CarregaCatalogoCompletoTubulacaoCommand(endereco, idioma, pais, conexao, guidDisciplina);
+           // var handler = new CarregaCatalogoCompletoTubulacaoCommandHandler();
+
+           // var result = handler.Handle(command, CancellationToken.None);
+
+            //Assert.IsNotNull(result);
+
+
+
+
+
+        }
+
+
+
+        [TestMethod]
+        public void Mongo_InjetaValoresTabelados()
+        {
+
+        
+            string endereco = @"C:\Trabalho\CatalogosAtuais\BRASS_ASME Pipes and Fittings Catalog.pcat";
             string idioma = "Portugues";
             string pais = "Brasil";
-            string conexao = "Local";//"name=DataBaseContext";
-            BackgroundWorker backgroundWorker = new BackgroundWorker();
-            var injetaPropriedade = new InjetaItemCompletoEstoque(endereco, idioma, pais, conexao);
-            injetaPropriedade.Injetar();
+            string conexao = "Local";
+            string guidDisciplina = "909e5882-0b5e-414f-b37c-79514ac6f69f";
+            var command = new CarregaValoresTabeladosTubulacaoCommand(endereco, idioma, pais, conexao, guidDisciplina);
+            var handler = new CarregaValoresTabeladosTubulacaoCommandHandle();
+
+            var result = handler.Handle(command, CancellationToken.None);
+
+            Assert.IsNotNull(result);
+        }
+
+        
+
+        [TestMethod]
+        public void B_Mongo_InjetaItemCompleto()
+        {
+            string endereco = @"C:\Trabalho\CatalogosAtuais\BRASS_ASME Pipes and Fittings Catalog.pcat";
+            string idioma = "Portugues";
+            string pais = "Brasil";
+            string conexao = "Local";
+            string guidDisciplina = "909e5882-0b5e-414f-b37c-79514ac6f69f";
+            //BackgroundWorker backgroundWorker = new BackgroundWorker();
+            //var injetaPropriedade = new OrganizaCatalogoSQLiteMongoDB(endereco);
+            //injetaPropriedade.Injetar();
+
+
+
+
+            var command = new CarregaCatalogoCompletoTubulacaoCommand(endereco, idioma, pais, conexao, guidDisciplina);
+            var handler = new CarregaCatalogoCompletoTubulacaoCommandHandler();
+
+            var result = handler.Handle(command, CancellationToken.None);
+
+            Assert.IsNotNull(result);
+
+
+
+
+
         }
 
         [TestMethod]
@@ -107,8 +212,8 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
             string pais = "Brasil";
             string conexao = "Local";//"name=DataBaseContext";
             BackgroundWorker backgroundWorker = new BackgroundWorker();
-            var injetaPropriedade = new InjetaItemCompletoEstoque(endereco, idioma, pais, conexao);
-            injetaPropriedade.PegaTipos();
+            //var injetaPropriedade = new OrganizaCatalogoSQLiteMongoDB(endereco, idioma, pais, conexao);
+            //injetaPropriedade.PegaTipos();
         }
 
         [TestMethod]
@@ -179,7 +284,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
         [TestMethod]
         public void AlimentaTabelaEstoque()
         {
-            PropriedadesItemService propriedadesItemService = new PropriedadesItemService();
+            PropriedadesItemServiceSQL propriedadesItemService = new PropriedadesItemServiceSQL();
 
             ItemEngenhariaEstoqueService itemEngenhariaEstoqueService = new ItemEngenhariaEstoqueService(propriedadesItemService);
 
@@ -196,11 +301,11 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
         [TestMethod]
         public void AlimentaTodasTabelasEstoque()
         {
-            PropriedadesItemService propriedadesItemService = new PropriedadesItemService();
+            PropriedadesItemServiceSQL propriedadesItemService = new PropriedadesItemServiceSQL();
 
             ItemEngenhariaEstoqueService itemEngenhariaEstoqueService = new ItemEngenhariaEstoqueService(propriedadesItemService);
 
-            ItemEngenhariaService itemEngenhariaService = new ItemEngenhariaService();
+            ItemEngenhariaServiceSQL itemEngenhariaService = new ItemEngenhariaServiceSQL();
 
 
             var catalogos = itemEngenhariaService.ObterCatalogos();
@@ -237,7 +342,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
         [TestMethod]
         public void RecuperaTabelaEstoque()
         {
-            PropriedadesItemService propriedadesItemService = new PropriedadesItemService();
+            PropriedadesItemServiceSQL propriedadesItemService = new PropriedadesItemServiceSQL();
 
             ItemEngenhariaEstoqueService itemEngenhariaEstoqueService = new ItemEngenhariaEstoqueService(propriedadesItemService);
 
@@ -256,7 +361,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
 
         }
 
-
+        
 
         //[TestMethod]
         //public void Corrigir()

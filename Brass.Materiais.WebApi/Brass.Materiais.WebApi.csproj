@@ -285,6 +285,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.BIM\Brass.Materiais.BIM.csproj">
+      <Project>{B808222A-3DE1-4E02-BCC9-0C39C5EA5E01}</Project>
+      <Name>Brass.Materiais.BIM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.Dominio.Service.Utils\Brass.Materiais.Dominio.Service.Utils.csproj">
       <Project>{E33A3249-0A36-4E83-B24B-0896E52EB7CC}</Project>
       <Name>Brass.Materiais.Dominio.Service.Utils</Name>

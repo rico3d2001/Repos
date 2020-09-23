@@ -96,7 +96,6 @@
     </Compile>
     <Compile Include="Service\IRepositorio.cs" />
     <Compile Include="Service\Repositorio.cs" />
-    <Compile Include="Service\Repositorio2.cs" />
     <Compile Include="SIGLA_CODIGO.cs">
       <DependentUpon>DataBaseModel.tt</DependentUpon>
     </Compile>

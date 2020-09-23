@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flunt" Version="1.0.5" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.DominioPQ\Brass.Materiais.DominioPQ.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepoComumPlantEF\Brass.Materiais.RepoComumPlantEF.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepoDapperSQLServer\Brass.Materiais.RepoDapperSQLServer.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepositorioAppEFSQLite\Brass.Materiais.RepositorioAppEFSQLite.csproj" />
+  </ItemGroup>
+
+</Project>

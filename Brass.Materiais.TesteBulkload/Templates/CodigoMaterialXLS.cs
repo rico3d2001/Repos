@@ -1,7 +1,6 @@
 ﻿using Brass.ExcelLeitura.App.Comandos;
 using Brass.ExcelLeitura.App.Interface;
-using Brass.Materiais.Dominio.Spec.Entidades;
-using Microsoft.Office.Interop.Excel;
+using Brass.Materiais.DominioPQ.Spec.Entities;
 using System.Collections.Generic;
 
 namespace Brass.Materiais.TesteBulkload.Templates

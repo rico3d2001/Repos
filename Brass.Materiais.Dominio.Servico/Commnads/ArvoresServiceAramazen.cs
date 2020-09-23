@@ -1,8 +1,4 @@
-﻿using Brass.Materiais.RepoSQLServerDapper.Service;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Brass.Materiais.Dominio.Servico.Commnads
+﻿namespace Brass.Materiais.Dominio.Servico.Commnads
 {
     //public class ArvoresServiceAramazen
     //{

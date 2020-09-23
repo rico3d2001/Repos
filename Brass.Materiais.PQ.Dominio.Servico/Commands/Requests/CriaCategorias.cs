@@ -1,33 +1,25 @@
-﻿using Brass.Materiais.Dominio.Entities;
+﻿using Brass.Materiais.DominioPQ.Catalogo.Entities;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Brass.Materiais.PQ.Dominio.Servico.Commands.Requests
 {
-    public class CriaCategorias
-    {
-        public void Injetar(string catalogoGUID)
-        {
-            var tipoItemEngRepositorio = new BaseMDBRepositorio<TipoItemEng>("Catalogo", "TipoItemEng");
+    //public class CriaCategorias
+    //{
+    //    public void Injetar(string catalogoGUID)
+    //    {
+    //        var tipoItemEngRepositorio = new BaseMDBRepositorio<TipoItemEng>("Catalogo", "TipoItemEng");
 
-            var tipos = tipoItemEngRepositorio.Obter();
+    //        var tipos = tipoItemEngRepositorio.Obter();
 
-            var categoriaRepositorio = new BaseMDBRepositorio<Categoria>("Catalogo", "Categorias");
+    //        var categoriaRepositorio = new BaseMDBRepositorio<Categoria>("Catalogo", "Categorias");
 
-            foreach (var tipo in tipos)
-            {
-                Categoria categoria = new Categoria()
-                {
-                    GUID_CATALOGO = catalogoGUID,
-                    GUID_TIPO = tipo.GUID
-                };
+    //        foreach (var tipo in tipos)
+    //        {
+    //            Categoria categoria = new Categoria(catalogoGUID, tipo.GUID);
+             
 
-                categoriaRepositorio.Inserir(categoria);
-            }
-        }
-    }
+    //            categoriaRepositorio.Inserir(categoria);
+    //        }
+    //    }
+    //}
 }

@@ -49,13 +49,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="UnitTestsSQLServerDapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
+      <Project>{7DD22068-369A-47C4-9DFB-CAF52FF1C541}</Project>
+      <Name>Brass.Materiais.Dominio.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj">
+      <Project>{AB665BB9-53D5-4982-9A50-345225C93256}</Project>
+      <Name>Brass.Materiais.RepoMongoDBCatalogo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.RepoSQLServerDapper\Brass.Materiais.RepoSQLServerDapper.csproj">
       <Project>{A9669364-DE86-499C-AA8A-2082F8A8D907}</Project>
       <Name>Brass.Materiais.RepoSQLServerDapper</Name>

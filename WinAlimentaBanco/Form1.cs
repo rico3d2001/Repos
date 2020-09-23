@@ -2,6 +2,7 @@
 using Brass.Materiais.InjecaoDependencia;
 using Brass.Materiais.RepositorioSQLitePlant.Common;
 using Brass.Materiais.RepositorioSQLitePlant.Models;
+using Brass.Materiais.RepositorioSQLitePlant.Service.CatalogoPipe.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

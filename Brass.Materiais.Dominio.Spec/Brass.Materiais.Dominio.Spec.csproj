@@ -44,27 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entidades\ClassePressao.cs" />
-    <Compile Include="Entidades\CodigoFluido.cs" />
-    <Compile Include="Entidades\CodigoMaterial.cs" />
-    <Compile Include="Entidades\Descritivo.cs" />
-    <Compile Include="Entidades\EstruturaDescricao.cs" />
-    <Compile Include="Entidades\MaterialBase.cs" />
-    <Compile Include="Entidades\RelacaoEstruturaDescricaoCategoria.cs" />
-    <Compile Include="Entidades\ValorSPEC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Entidades\" />
     <Folder Include="ObjetosValor\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
       <Project>{7DD22068-369A-47C4-9DFB-CAF52FF1C541}</Project>
       <Name>Brass.Materiais.Dominio.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Brass.Materiais.Dominio\Brass.Materiais.Dominio.csproj">
-      <Project>{DFAB2249-8050-4626-AE11-B34476C4CA94}</Project>
-      <Name>Brass.Materiais.Dominio</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.Nucleo\Brass.Materiais.Nucleo.csproj">
       <Project>{8B40F3E2-9CB1-44E4-A05F-FFBB0B655B12}</Project>

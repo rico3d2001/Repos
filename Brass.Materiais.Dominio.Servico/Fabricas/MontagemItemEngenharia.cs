@@ -1,12 +1,4 @@
-﻿using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Interfaces;
-using Brass.Materiais.Dominio.ValueObjects.ValoresCodigo;
-using Brass.Materiais.RepositorioSQLServer;
-using Brass.Materiais.RepositorioSQLServer.Service;
-using System;
-using System.Linq;
-
-namespace Brass.Materiais.Dominio.Servico.Fabricas
+﻿namespace Brass.Materiais.Dominio.Servico.Fabricas
 {
 
     public class MontagemItemEngenharia

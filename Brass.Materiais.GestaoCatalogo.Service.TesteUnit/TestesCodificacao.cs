@@ -1,10 +1,5 @@
-﻿using Brass.Materiais.Dominio.Entities;
-using Brass.Materiais.Dominio.Service.Utils;
-using Brass.Materiais.Dominio.Servico.Commnads;
-using Brass.Materiais.Dominio.Servico.Handlers.Commnads;
-using Brass.Materiais.Dominio.Servico.Handlers.Queries;
-using Brass.Materiais.Dominio.Servico.Handlers.Request;
-using Brass.Materiais.Dominio.ValueObjects.Siglas;
+﻿using Brass.Materiais.DominioPQ.Catalogo.Entities;
+using Brass.Materiais.DominioPQ.Catalogo.ValueObjects;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
@@ -17,35 +12,7 @@ namespace Brass.Materiais.GestaoCatalogo.Service.TesteUnit
     [TestClass]
     public class TestesCodificacao
     {
-        [TestMethod]
-        public void CriaCliente_Assertivo()
-        {
-
-
-            //INSERE
-            var repositorio = new BaseMDBRepositorio<Cliente>("Catalogo", "Clientes");
-            var handleCreateCliente = new HandleCreateCliente(repositorio);
-
-            var command1 = new CreateClienteCommand("NEXA", "Nexa");
-            var result1 = (CommandResult<Cliente>)handleCreateCliente.Handle(command1);
-
-            var command2 = new CreateClienteCommand("VALE", "Vale");
-            var result2 = (CommandResult<Cliente>)handleCreateCliente.Handle(command2);
-
-
-            //RECUPERA
-            HandlerClientesRequest handlerClientesRequest = new HandlerClientesRequest(repositorio);
-            var command3 = new RecuperaClientesRequest();
-
-            var result3 = (CommandResult<Cliente>)handlerClientesRequest.Handle(command3);
-
-            var lista = result3.Result;
-
-
-
-            Assert.AreEqual(lista[1].Nome.Texto, result2.Result.First().Nome.Texto);
-
-        }
+       
 
         [TestMethod]
         public void ObtemPropriedadesColunas()
