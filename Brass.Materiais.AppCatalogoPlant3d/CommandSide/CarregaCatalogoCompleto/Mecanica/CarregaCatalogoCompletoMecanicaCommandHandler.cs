@@ -22,28 +22,27 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
         RepoPropriedadeItem _repoPropriedadeItem;
         RepoRelacaoPropriedadeItem _repoRelacaoPropriedadeItem;
 
-        public CarregaCatalogoCompletoMecanicaCommandHandler()
-        {
-            _repoCatalogo = new RepoCatalogo();
-            _idiomaMDBRepositorio = new RepoIdioma();
-            _repoItemPipe = new RepoItemPipe();
-            _repoCategoria = new RepoCategoria();
-            _repoFamilia = new RepoFamilia();
-            _repoTipoDeItem = new RepoTipoDeItem();
-            _repoNomeTipoPropriedade = new RepoNomeTipoPropriedade();
-            _repoPropriedadeItem = new RepoPropriedadeItem();
-            _repoRelacaoPropriedadeItem = new RepoRelacaoPropriedadeItem();
 
-
-        }
+       
 
         public Task<Response> Handle(CarregaCatalogoCompletoMecanicaCommand command, CancellationToken cancellationToken)
         {
+            _repoCatalogo = new RepoCatalogo(command.TextoConexao);
+            _idiomaMDBRepositorio = new RepoIdioma(command.TextoConexao);
+            _repoItemPipe = new RepoItemPipe(command.TextoConexao);
+            _repoCategoria = new RepoCategoria(command.TextoConexao);
+            _repoFamilia = new RepoFamilia(command.TextoConexao);
+            _repoTipoDeItem = new RepoTipoDeItem(command.TextoConexao);
+            _repoNomeTipoPropriedade = new RepoNomeTipoPropriedade(command.TextoConexao);
+            _repoPropriedadeItem = new RepoPropriedadeItem(command.TextoConexao);
+            _repoRelacaoPropriedadeItem = new RepoRelacaoPropriedadeItem(command.TextoConexao);
+
+
             Response response = new Response(null, false);
 
             var catalogo = defineCatalogo(command);
 
-            injetar(command, catalogo);
+            injetar(command, catalogo, command.TextoConexao);
 
             return Task.FromResult(response);
         }
@@ -88,7 +87,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
             return catalogo;
         }
 
-        public void injetar(CarregaCatalogoCompletoMecanicaCommand command, CatalogoEntidade catalogo)
+        public void injetar(CarregaCatalogoCompletoMecanicaCommand command, CatalogoEntidade catalogo, string conexao)
         {
 
 
@@ -112,7 +111,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
                 {
                     PartFamilyLongDesc = PartSizeLongDesc;
                 }
-                var valor = DefinirValor(PartFamilyLongDesc);
+                var valor = DefinirValor(PartFamilyLongDesc, conexao);
 
                 var familia = DefinirFamilia(catalogo, categoria, valor);
 
@@ -134,7 +133,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
                         if (descricaoValor != "")
                         {
 
-                            var valorTabelado = DefinirValor(descricaoValor);
+                            var valorTabelado = DefinirValor(descricaoValor, conexao);
 
                             var propriedadeDoItem = DefinirPropriedadeItem(nomeTipoPropriedade.GUID, valorTabelado.GUID, itemPipeEstoque);
 
@@ -235,14 +234,14 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
             return familia;
         }
 
-        private static ValorTabelado DefinirValor(string descricaoValor)
+        private static ValorTabelado DefinirValor(string descricaoValor, string conexao)
         {
-            var valor = RepoValores.Instancia().ObterDescricao(descricaoValor);
+            var valor = RepoValores.Instancia(conexao).ObterDescricao(descricaoValor);
 
             if (valor == null)
             {
                 valor = new ValorTabelado(descricaoValor, "");
-                RepoValores.Instancia().CadastrarValor(valor);
+                RepoValores.Instancia(conexao).CadastrarValor(valor);
             }
 
             return valor;
@@ -274,7 +273,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
             return tipoItemEng;
         }
 
-        private ValorTabelado CriaValorTabelado(object valor, List<ValorTabelado> valoresTabelados)
+        private ValorTabelado CriaValorTabelado(object valor, List<ValorTabelado> valoresTabelados, string conexao)
         {
             ValorTabelado valorTabelado = null;
 
@@ -282,7 +281,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
             {
                 valorTabelado = new ValorTabelado(valor.ToString(), "");
 
-                RepoValores.Instancia().CadastrarValor(valorTabelado);
+                RepoValores.Instancia(conexao).CadastrarValor(valorTabelado);
                 //_valorTabeladoRepositorio.Inserir(valorTabelado);
             }
             else

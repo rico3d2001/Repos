@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoCategoria
+    public class RepoCategoria : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<Categoria> _categoriasRepositorio;
 
-        public RepoCategoria()
+        public RepoCategoria(string conectionString) : base(conectionString)
         {
-            _categoriasRepositorio = new BaseMDBRepositorio<Categoria>("Catalogo", "Categorias");
+            _categoriasRepositorio = new BaseMDBRepositorio<Categoria>(new ConexaoMongoDb("Catalogo", conectionString), "Categorias");
         }
 
         public Categoria ObterPorTipoDeItem(TipoItemEng tipoItemEng)
@@ -32,11 +32,10 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 
         public void CriaCategoria(string catalogoGUID)
         {
-            var tipoItemEngRepositorio = new BaseMDBRepositorio<TipoItemEng>("Catalogo", "TipoItemEng");
+           
+            var tipoItemEngRepositorio = new BaseMDBRepositorio<TipoItemEng>(new ConexaoMongoDb("Catalogo", _conectionString), "Categorias");
 
             var tipos = tipoItemEngRepositorio.Obter();
-
-            //var categoriaRepositorio = new BaseMDBRepositorio<Categoria>("Catalogo", "Categorias");
 
             foreach (var tipo in tipos)
             {

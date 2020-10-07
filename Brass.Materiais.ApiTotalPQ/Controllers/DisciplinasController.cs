@@ -14,7 +14,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class DisciplinasController : ControllerBase
+    public class DisciplinasController : GeralController
     {
         private readonly IMediator _mediator;
 
@@ -27,7 +27,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpGet]
         public Task<Disciplina[]> ObterDisciplinas()
         {
-            var query = new ObterDisciplinasQuery();
+            var query = new ObterDisciplinasQuery(_conectStringMongo);
 
             return _mediator.Send(query);
 

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
+namespace Brass.Materiais.ServicoDominio.Services.CommandSide
 {
     public class CadastroItensDiagramas
     {
@@ -13,60 +13,41 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
         RepoItemDiagramasPlant3d _repoRepoItemDiagramasPlant3d;
         List<ItemPQ> _listaItensDiagrama;
         List<ItemPQ> _itensPQIncluidos;
-        //List<string> _tiposDeItensConformeInicioDaDescricao;
         List<ItemModelado> _itensModeladosQueJaForamIncluidosEmItemDiagrama;
         List<ItemModelado> _listaDeItensModeladosDoProjeto;
         
 
 
-        public CadastroItensDiagramas(string guidProjeto)
+        public CadastroItensDiagramas(string guidProjeto, string conectionString)
         {
-            _repoItemModelado = new RepoItemModelado();
+            _repoItemModelado = new RepoItemModelado(conectionString);
 
-            //var listaItensDiagrama = 
+    
+            _repositorioItemPQPlant3d = new RepoItemPQ(conectionString);
+            _repoRepoItemDiagramasPlant3d = new RepoItemDiagramasPlant3d(conectionString);
 
-            //DataBaseProjeto = dataBaseProjeto;
-            //GuidProjeto = guidProjeto;
-
-            _repositorioItemPQPlant3d = new RepoItemPQ();
-            _repoRepoItemDiagramasPlant3d = new RepoItemDiagramasPlant3d();
-            //_repoItemModelado = new RepoItemModelado();
-
-            //_listaItensDiagrama = _repositorioItemPQPlant3d.ObterItensPQPorProjeto(guidProjeto);
             _listaItensDiagrama = _repoRepoItemDiagramasPlant3d.ObterItensPQPorProjeto(guidProjeto);
 
 
             _listaDeItensModeladosDoProjeto = _repoItemModelado.ObterItensModeladosDoProjeto(guidProjeto);
 
-            //_listaItensDiagrama = _repositorioItemPQPlant3d.ObterItensPQPorProjeto(guidProjeto);
-            //_listaDeItensModeladosDoProjeto = _repoItemModelado.ObterItensModeladosDoProjeto(guidProjeto);
 
-
-            //_tiposDeItensConformeInicioDaDescricao = new List<string>
-            //{
-                //"TUBO","PIPE","VÁLVULA"
-            //};
 
             _itensModeladosQueJaForamIncluidosEmItemDiagrama = new List<ItemModelado>();
             _itensPQIncluidos = new List<ItemPQ>();
 
         }
 
-        //public string DataBaseProjeto { get; set; }
-        //public string GuidProjeto { get; set; }
-
-      
-
-        public void CadastrarItens(AreaPlanejada areaPlanejada)
+   
+        public void CadastrarItens(NumeroAtivo ativo)
         {
 
             var listaItensExistentesDiagramaParaArea = _listaItensDiagrama.Where(x =>
-                       x.ItemTag.AreaDesenho.Area == areaPlanejada.Area 
-                       && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea).ToList();
+                       x.ItemTag.NumeroAtivo.Equals(ativo)).ToList();
 
             foreach (var itemDiagramaParaProcessar in listaItensExistentesDiagramaParaArea)
             {
-                 DefineItensComBaseNoItemDoDiagrama(areaPlanejada, itemDiagramaParaProcessar);
+                 DefineItensComBaseNoItemDoDiagrama(ativo, itemDiagramaParaProcessar);
             }
 
             
@@ -87,23 +68,7 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
 
                 if (itemEncontrado == null)
                 {
-                    //var tipoItemModelado = item.DescricaoLongaDimensionada.Split(',').First().Split('.').First().Split(' ').First().Trim();
-
-                    //switch (tipoItemModelado)
-                    //{
-                    //    case "TUBO":
-                    //        itensModeladosNaoIncluidosEmItemDiagrama.Add(item);
-                    //        break;
-                    //    case "PIPE":
-                    //        itensModeladosNaoIncluidosEmItemDiagrama.Add(item);
-                    //        break;
-                    //    case "VÁLVULA":
-                    //        itensModeladosNaoIncluidosEmItemDiagrama.Add(item);
-                    //        break;
-                    //    default:
-                    //        string tg = "";
-                    //        break;
-                    //}
+          
 
                     itensModeladosNaoIncluidosEmItemDiagrama.Add(item);
 
@@ -115,17 +80,15 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
         
         
         
-        private void DefineItensComBaseNoItemDoDiagrama(AreaPlanejada areaPlanejada, ItemPQ itemDiagramaParaProcessar)
+        private void DefineItensComBaseNoItemDoDiagrama(NumeroAtivo ativo, ItemPQ itemDiagramaParaProcessar)
         {
-            var tipoItemDiag = ObterTipoDeItemPelaDescricao(itemDiagramaParaProcessar);
+        
 
-            //if (TipoDeItemEstaConfomeNomeCadastrado(tipoItemDiag))
-            //{
                 string descricao = itemDiagramaParaProcessar.SpecPart;
 
-                var itensModeladosComDescricaoConformeItemDiagrama = obterItensModeladosComMesmaDecricaoDeItensDoDiagrama(areaPlanejada, descricao);
+                var itensModeladosComDescricaoConformeItemDiagrama = obterItensModeladosComMesmaDecricaoDeItensDoDiagrama(ativo, descricao);
 
-                if (ItemNaoFoiCadastrado(areaPlanejada, descricao))
+                if (ItemNaoFoiCadastrado(ativo, descricao))
                 {
                     CadastrarItemPQ(itemDiagramaParaProcessar, itensModeladosComDescricaoConformeItemDiagrama);
                 }
@@ -133,7 +96,7 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
                 {
                     ModificarCadastroDeItemPQ(itemDiagramaParaProcessar, itensModeladosComDescricaoConformeItemDiagrama);
                 }
-            //}
+           
         }
 
         private void ModificarCadastroDeItemPQ(ItemPQ itemDiagramaParaProcessar, List<ItemModelado> itensModeladosComDescricaoConformeItemDiagrama)
@@ -203,32 +166,23 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
             return itensModeladosComDescricaoConformeItemDiagrama.Count() > 0;
         }
 
-        private List<ItemModelado> obterItensModeladosComMesmaDecricaoDeItensDoDiagrama(AreaPlanejada areaPlanejada, string descricao)
+        private List<ItemModelado> obterItensModeladosComMesmaDecricaoDeItensDoDiagrama(NumeroAtivo ativo, string descricao)
         {
             return _listaDeItensModeladosDoProjeto
-          .Where(x =>
-          (x.ItemTag.AreaDesenho.Area == areaPlanejada.Area && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea) &&
-          x.DescricaoLongaDimensionada == descricao).ToList();
+          .Where(x => x.ItemTag.NumeroAtivo.Equals(ativo) 
+                      && x.DescricaoLongaDimensionada == descricao).ToList();
         }
 
-        private bool ItemNaoFoiCadastrado(AreaPlanejada areaPlanejada, string descricao)
+        private bool ItemNaoFoiCadastrado(NumeroAtivo ativo, string descricao)
         {
-            var item = _itensPQIncluidos.FirstOrDefault(x =>
-                            (x.ItemTag.AreaDesenho.Area == areaPlanejada.Area && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea)
-                            && x.SpecPart == descricao
-                            );
+            var item = _itensPQIncluidos.FirstOrDefault(x => (x.ItemTag.NumeroAtivo.Equals(ativo))
+                            && x.SpecPart == descricao);
 
             return item == null ? true : false;
         }
 
-        //private bool TipoDeItemEstaConfomeNomeCadastrado(string tipoItemDiag)
-        //{
-            //return _tiposDeItensConformeInicioDaDescricao.Exists(x => x == tipoItemDiag);
-        //}
+     
 
-        private static string ObterTipoDeItemPelaDescricao(ItemPQ itemDiagramaParaProcessar)
-        {
-            return itemDiagramaParaProcessar.SpecPart.Split(',').First().Split('.').First().Split(' ').First().Trim();
-        }
+        
     }
 }

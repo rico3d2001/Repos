@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoEstadoApp
+    public class RepoEstadoApp : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<EstadoApp> _repoEstadoApp;
 
-        public RepoEstadoApp()
+        public RepoEstadoApp(string conectionString) : base(conectionString)
         {
-            _repoEstadoApp = new BaseMDBRepositorio<EstadoApp>("BIM_TESTE", "EstadosApps");
+            _repoEstadoApp = new BaseMDBRepositorio<EstadoApp>(new ConexaoMongoDb("BIM_TESTE", conectionString), "EstadosApps");
         }
 
         public void CadastrarEstado(EstadoApp estado)

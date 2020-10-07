@@ -1,5 +1,6 @@
 ﻿using Brass.Materiais.DominioPQ.Catalogo.Entities;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
+using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
 using Flunt.Notifications;
 using MediatR;
 using System;
@@ -13,17 +14,16 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
     public class CarregaValoresTabeladosTubulacaoCommandHandle : Notifiable, IRequestHandler<CarregaValoresTabeladosTubulacaoCommand>
     {
 
-        BaseMDBRepositorio<ValorTabelado> _valorTabeladoRepositorio;
+ 
 
-        public CarregaValoresTabeladosTubulacaoCommandHandle()
-        {
-            _valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>("Catalogo", "ValorTabelado");
-        }
+      
 
 
         public async Task<Unit> Handle(CarregaValoresTabeladosTubulacaoCommand command, CancellationToken cancellationToken)
         {
-            var valoresTabelados = _valorTabeladoRepositorio.Obter();
+            var valorTabeladoRepositorio = RepoValores.Instancia(command.Conexao);
+
+            //var valoresTabelados = valorTabeladoRepositorio.ObterTodos();
 
             //var tubos = valoresTabelados.Where(x => x.VALOR.ToString().Split(',')[0].Trim() == "TUBO");
             var teste = "TUBO, AC ASTM A-53 Gr.B, SS ou CC LONG. (TIPO S ou TIPO E), SCH STD, PC CONF. ASME B16.25, NORMA DIM. ASME B36.10 - 3\"";
@@ -48,29 +48,19 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
                     if (info.Name == "PartSizeLongDesc")
                     {
 
-
-                        //var espera = "";
-                        //}
-
-                        //if (info.Name != "GUID" && info.Name != "CODIGO" && info.Name != "PnPID")
-                        //{
                         var valor = info.GetValue(item, null);
-
-
-
-
 
                         if (valor != null)
                         {
                             if (valor.ToString() == teste)
                             {
-                                var valorTabelado = valoresTabelados.FirstOrDefault(x => x.VALOR == valor.ToString());
+                                var valorTabelado = valorTabeladoRepositorio.ObterDescricao(valor.ToString());
 
                                 if (valorTabelado == null)
                                 {
                                     valorTabelado = new ValorTabelado(valor.ToString(),"");
 
-                                    _valorTabeladoRepositorio.Inserir(valorTabelado);
+                                    valorTabeladoRepositorio.CadastrarValor(valorTabelado);
                                 }
                             }
 

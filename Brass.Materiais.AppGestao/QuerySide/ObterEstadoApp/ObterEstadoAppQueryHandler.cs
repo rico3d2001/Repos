@@ -13,15 +13,14 @@ namespace Brass.Materiais.AppGestao.QuerySide.ObterEstadoApp
     public class ObterEstadoAppQueryHandler : Notifiable, IRequestHandler<ObterEstadoAppQuery, EstadoApp>
     {
         RepoEstadoApp _repoEstadoApp;
-        public ObterEstadoAppQueryHandler()
-        {
-            _repoEstadoApp = new RepoEstadoApp();
-        }
+       
 
 
 
         public Task<EstadoApp> Handle(ObterEstadoAppQuery request, CancellationToken cancellationToken)
         {
+            _repoEstadoApp = new RepoEstadoApp(request.TextoConexao);
+
             var estado = _repoEstadoApp.ObterEstadoPorIdentidadePQ(request.IdentidadeEstado);
 
 

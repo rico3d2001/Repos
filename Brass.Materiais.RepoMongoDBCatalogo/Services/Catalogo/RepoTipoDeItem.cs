@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoTipoDeItem
+    public class RepoTipoDeItem : RepositorioAbstratoGeral
     {
 
         BaseMDBRepositorio<TipoItemEng> _tipoItemEngRepositorio;
 
-        public RepoTipoDeItem()
+        public RepoTipoDeItem(string conectionString) : base(conectionString)
         {
-            _tipoItemEngRepositorio = new BaseMDBRepositorio<TipoItemEng>("Catalogo", "TipoItemEng");
+            _tipoItemEngRepositorio = new BaseMDBRepositorio<TipoItemEng>(new ConexaoMongoDb("Catalogo", conectionString), "TipoItemEng");
         }
 
         public TipoItemEng ObterPorNome(string nome)
@@ -34,6 +34,11 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         public TipoItemEng ObterPorGuid(string gUID_TIPO)
         {
             return _tipoItemEngRepositorio.Obter(gUID_TIPO);
+        }
+
+        public object ObterTodos()
+        {
+            return _tipoItemEngRepositorio.Obter();
         }
     }
 }

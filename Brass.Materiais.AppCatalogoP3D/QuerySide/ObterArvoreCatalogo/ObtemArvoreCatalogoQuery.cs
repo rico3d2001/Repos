@@ -6,20 +6,22 @@ namespace Brass.Materiais.AppCatalogoP3D.QuerySide.ObterArvoreCatalogo
 
     public class ObtemArvoreCatalogoQuery : IRequest<RamalArvoreCatalogo[]> 
     {
-        public ObtemArvoreCatalogoQuery(string guidDisciplina)
+        public ObtemArvoreCatalogoQuery(string guidDisciplina, string conectionString)
         {
+            TextoConexao = conectionString;
             GuidDisciplina = guidDisciplina;
+            ConectionString = conectionString;
         }
 
         public string GuidDisciplina { get; set; }
 
-
+        public string TextoConexao { get; set; }
         public void Validate()
         {
             throw new System.NotImplementedException();
         }
 
-        
+        public string ConectionString { get; set; }
 
         //public List<RamalArvoreCatalogo> ExtraiArvoreCatalogoEstoque(BaseMDBRepositorio<Catalogo> catalogoRepositorio, BaseMDBRepositorio<Familia> familiasRepositorio)
         //{

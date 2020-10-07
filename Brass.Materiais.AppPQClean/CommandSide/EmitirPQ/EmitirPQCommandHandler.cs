@@ -11,7 +11,7 @@ namespace Brass.Materiais.AppPQClean.CommandSide.EmitirPQ
         public async Task<Unit> Handle(EmitirPQCommand command, CancellationToken cancellationToken)
         {
 
-            RepoPQ repoPQ = new RepoPQ();
+            RepoPQ repoPQ = new RepoPQ(command.TextoConexao);
 
             repoPQ.EmitirPQ(command.DataPQ);
 

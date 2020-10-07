@@ -10,13 +10,15 @@ namespace Brass.Materiais.AppPQClean.CommandSide.VinculaPQEmResumo
 {
     public class VinculaPQEmResumoCommand : Notifiable, IRequest
     {
-        public VinculaPQEmResumoCommand(string guidResumo, string guidPQ)
+        public VinculaPQEmResumoCommand(string guidResumo, string guidPQ, string conexao)
         {
             GuidResumo = guidResumo;
             GuidPQ = guidPQ;
+            Conexao = conexao;
         }
 
         public string GuidResumo { get; set; }
         public string GuidPQ { get; set; }
+        public string Conexao { get; set; }
     }
 }

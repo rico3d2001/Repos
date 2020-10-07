@@ -1,6 +1,7 @@
 ﻿using Brass.Materiais.AppCatalogoPlant3d.Service;
 using Brass.Materiais.DominioPQ.Catalogo.Entities;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
+using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
 using Brass.Materiais.RepositorioSQLitePlant.Common;
 using Brass.Materiais.RepositorioSQLitePlant.Service.CatalogoPipe.Models;
 using MongoDB.Driver;
@@ -21,9 +22,9 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
         private string _conexao;
         private CatalogoEntidade _catalogo;
 
-        public OrganizaCatalogoTubulacaoSQLiteMongoDB(string endereco, string guidDisciplina)//string endereco, string idioma, string pais, string conexao)
+        public OrganizaCatalogoTubulacaoSQLiteMongoDB(string endereco, string guidDisciplina, string conexao)//string endereco, string idioma, string pais, string conexao)
         {
-
+            _conexao = conexao;
             _endereco = endereco;
   
             string nomeCatalogo = _endereco.Split('\\').Last().Split('.').First();
@@ -37,71 +38,56 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
         private void DefineCatalogo(string nomeCatalogo, string guidDisciplina)
         {
 
-            var catalogosMDBRepositorio = new BaseMDBRepositorio<CatalogoEntidade>("Catalogo", "Catalogo");
+            var catalogosMDBRepositorio = new RepoCatalogo(_conexao);
 
      
-            var catalogos = catalogosMDBRepositorio
-                .Encontrar(Builders<CatalogoEntidade>.Filter.Eq(x => x.NOME, nomeCatalogo));
+            var catalogo =  catalogosMDBRepositorio.ObterPorNome(nomeCatalogo);
      
 
 
-            if (catalogos.Count == 0)
+            if (catalogo == null)
             {
+                var idiomaMDBRepositorio = new RepoIdioma(_conexao);
 
-                string guidIdioma = string.Empty;
-
-                var idiomaMDBRepositorio = new BaseMDBRepositorio<Idioma>("Catalogo", "Idioma");
-
-                var builder = Builders<Idioma>.Filter;
-                var filter = builder.Eq(x => x.IDIOMA, _idioma) & builder.Eq(x => x.PAIS, _pais);
-
-                var idiomas = idiomaMDBRepositorio.Encontrar(filter);
+                var idioma = idiomaMDBRepositorio.ObterIdiomaPorLinguaPais(_idioma, _pais);
 
 
-                if (idiomas.Count == 0)
+                if (idioma == null)
                 {
-                    guidIdioma = Guid.NewGuid().ToString();
-                    var idioma = new Idioma(_idioma,_pais);
 
-                    idiomaMDBRepositorio.Inserir(idioma);
+                    idioma = new Idioma(_idioma,_pais);
+
+                    idiomaMDBRepositorio.Cadastrar(idioma);
                 }
-                else
-                {
-                    guidIdioma = idiomas.First().GUID;
-                }
+       
+                _catalogo = new CatalogoEntidade(nomeCatalogo, idioma.GUID, guidDisciplina);
 
-
-                _catalogo = new CatalogoEntidade(nomeCatalogo,guidIdioma, guidDisciplina);
-
-                catalogosMDBRepositorio.Inserir(_catalogo);
+                catalogosMDBRepositorio.CadastrarCatalogo(_catalogo);
             }
-            else
-            {
-                _catalogo = catalogos.First();
-            }
+          
 
      
         }
 
-        public void PegaTipos()
-        {
-            var itemPipeEstoqueRepositorio = new BaseMDBRepositorio<ItemPipe>("Catalogo", "ItemPipe");
+        //public void PegaTipos()
+        //{
+        //    var itemPipeEstoqueRepositorio = new RepoItemPipe(_conexao);
 
-            var filtro = Builders<ItemPipe>.Filter.Eq(x => x.GUID_ITEM_PAI, _catalogo.GUID);
-
-            var itensPipeCategoria = itemPipeEstoqueRepositorio.Encontrar(filtro);
-        }
+            
+        //    var itensPipeCategoria = itemPipeEstoqueRepositorio.ObterTodosDoCatalogo(_catalogo.GUID);
+        //}
 
         public void Injetar()
         {
-            var familiasRepositorio = new BaseMDBRepositorio<Familia>("Catalogo", "Familias");
+      
+            var familiasRepositorio = new RepoFamilia(_conexao);
 
             var itensEngenhariaP3D = CapturarItensEngenhariaPlant3d();
 
 
-            var itemPipeEstoqueRepositorio = new BaseMDBRepositorio<ItemPipe>("Catalogo", "ItemPipe");
+            var itemPipeEstoqueRepositorio = new RepoItemPipe(_conexao);
 
-            int conta = itemPipeEstoqueRepositorio.Obter().Count();
+            int conta = itemPipeEstoqueRepositorio.ObterTodos().Count();
 
             if (conta < itensEngenhariaP3D.Count())
             {
@@ -112,51 +98,45 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
 
                     var partFamilyLongDesc = item.PartFamilyLongDesc;
 
-                    var familias = familiasRepositorio.Encontrar(Builders<Familia>.Filter.Eq(x => x.PartFamilyLongDesc.VALOR, partFamilyLongDesc)).ToList();
+                    var familia = familiasRepositorio.ObterFamiliaPorDescricao(partFamilyLongDesc);
 
-                    string guidFamilia = "";
-                    if (familias.Count == 1)
+      
+                    if (familia == null)
                     {
-                        guidFamilia = familias.First().GUID;
 
 
-                        var itensPipeEstoque = itemPipeEstoqueRepositorio.Encontrar(
-                            Builders<ItemPipe>.Filter.Eq(x => x.PnPID, (int)item.PnPID)
-                            & Builders<ItemPipe>.Filter.Eq(x => x.GUID_CATALOGO, _catalogo.GUID)).ToList();
+                  
+                        var itemPipeEstoque = itemPipeEstoqueRepositorio.ObterPorPnPIDComCatalogo((int)item.PnPID, _catalogo.GUID);
 
 
 
-                        if (itensPipeEstoque.Count == 0)
+                        if (itemPipeEstoque ==  null)
                         {
 
-                            TipoItemEng tipoItem = null;
                             string tipoItemEng = item.ShortDescription.Split(',')[0];
 
 
 
-                            var tipoItemPipeStockRepositorio = new BaseMDBRepositorio<TipoItemEng>("Catalogo", "TipoItemEng");
+                            var tipoItemPipeStockRepositorio = new RepoTipoDeItem(_conexao);
 
 
-                            var tipos = tipoItemPipeStockRepositorio.Encontrar(Builders<TipoItemEng>.Filter.Eq(x => x.NOME, tipoItemEng));
+                            var tipoItem = tipoItemPipeStockRepositorio.ObterPorNome(tipoItemEng);
 
 
 
-                            if (tipos.Count == 0)
+                            if (tipoItem == null)
                             {
                                 tipoItem = new TipoItemEng(tipoItemEng);
 
-                                tipoItemPipeStockRepositorio.Inserir(tipoItem);
+                                tipoItemPipeStockRepositorio.CadastrarTipo(tipoItem);
 
                             }
-                            else
-                            {
-                                tipoItem = tipos.First();
-                            }
+                           
 
 
-                            var itemPipe = new ItemPipe(guidFamilia,tipoItem.GUID,_catalogo.GUID,(int)item.PnPID);
+                            var itemPipe = new ItemPipe(familia.GUID,tipoItem.GUID,_catalogo.GUID,(int)item.PnPID);
 
-                            itemPipeEstoqueRepositorio.Inserir(itemPipe);
+                            itemPipeEstoqueRepositorio.CadastrarItemPipe(itemPipe);
 
                             Type type = item.GetType();
 
@@ -166,46 +146,36 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
                                 if (info.Name != "GUID" && info.Name != "CODIGO" && info.Name != "PnPID")
                                 {
 
-                                    NomeTipoPropriedade nomeTipoPropriedade = null;
+ 
+                                    var nomeTipoPropriedadeRepositorio =  new RepoNomeTipoPropriedade(_conexao);
 
-
-                                    var nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>("Catalogo", "NomeTipoPropriedade");
-
-                                    var nomesTiposPropriedade = nomeTipoPropriedadeRepositorio.Encontrar(
-                                                  Builders<NomeTipoPropriedade>.Filter.Eq(x => x.NOME, info.Name));
+                                    var nomeTipoPropriedade = nomeTipoPropriedadeRepositorio.ObterPorNome(info.Name);
 
 
 
-                                    if (nomesTiposPropriedade.Count == 0)
+                                    if (nomeTipoPropriedade == null)
                                     {
                                         nomeTipoPropriedade = new NomeTipoPropriedade(info.Name);
 
-                                        nomeTipoPropriedadeRepositorio.Inserir(nomeTipoPropriedade);
+                                        nomeTipoPropriedadeRepositorio.CadastrarNomeTipoPropriedade(nomeTipoPropriedade);
 
                                     }
-                                    else
+                                 
+
+
+                                    RepoRelacaoEntrePropriedades repoRelacaoEntrePropriedades = new RepoRelacaoEntrePropriedades(_conexao);
+
+                                    var relacao = repoRelacaoEntrePropriedades.ObterRelacaoEntrePropriedades(tipoItem.GUID, nomeTipoPropriedade.GUID);
+
+                                    if (relacao == null)
                                     {
-                                        nomeTipoPropriedade = nomesTiposPropriedade.First();
-                                    }
-
-                                    var relacaoEntrePropriedadesRepositorio = new BaseMDBRepositorio<RelacaoEntrePropriedades>("Catalogo", "RelacaoEntrePropriedades");
-
-                                    var filtroRelacaoEntrePropriedades =
-                                        Builders<RelacaoEntrePropriedades>.Filter.Eq(x => x.GUID_PNPTABLE, tipoItem.GUID)
-                                        & Builders<RelacaoEntrePropriedades>.Filter.Eq(x => x.GUID_PROPIEDADE, nomeTipoPropriedade.GUID);
-
-                                    var relacoes = relacaoEntrePropriedadesRepositorio.Encontrar(filtroRelacaoEntrePropriedades);
-
-
-                                    if (relacoes.Count == 0)
-                                    {
-                                        var relacao = new RelacaoEntrePropriedades()
+                                        relacao = new RelacaoEntrePropriedades()
                                         {
                                             GUID_PNPTABLE = tipoItem.GUID,
                                             GUID_PROPIEDADE = nomeTipoPropriedade.GUID
                                         };
 
-                                        relacaoEntrePropriedadesRepositorio.Inserir(relacao);
+                                        repoRelacaoEntrePropriedades.Cadastrar(relacao);
 
                                     }
 
@@ -216,62 +186,46 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
                                     {
 
 
-                                        var valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>("Catalogo", "ValorTabelado");
+                                        var valorTabeladoRepositorio = RepoValores.Instancia(_conexao);
 
-                                        var valoresTabelados = valorTabeladoRepositorio.Encontrar(
-                                              Builders<ValorTabelado>.Filter.Eq(x => x.VALOR, valor.ToString()));
+                                        var valorTabelado = valorTabeladoRepositorio.ObterDescricao(valor.ToString());
 
 
-                                        ValorTabelado valorTabelado = null;
+                                    
 
-                                        if (valoresTabelados.Count == 0)
+                                        if (valorTabelado == null)
                                         {
                                             valorTabelado = new ValorTabelado(valor.ToString(),"");
 
-                                            valorTabeladoRepositorio.Inserir(valorTabelado);
+                                            valorTabeladoRepositorio.CadastrarValor(valorTabelado);
                                         }
-                                        else
-                                        {
-                                            valorTabelado = valoresTabelados.First();
-                                        }
-
-                                        
+                                       
+                           
+                                        var propriedadeRepositorio = new RepoPropriedadeItem(_conexao);
 
 
-                                        PropriedadeItem propriedadeEng = null;
+                                        var propriedadeEng = propriedadeRepositorio.ObterPorTipoMaisValor(nomeTipoPropriedade.GUID, valorTabelado.GUID);
 
-                                        var propriedadeRepositorio = new BaseMDBRepositorio<PropriedadeItem>("Catalogo", "PropriedadeItem");
-
-
-                                        var propriedades = propriedadeRepositorio.Encontrar(
-                                            Builders<PropriedadeItem>.Filter.Eq(x => x.GUID_TIPO, nomeTipoPropriedade.GUID)
-                                            & Builders<PropriedadeItem>.Filter.Eq(x => x.GUID_VALOR, valorTabelado.GUID));
-
-                                        if (propriedades.Count == 0)
+                                        if (propriedadeEng == null)
                                         {
 
                                             propriedadeEng = new PropriedadeItem(nomeTipoPropriedade.GUID, valorTabelado.GUID);
 
 
-                                            propriedadeRepositorio.Inserir(propriedadeEng);
+                                            propriedadeRepositorio.Cadastrar(propriedadeEng);
 
 
                                         }
-                                        else
-                                        {
-                                            propriedadeEng = propriedades.First();
-                                        }
+                                      
 
-
-                                        var relacaoPropriedadeItemRepositorio =
-                                            new BaseMDBRepositorio<RelacaoPropriedadeItem>("Catalogo", "RelacaoPropriedadeItem");
+                                        var relacaoPropriedadeItemRepositorio = new RepoRelacaoPropriedadeItem(_conexao);
 
 
                                         var relacaoPropriedadeItem = new RelacaoPropriedadeItem(propriedadeEng.GUID, itemPipe.GUID);
 
 
 
-                                        relacaoPropriedadeItemRepositorio.Inserir(relacaoPropriedadeItem);
+                                        relacaoPropriedadeItemRepositorio.Cadastrar(relacaoPropriedadeItem);
 
 
                                     }

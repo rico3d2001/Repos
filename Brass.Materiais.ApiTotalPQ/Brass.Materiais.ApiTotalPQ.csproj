@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Brass.Materiais.AppBIM360\Brass.Materiais.AppBIM360.csproj" />
     <ProjectReference Include="..\Brass.Materiais.AppCatalogoP3D\Brass.Materiais.AppCatalogoP3D.csproj" />
     <ProjectReference Include="..\Brass.Materiais.AppGestao\Brass.Materiais.AppGestao.csproj" />
     <ProjectReference Include="..\Brass.Materiais.AppPQClean\Brass.Materiais.AppPQClean.csproj" />

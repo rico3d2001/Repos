@@ -10,7 +10,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
 
         OrganizaCatalogoTubulacaoSQLiteMongoDB _organizaCatalogoSQLiteMongoDB;
 
-        public CarregaValoresTabeladosTubulacaoCommand(string endereco, string idioma, string pais, string conexao, string guidDisciplina)
+        public CarregaValoresTabeladosTubulacaoCommand(string endereco, string idioma, string pais, string guidDisciplina, string conexao)
         {
             Endereco = endereco;
             Idioma = idioma;
@@ -19,7 +19,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
             GuidDisciplina = guidDisciplina;
             //ConexaoSQLite.BuildConnectionString(endereco);
 
-            _organizaCatalogoSQLiteMongoDB = new OrganizaCatalogoTubulacaoSQLiteMongoDB(endereco, GuidDisciplina);
+            _organizaCatalogoSQLiteMongoDB = new OrganizaCatalogoTubulacaoSQLiteMongoDB(endereco, GuidDisciplina, conexao);
 
             EngineeringItems = _organizaCatalogoSQLiteMongoDB.CapturarItensEngenhariaPlant3d();
         }

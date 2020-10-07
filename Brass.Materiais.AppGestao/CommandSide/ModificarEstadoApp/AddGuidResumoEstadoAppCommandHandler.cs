@@ -14,16 +14,13 @@ namespace Brass.Materiais.AppGestao.CommandSide.ModificarEstadoApp
     {
         RepoResumo _repoResumo;
 
-        public AddGuidResumoEstadoAppCommandHandler()
-        {
-
-            _repoResumo = new RepoResumo();
-
-        }
+    
 
 
         public async Task<Unit> Handle(AddGuidResumoEstadoAppCommand command, CancellationToken cancellationToken)
         {
+            _repoResumo = new RepoResumo(command.TextoConexao);
+
             var resumo = _repoResumo.ObterResumo(command.IdentidadePQ);
 
             resumo.IdentidadePQ.NumeroPQ = command.IdentidadePQ.NumeroPQ;

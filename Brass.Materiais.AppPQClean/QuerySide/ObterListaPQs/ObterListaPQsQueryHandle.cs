@@ -18,45 +18,42 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterListaPQs
         RepoPQ _repoDataPQ;
         RepoProjetos _repoProjetos;
 
-        public ObterListaPQsQueryHandle()
-        {
-            _repoResumo = new RepoResumo();//new BaseMDBRepositorio<Resumo>("BIM_TESTE", "ResumoItensPQPlant3d");
-            _repoDataPQ = new RepoPQ(); //new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
-            _repoProjetos = new RepoProjetos();
-        }
+       
 
 
         public Task<List<EstadoApp>> Handle(ObterListaPQsQuery request, CancellationToken cancellationToken)
         {
+
+            _repoResumo = new RepoResumo(request.TextoConexao);//new BaseMDBRepositorio<Resumo>("BIM_TESTE", "ResumoItensPQPlant3d");
+            _repoDataPQ = new RepoPQ(request.TextoConexao); //new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
+            _repoProjetos = new RepoProjetos(request.TextoConexao);
 
             var listaResult = new List<EstadoApp>();
 
 
 
             var listaResumos = _repoResumo.ObterTodosResumos(request.IdentidadeEstado);
-            
-                
 
-            
+
+
+
             foreach (var resumo in listaResumos)
             {
 
-                var projeto = _repoProjetos.ObterProjeto(resumo.IdentidadePQ.IdentidadeEstado.GuidProjeto);
+               // var projeto = _repoProjetos.ObterProjeto(resumo.IdentidadePQ.IdentidadeEstado.GuidProjeto);
 
-               //if (resumo.GuidPQ != null)
-                //{
-                    var pq = _repoDataPQ.ObterPQ(resumo.IdentidadePQ);
 
-                    
-                    listaResult.Add(new EstadoApp(resumo, projeto, pq.CabecalhoPQ));
-                //}
-                //else
-                //{
-                //    IdentidadePQ identidadePQ = new IdentidadePQ(request.IdentidadeEstado,-1);
-                //    listaResult.Add(new EstadoApp(request.IdentidadeEstado, "Resumo sem PQ", projeto,false));
-                //}
+                var pq = _repoDataPQ.ObterPQ(resumo.IdentidadePQ);
 
+                if (pq != null)
+                {
+                    listaResult.Add(new EstadoApp(resumo, pq.CabecalhoPQ));
+                }
                 
+
+
+
+
             }
 
             return Task.FromResult(listaResult);

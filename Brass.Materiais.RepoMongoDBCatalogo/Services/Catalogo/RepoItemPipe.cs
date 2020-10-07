@@ -8,24 +8,20 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoItemPipe
+    public class RepoItemPipe : RepositorioAbstratoGeral
     {
-      
-        BaseMDBRepositorio<PropriedadeItem> _propriedadeItemRepositorio;
-        BaseMDBRepositorio<ValorTabelado> _valorTabeladoRepositorio;
-        BaseMDBRepositorio<RelacaoPropriedadeItem> _relacaoPropriedadeItemRepositorio;
-        BaseMDBRepositorio<ItemPipe> _repositorioItemPipe;
 
-        public RepoItemPipe()
+        string _conectionString;
+        BaseMDBRepositorio<ItemPipe> _repositorioItemPipe;
+        public RepoItemPipe(string conectionString) : base(conectionString)
         {
-            _propriedadeItemRepositorio = new BaseMDBRepositorio<PropriedadeItem>("Catalogo", "PropriedadeItem");
-            _valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>("Catalogo", "ValorTabelado");
-            _relacaoPropriedadeItemRepositorio = new BaseMDBRepositorio<RelacaoPropriedadeItem>("Catalogo", "RelacaoPropriedadeItem");
-            _repositorioItemPipe = new BaseMDBRepositorio<ItemPipe>("Catalogo", "ItemPipe");
+            _conectionString = conectionString;
+            _repositorioItemPipe = new BaseMDBRepositorio<ItemPipe>(new ConexaoMongoDb("Catalogo", _conectionString), "ItemPipe");
         }
 
         public void CadastrarItemPipe(ItemPipe item)
         {
+            
             _repositorioItemPipe.Inserir(item);
         }
 
@@ -33,6 +29,8 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         {
             return _repositorioItemPipe.Obter(guid);
         }
+
+
 
 
         public int Contar()
@@ -55,15 +53,19 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         {
             ItemPipe itemPipe = null;
 
-            var valores = _valorTabeladoRepositorio.Encontrar(Builders<ValorTabelado>.Filter.Eq(x => x.VALOR, descricao));
+            var valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>(new ConexaoMongoDb("Catalogo", _conectionString), "ValorTabelado");
+            var propriedadeItemRepositorio = new BaseMDBRepositorio<PropriedadeItem>(new ConexaoMongoDb("Catalogo", _conectionString), "PropriedadeItem");
+            var relacaoPropriedadeItemRepositorio = new BaseMDBRepositorio<RelacaoPropriedadeItem>(new ConexaoMongoDb("Catalogo", _conectionString), "RelacaoPropriedadeItem");
+
+            var valores = valorTabeladoRepositorio.Encontrar(Builders<ValorTabelado>.Filter.Eq(x => x.VALOR, descricao));
 
             if (valores.Count == 1)
             {
                 var valor = valores.First();
-                var propriedade = _propriedadeItemRepositorio.Encontrar(
+                var propriedade = propriedadeItemRepositorio.Encontrar(
                Builders<PropriedadeItem>.Filter.Eq(x => x.GUID_VALOR, valor.GUID)).First();
 
-                var itemRelacionado = _relacaoPropriedadeItemRepositorio.Encontrar(
+                var itemRelacionado = relacaoPropriedadeItemRepositorio.Encontrar(
                     Builders<RelacaoPropriedadeItem>.Filter.Eq(x => x.GUID_PROPRIEDADE, propriedade.GUID)).First();
 
                 itemPipe = _repositorioItemPipe.Obter(itemRelacionado.GUID_ITEM_ENG);
@@ -84,6 +86,20 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         public List<ItemPipe> ObterItensCatalogadosDaFamilia(string guidFamilia)
         {
             return _repositorioItemPipe.Encontrar(Builders<ItemPipe>.Filter.Eq(x => x.GUID_FAMILIA, guidFamilia));
+        }
+
+        public List<ItemPipe> ObterTodos()
+        {
+            return _repositorioItemPipe.Obter();
+        }
+
+        public ItemPipe ObterPorPnPIDComCatalogo(int pnPID, string catalogoGUID)
+        {
+            var itens = _repositorioItemPipe.Encontrar(
+            Builders<ItemPipe>.Filter.Eq(x => x.PnPID, pnPID)
+            & Builders<ItemPipe>.Filter.Eq(x => x.GUID_CATALOGO, catalogoGUID)).ToList();
+
+            return itens.Count() == 1 ? itens.First() : null;
         }
 
         public List<ItemPipe> ObterTodosDoCatalogo(string guidCatalogo)

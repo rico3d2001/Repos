@@ -1,6 +1,7 @@
 ﻿using Brass.Materiais.DominioPQ.PQ.Entities;
 using Brass.Materiais.DominioPQ.PQ.ValueObjects;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
+using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
 using Flunt.Notifications;
 using MediatR;
 using System;
@@ -14,16 +15,12 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterTabelaAtividades
 {
     public class ObterTabelaAtividadesQueryHandle : Notifiable, IRequestHandler<ObterTabelaAtividadesQuery, TabelaAtividades>
     {
-        BaseMDBRepositorio<Atividade> _atividadesRepositorio;
-
-        public ObterTabelaAtividadesQueryHandle()
-        {
-            _atividadesRepositorio = new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
-        }
 
         public Task<TabelaAtividades> Handle(ObterTabelaAtividadesQuery request, CancellationToken cancellationToken)
         {
-            var atividades = _atividadesRepositorio.Obter();
+            var atividadesRepositorio = new RepoAtividade(request.TextoConexao);
+
+            var atividades = atividadesRepositorio.ObterTodas();
 
             var tabela = obterLinhas(atividades);
 

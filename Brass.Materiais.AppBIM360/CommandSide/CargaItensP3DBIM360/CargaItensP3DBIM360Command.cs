@@ -1,6 +1,7 @@
 ﻿using Brass.Materiais.DominioPQ.PQ.Entities;
 using Brass.Materiais.DominioPQ.PQ.ValueObjects;
 using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
+using Brass.Materiais.ServicoDominio.Services.CommandSide;
 using Flunt.Notifications;
 using MediatR;
 
@@ -11,9 +12,9 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
         public CargaItensP3DBIM360Command(IdentidadeEstado identidadeEstado)//string dataBaseProjeto, string guidProjeto)
         {
 
-            RepoProjetos repoProjetos = new RepoProjetos();
+            //RepoProjetos repoProjetos = new RepoProjetos();
 
-            var projeto = repoProjetos.ObterProjeto(IdentidadeEstado.GuidProjeto);
+            //var projeto = repoProjetos.ObterProjeto(IdentidadeEstado.Projeto.GUID);
 
             // var areasPlanejadasProjeto = new RepoAreasPlanejadas().EncontrarAreasPlanejadasPorProjeto(request.GuidProjeto);
 
@@ -24,11 +25,16 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
 
             IdentidadeEstado = identidadeEstado;
 
-            Endereco = projeto.Endereco;
+            //Endereco = projeto.Endereco;
             //var arquivoPnId = $"{idResumoCorrente.Endereco}\\ProcessPower.dcf";
             //var arquivoPiping = $"{idResumoCorrente.Endereco}\\Piping.dcf";
-            ColecaoBIM360ItensDiagrama = new ColecaoBIM360ItensDiagrama(projeto.Endereco, IdentidadeEstado.GuidProjeto);
-            ColecaoBIM360ItensModelados = new ColecaoBIM360ItensModelados(projeto.Endereco, IdentidadeEstado.GuidProjeto);
+            ColecaoBIM360ItensDiagrama = new ColecaoBIM360ItensDiagrama(identidadeEstado.Projeto.Endereco, IdentidadeEstado.Projeto.GUID);
+
+            ListaCategorias listaCategorias = new ListaCategorias(identidadeEstado.Projeto.Endereco, IdentidadeEstado.Projeto.GUID);
+            listaCategorias.ListarBlancs();
+            listaCategorias.ListarUnidades();
+
+            ColecaoItensModelados = new ColecaoItensModelados(identidadeEstado.Projeto.Endereco, IdentidadeEstado.Projeto.GUID);
 
            
 
@@ -43,9 +49,9 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
 
 
         public IdentidadeEstado IdentidadeEstado { get; set; }
-        public string Endereco { get; set; }
+        //public string Endereco { get; set; }
 
         public ColecaoBIM360ItensDiagrama ColecaoBIM360ItensDiagrama { get; set; }
-        public ColecaoBIM360ItensModelados ColecaoBIM360ItensModelados { get; set; }
+        public ColecaoItensModelados ColecaoItensModelados { get; set; }
     }
 }

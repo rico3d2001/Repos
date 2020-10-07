@@ -1,9 +1,10 @@
 ﻿using Brass.Materiais.DominioPQ.BIM.Entities;
+using Brass.Materiais.DominioPQ.BIM.Enumerations;
 using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
+namespace Brass.Materiais.ServicoDominio.Services.CommandSide
 {
     public class CadastroItensSomenteModelados
     {
@@ -11,17 +12,20 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
         List<ItemModelado> _listaItensModeladosAindaNaoAnalizados;
         RepoItemPipe _repoItemPipe;
         RepoItemPQ _repositorioItemPQPlant3d;
+        //Projeto _projeto;
+        string _connectionString;
 
-
-        public CadastroItensSomenteModelados(List<ItemModelado> itensModeladosDeTodoProjetoNaoIncluidosEmItemDiagrama, string guidProjeto)
+        public CadastroItensSomenteModelados(List<ItemModelado> itensModeladosDeTodoProjetoNaoIncluidosEmItemDiagrama, string guidProjeto, string textoConexao)
         {
+            _connectionString = textoConexao;
+            //GuidProjeto = guidProjeto;
+            RepoProjetos repoProjetos = new RepoProjetos(_connectionString);
+             var projeto = repoProjetos.ObterProjeto(guidProjeto);
 
-            GuidProjeto = guidProjeto;
 
-           
 
-            _repoItemPipe = new RepoItemPipe();
-            _repositorioItemPQPlant3d = new RepoItemPQ();
+            _repoItemPipe = new RepoItemPipe(_connectionString);
+            _repositorioItemPQPlant3d = new RepoItemPQ(_connectionString);
 
             _itensModeladosDeTodoProjetoNaoIncluidosEmItemDiagrama = itensModeladosDeTodoProjetoNaoIncluidosEmItemDiagrama;
             _listaItensModeladosAindaNaoAnalizados = new List<ItemModelado>(itensModeladosDeTodoProjetoNaoIncluidosEmItemDiagrama);
@@ -31,13 +35,13 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
 
       
 
-        public void CadastrarItens(AreaPlanejada areaPlanejada)
+        public void CadastrarItens(NumeroAtivo ativo)
         {
              
 
 
             var itensModeladosNaoIncluidosEmItemDiagramaParaArea = _itensModeladosDeTodoProjetoNaoIncluidosEmItemDiagrama
-               .Where(x => x.ItemTag.AreaDesenho.Area == areaPlanejada.Area && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea).ToList();
+               .Where(x => x.ItemTag.NumeroAtivo.Equals(ativo)).ToList();
 
             foreach (var itemModelado in itensModeladosNaoIncluidosEmItemDiagramaParaArea)
             {
@@ -47,29 +51,22 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
                     var itemParaAnalize = _listaItensModeladosAindaNaoAnalizados.FirstOrDefault(x => x.GUID == itemModelado.GUID);
 
                     var itemPipe = _repoItemPipe.ObterPorDescricaoComplexa(itemParaAnalize.DescricaoLongaDimensionada, "");
-                    //if(itemPipe != null)
-                   //{
-                        var itemPQPlant3D = ItemPQ.CriaItemPQSomenteModelado(areaPlanejada, itemParaAnalize, itemPipe);
 
-                        UneAoItemModeladoAquelesComDescricaoIgual(areaPlanejada, itemParaAnalize, itemPQPlant3D);
+                    var itemPQPlant3D = ItemPQ.CriaItemPQSomenteModelado(itemParaAnalize, itemPipe); //_projeto, itemParaAnalize, itemPipe,tipoAtivo);
+
+                    UneAoItemModeladoAquelesComDescricaoIgual(ativo, itemParaAnalize, itemPQPlant3D);
 
                         SalvaItemPQ(itemPQPlant3D);
-                    //}
-                    //else
-                    //{
-                        //throw new Exception("Item somente modelado não possui cadastro");
-                    //}
                     
                 }
             }
         }
 
-        private void UneAoItemModeladoAquelesComDescricaoIgual(AreaPlanejada areaPlanejada, ItemModelado itemParaAnalize, ItemPQ itemPQPlant3D)
+        private void UneAoItemModeladoAquelesComDescricaoIgual(NumeroAtivo ativo, ItemModelado itemParaAnalize, ItemPQ itemPQPlant3D)
         {
             var itensDescricaoIgual = _listaItensModeladosAindaNaoAnalizados
-              .Where(x =>
-              (x.ItemTag.AreaDesenho.Area == areaPlanejada.Area && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea) &&
-              x.DescricaoLongaDimensionada == itemParaAnalize.DescricaoLongaDimensionada).ToList();
+              .Where(x => x.ItemTag.NumeroAtivo.Equals(ativo)
+                       && x.DescricaoLongaDimensionada == itemParaAnalize.DescricaoLongaDimensionada).ToList();
 
             foreach (var itemDescricaoIgual in itensDescricaoIgual)
             {
@@ -116,6 +113,6 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
         
 
 
-        public string GuidProjeto { get; set; }
+        //public Projeto projeto { get; set; }
     }
 }

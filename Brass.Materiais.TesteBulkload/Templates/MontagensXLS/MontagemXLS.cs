@@ -1,6 +1,7 @@
 ﻿using Brass.ExcelLeitura.App.Comandos;
 using Brass.ExcelLeitura.App.Interface;
 using Brass.Materiais.DominioPQ.PQ.Entities;
+using Brass.Materiais.DominioPQ.PQ.ValueObjects;
 using Brass.Materiais.Nucleo.ValueObjects;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
 using System.Collections.Generic;
@@ -14,9 +15,10 @@ namespace Brass.Materiais.TesteBulkload.Templates.MontagensXLS
         BaseMDBRepositorio<Atividade> _repoAtividade;
 
 
-        string _GUID_DISCIPLINA;
-        string _GUID_IDIOMA;
-        string _GUID_CLIENTE;
+        //string _GUID_DISCIPLINA;
+        //string _GUID_IDIOMA;
+        //string _GUID_CLIENTE;
+        IdentidadeEstado _identidadeEstado;
         Versao _versao;
         List<NivelAtividade> _niveisAtividade;
 
@@ -28,12 +30,12 @@ namespace Brass.Materiais.TesteBulkload.Templates.MontagensXLS
         //Atividade _atividade_VVV;
         //Atividade _atividade_WWW;
 
-        
+       // string guidDisciplia, string guidCliente, string guidIdioma, Versao versao, int numeroLinha,
+           //List<NivelAtividade> niveisAtividade) : base(numeroLinha)
 
-        public MontagemXLS(string guidDisciplia, string guidCliente, string guidIdioma, Versao versao, int numeroLinha, 
-            List<NivelAtividade> niveisAtividade) : base(numeroLinha)
+        public MontagemXLS(IdentidadeEstado identidadeEstado, Versao versao, List<NivelAtividade> niveisAtividade, int numeroLinha) : base(numeroLinha)
         {
-
+            _identidadeEstado = identidadeEstado;
             _repoAtividade = new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
 
             var lista = _repoAtividade.Obter().ToList();
@@ -49,9 +51,9 @@ namespace Brass.Materiais.TesteBulkload.Templates.MontagensXLS
             
             _versao = versao;
             _niveisAtividade = niveisAtividade.OrderBy(x => x.Oredenador).ToList();
-             _GUID_DISCIPLINA = guidDisciplia;
-            _GUID_IDIOMA = guidIdioma;
-            _GUID_CLIENTE = guidCliente;
+             //_GUID_DISCIPLINA = identidadeEstado.GuidDisciplina;
+            //_GUID_IDIOMA = identidadeEstado.GuidIdioma;
+            //_GUID_CLIENTE = identidadeEstado.GuidCliente;
 
             //_atividade_K = null;
             //_atividade_TT = null;
@@ -136,12 +138,13 @@ namespace Brass.Materiais.TesteBulkload.Templates.MontagensXLS
             }
             else
             {
-                atividade = new Atividade(
+
+               
+
+
+                atividade = new Atividade(_identidadeEstado,
                   _niveisAtividade[numeroColuna - 1].Nome,
                   atividadeSuperior != null ? atividadeSuperior.GUID : "",
-                  _GUID_CLIENTE,
-                  _GUID_DISCIPLINA,
-                  _GUID_IDIOMA,
                   _versao,
                   celula.GetString(_numeroLinha, numeroColuna),
                   celula.GetString(_numeroLinha, 6));

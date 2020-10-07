@@ -17,17 +17,22 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterTodosItensPQ
     {
         RepoItemPQ _repoItemPQ;
 
-        public ObterTodosItensPQQueryHandler()
-        {
-            _repoItemPQ = new RepoItemPQ();
-        }
+        
         public Task<ItemPQ[]> Handle(ObterTodosItensPQQuery request, CancellationToken cancellationToken)
         {
+
+            _repoItemPQ = new RepoItemPQ(request.TextoConexao);
+
+            int paginaAtual = request.Pagina;
+            int itensPagina = request.Limite;
+
             var itens = _repoItemPQ.ObterItensPQPorProjeto(request.GuidProjeto);
 
-            var itensPQ = itens.ToArray();
+            var itensPQ = itens
+                          .Skip((paginaAtual - 1) * itensPagina)
+                          .Take(itensPagina);
 
-            return Task.FromResult(itensPQ);
+            return Task.FromResult(itensPQ.ToArray());
         }
     }
 }

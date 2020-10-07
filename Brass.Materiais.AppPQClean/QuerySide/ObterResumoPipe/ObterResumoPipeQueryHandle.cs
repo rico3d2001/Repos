@@ -14,15 +14,11 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterResumoPipe
         RepoResumo _resumoRepositorio;
         //RepoItemPQ _repoItemPQ;
 
-        public ObterResumoPipeQueryHandle()
-        {
-            _resumoRepositorio = new RepoResumo();
-            //_repoItemPQ = new RepoItemPQ();
-
-        }
+        
 
         public Task<ResumoViewModel> Handle(ObterResumoPipeQuery request, CancellationToken cancellationToken)
         {
+            _resumoRepositorio = new RepoResumo(request.TextoConexao);
 
             ResumoViewModel resumoViewModel = new ResumoViewModel();
             //_itensRepositorio = new BaseMDBRepositorio<ItemPQ>("BIM_TESTE", "ItemPQPlant3d");
@@ -35,6 +31,7 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterResumoPipe
                 resumoViewModel.Versao = resumo.Versao;
                 resumoViewModel.EstaAtivo = resumo.EstaAtivo;
                 resumoViewModel.PQEstaEmitida = resumo.PQEstaEmitida;
+              
 
                 foreach (var itemPQ in resumo.Itens)
                 {

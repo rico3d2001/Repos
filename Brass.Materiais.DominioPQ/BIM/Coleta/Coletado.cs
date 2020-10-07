@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.DominioPQ.BIM.Coleta
 {
-    public class Coletados:Entidade
+    public class Coletado:Entidade
     {
 
         
 
-        public Coletados(string guidProjeto, Versao versao, BaseComponentesPlant componentesPlant)
+        public Coletado(string guidProjeto, BaseComponentesPlant componentesPlant)
         {
             GuidProjeto = guidProjeto;
-            Versao = versao;
+            //Versao = versao;
             ComponentePlant = componentesPlant;
         }
 
         public BaseComponentesPlant ComponentePlant { get; set; }
         public string GuidProjeto { get; set; }
-        public Versao Versao { get; set; }
+        //public Versao Versao { get; set; }
     }
 }

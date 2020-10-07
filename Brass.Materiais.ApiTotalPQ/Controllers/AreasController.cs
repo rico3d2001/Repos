@@ -10,7 +10,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AreasController : ControllerBase
+    public class AreasController : GeralController
     {
         private readonly IMediator _mediator;
 
@@ -28,7 +28,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<EAP> Get(string guid_projeto)//, string tipo)
         {
 
-            return _mediator.Send(new ObterEAPQuery(guid_projeto, "BIM", "EAPGeral"));
+            return _mediator.Send(new ObterEAPQuery(guid_projeto, "BIM", "EAPGeral", _conectStringMongo));
 
         }
 

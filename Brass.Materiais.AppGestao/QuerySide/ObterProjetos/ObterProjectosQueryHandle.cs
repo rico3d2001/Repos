@@ -1,5 +1,6 @@
 ﻿using Brass.Materiais.DominioPQ.BIM.Entities;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
+using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
 using Flunt.Notifications;
 using MediatR;
 using System.Threading;
@@ -10,22 +11,11 @@ namespace Brass.Materiais.AppGestao.QuerySide.ObterProjetos
     public class ObterProjectosQueryHandle : Notifiable, IRequestHandler<ObterProjectosQuery, Projeto[]>
     {
 
-
-
-        
-
-        BaseMDBRepositorio<Projeto> _projetosRepositorio;
-
-        public ObterProjectosQueryHandle()
-        {
-
-            _projetosRepositorio = new BaseMDBRepositorio<Projeto>("BIM", "Projetos");
-        }
-
-
         public Task<Projeto[]> Handle(ObterProjectosQuery request, CancellationToken cancellationToken)
         {
-            var projetos = _projetosRepositorio.Obter().ToArray();
+            var projetosRepositorio = new RepoProjetos(request.TextoConexao);
+
+            var projetos = projetosRepositorio.ObterTodos().ToArray();
 
             return Task.FromResult(projetos);
 

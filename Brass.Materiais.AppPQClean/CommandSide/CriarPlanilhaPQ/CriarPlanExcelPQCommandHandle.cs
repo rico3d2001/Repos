@@ -1,6 +1,7 @@
 ﻿using Brass.Materiais.DominioPQ.PQ.Entities;
 using Brass.Materiais.DominioPQ.PQ.ValueObjects;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
+using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
 using Flunt.Notifications;
 using MediatR;
 using System.Threading;
@@ -11,17 +12,14 @@ namespace Brass.Materiais.AppPQClean.CommandSide.CriarPlanilhaPQ
     public class CriarPlanExcelPQCommandHandle : Notifiable, IRequestHandler<CriarPlanExcelPQCommand>
     {
 
-        BaseMDBRepositorio<DataPQ> _repoPQPipeVale;
+        
 
 
-        public CriarPlanExcelPQCommandHandle()
-        {
-            _repoPQPipeVale = new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
-        }
 
         public async Task<Unit> Handle(CriarPlanExcelPQCommand command, CancellationToken cancellationToken)
         {
-    
+
+            var repoPQPipeVale = new RepoPQ(command.TextoConexao);
             //var pq = _repoPQPipeVale.Obter(command.GuidPQ);
 
             //criaListaLinhas(command.Planilha, pq);

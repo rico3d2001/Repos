@@ -9,47 +9,21 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoAreasDiagramas
+    public class RepoAreasDiagramas: RepositorioAbstratoGeral
     {
 
         BaseMDBRepositorio<AreaTag> _repoAreasDiagramas;
 
 
 
-        public RepoAreasDiagramas()
+        public RepoAreasDiagramas(string conectionString) : base(conectionString)
         {
-            _repoAreasDiagramas = new BaseMDBRepositorio<AreaTag>("BIM_TESTE", "AreasDiagrama");
+            _repoAreasDiagramas = new BaseMDBRepositorio<AreaTag>(new ConexaoMongoDb("BIM_TESTE", conectionString), "AreasDiagrama");
         }
 
 
 
-        //public AreaTag CadastrarAreaDeDesenhoDiagrama(string guidProjeto, AreaPlanejada areaPlanejada, string[] tagSeperado)
-        //{
-        //    foreach (var parteTitulo in tagSeperado)
-        //    {
-        //        var textoExtraidoDoTag = parteTitulo.Trim();
-
-        //        if (PertenceAareaPlanejada(areaPlanejada, textoExtraidoDoTag))
-        //        {
-        //            return new AreaTag(
-        //                      guidProjeto,
-        //                      areaPlanejada.Area,
-        //                      areaPlanejada.SubArea,
-        //                      areaPlanejada.Nome
-        //                    );
-        //        }
-
-        //    }
-
-        //    return null;
-
-        //}
-
-        //private bool PertenceAareaPlanejada(AreaPlanejada areaPlanejada, string areaSubArea)
-        //{
-        //    return (areaSubArea.Length == 6 || areaSubArea.Length == 4)
-        //                                    && (areaSubArea.Substring(0, 2) == areaPlanejada.Area && areaSubArea.Substring(2, 2) == areaPlanejada.SubArea);
-        //}
+      
 
        
 

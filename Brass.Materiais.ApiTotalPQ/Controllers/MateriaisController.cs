@@ -14,7 +14,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class MateriaisController : ControllerBase
+    public class MateriaisController : GeralController
     {
         private readonly IMediator _mediator;
 
@@ -28,7 +28,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<ItemParaAdicionar[]> Get(string guidFamilia)
         {
 
-            var query = new ObterFamiliaParaAdicaoQuery(guidFamilia);
+            var query = new ObterFamiliaParaAdicaoQuery(guidFamilia, _conectStringMongo);
 
             return _mediator.Send(query);
 

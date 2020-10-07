@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Brass.Materiais.RepoComumPlantEF\Brass.Materiais.RepoComumPlantEF.csproj" />
     <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj" />
     <ProjectReference Include="..\Brass.Materiais.RepositorioAppEFSQLite\Brass.Materiais.RepositorioAppEFSQLite.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.ServicoDominio\Brass.Materiais.ServicoDominio.csproj" />
   </ItemGroup>
 
 </Project>

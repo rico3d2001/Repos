@@ -1,4 +1,6 @@
 ﻿using Brass.Materiais.DominioPQ.BIM.Entities;
+using Brass.Materiais.DominioPQ.BIM.Enumerations;
+using Brass.Materiais.DominioPQ.BIM.ValueObjects;
 using Brass.Materiais.Nucleo.ValueObjects;
 using Brass.Materiais.RepoDapperSQLServer.Service;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
@@ -13,89 +15,71 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.AppVPN.QuerySide.ObterAreasTags
 {
-    public class ObterAreasTagsQueryHandler : Notifiable, IRequestHandler<ObterAreasTagsQuery, List<AreaPlanejada>>
+    public class ObterAreasTagsQueryHandler : Notifiable, IRequestHandler<ObterAreasTagsQuery, List<NumeroAtivo>>
     {
-        BaseMDBRepositorio<Projeto> _repoProjetos;
-        BaseMDBRepositorio<AreaPlanejada> _repoAreasPlanejadas;
-        List<AreaPlanejada> _areas;
-        RepoEAP _repoEAP;
-        public ObterAreasTagsQueryHandler()
-        {
-            _repoEAP = new RepoEAP();
-            _repoProjetos = new BaseMDBRepositorio<Projeto>("BIM", "Projetos");
-            _repoAreasPlanejadas = new BaseMDBRepositorio<AreaPlanejada>("BIM", "AreasPlanejadas");
-            _areas = new List<AreaPlanejada>();
-        }
+        RepoProjetos _repoProjetos;
+        RepoNumerosAtivos _repoAtivos;
+        List<NumeroAtivo> _ativos;
 
 
 
-        public Task<List<AreaPlanejada>> Handle(ObterAreasTagsQuery request, CancellationToken cancellationToken)
+
+
+        public Task<List<NumeroAtivo>> Handle(ObterAreasTagsQuery request, CancellationToken cancellationToken)
         {
 
+            _repoProjetos = new RepoProjetos(request.TextoConexao);
+            _repoAtivos = new RepoNumerosAtivos(request.TextoConexao);
 
-            var projeto = _repoProjetos.Obter(request.GuidProjeto);
+
+            _ativos = new List<NumeroAtivo>();
+
+            var projeto = _repoProjetos.ObterProjeto(request.GuidProjeto);
 
 
             var dataBaseProjeto = $"_{projeto.Sigla.ToLower()}_PnId";
 
             var linhas = LinhasPipeSQL.GetLinhasProjeto(dataBaseProjeto);
 
-            Versao versao = new Versao(0, "Interface Configurador", "Teste", DateTime.Now);
+     
 
             foreach (var linha in linhas)
             {
                 var tag = linha["Tag"].ToString();
-                var tagSeperado = tag.Split('-');
 
-                foreach (var parteDoTag in tagSeperado)
+                if (compativelComormatoDeArea(tag))
                 {
-                    if (compativelComormatoDeArea(parteDoTag))
+                    var areaTag = AreaTag.ObterDoTag(projeto.GUID, tag);
+                    var numeroAtivo = new NumeroAtivo(areaTag, TipoAtivo.ObterDoTag(tag));
+
+                    if (areaNaoFoiColetada(numeroAtivo))
                     {
-                        var area = parteDoTag.Substring(0, 2);
-                        var subArea = parteDoTag.Substring(2, 2);
-
-                        if (areaNaoFoiColetada(area, subArea))
-                        {
-                            _areas.Add(new AreaPlanejada(projeto.GUID, area, subArea, projeto.Sigla, "", versao));
-                        }
-
+                        _ativos.Add(numeroAtivo);
                     }
 
                 }
 
             }
 
-            if (_areas.Count() == 1)
+
+            foreach (var ativo in _ativos)
             {
-                var areaUnica = _areas.First();
-                areaUnica.Nome = projeto.NomeProjeto;
-                _repoAreasPlanejadas.Inserir(areaUnica);
-                //_repoEAP.CadastrarEAPAreaUnica(areaUnica,projeto);
-            }
-            else
-            {
-                foreach (var area in _areas)
-                {
-                    _repoAreasPlanejadas.Inserir(area);
-                    //_repoEAP.CadastrarEAPAreaUnica(area, projeto);
-                }
+                _repoAtivos.Cadastrar(ativo);
+
             }
 
 
 
-            return Task.FromResult(_areas);
+
+            return Task.FromResult(_ativos);
         }
 
 
-     
 
-
-
-
-        private bool areaNaoFoiColetada(string area, string subArea)
+        private bool areaNaoFoiColetada(NumeroAtivo numeroAtivo)
         {
-            var areas = _areas.Where(x => x.Area == area && x.SubArea == subArea);
-            if (areas.Count() > 0)
+            var ativos = _ativos.Where(x => x.Equals(numeroAtivo));
+            if (ativos.Count() > 0)
             {
                 return false;
             }
@@ -103,23 +87,13 @@ namespace Brass.Materiais.AppVPN.QuerySide.ObterAreasTags
             return true;
         }
 
-        private bool compativelComormatoDeArea(string parteDoTag)
+        private bool compativelComormatoDeArea(string tag)
         {
-            if (parteDoTag.Length >= 4 && parteDoTag.Length <= 6)
-            {
-                int teste;
-                if (int.TryParse(parteDoTag.Substring(0, 2), out teste) && int.TryParse(parteDoTag.Substring(2, 2), out teste))
-                {
-                    return true;
-                }
+            var parteDoTagRefereAoAtivo = tag.Split('-').First();
 
-                return false;
+            return parteDoTagRefereAoAtivo.Length == 6 ? true : false;
 
-            }
-            else
-            {
-                return false;
-            }
+
         }
     }
 }

@@ -14,16 +14,13 @@ namespace Brass.Materiais.AppGestao.CommandSide.IniciarEstadoApp
     {
         RepoEstadoApp _repoEstadoApp;
 
-        public IniciarEstadoAppCommandHandler()
-        {
-
-            _repoEstadoApp = new RepoEstadoApp();
-
-        }
+    
 
         public async Task<Unit> Handle(IniciarEstadoAppCommand command, CancellationToken cancellationToken)
         {
-            
+
+            _repoEstadoApp = new RepoEstadoApp(command.TextoConexao);
+
             if (NaoFoiCadastradoEstado(command.IdentidadeEstado))
             {
                 CriarEstado(command);

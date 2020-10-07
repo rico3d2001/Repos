@@ -14,13 +14,12 @@ namespace Brass.Materiais.AppCatalogoP3D.QuerySide.ObterCategoria
     {
 
         RepoFamilia _repoFamilia;
-        public ObterCategoriasQueryHandler()
-        {
-            _repoFamilia = new RepoFamilia();
-        }
+     
 
         public Task<Familia[]> Handle(ObterCategoriasQuery request, CancellationToken cancellationToken)
         {
+            _repoFamilia = new RepoFamilia(request.TextoConexao);
+
             var resultado = _repoFamilia.ExtraiItensCategoria(request.GuidCatalogo, request.GuidTipoItem);
 
             return Task.FromResult(resultado.ToArray());

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360;
-using Brass.Materiais.AppBIM360.QuerySide.ObterAreasTagsQueryBIM360;
-using Brass.Materiais.AppCatalogoP3D.QuerySide.ObterArvoreCatalogo;
+﻿using Brass.Materiais.AppCatalogoP3D.QuerySide.ObterArvoreCatalogo;
 using Brass.Materiais.AppCatalogoP3D.QuerySide.ObterCategoria;
 using Brass.Materiais.AppCatalogoP3D.QuerySide.ObterFamiliaParaAdicao;
 using Brass.Materiais.AppGestao.CommandSide.IniciarEstadoApp;
 using Brass.Materiais.AppGestao.CommandSide.ModificarEstadoApp;
 using Brass.Materiais.AppGestao.QuerySide.ObterEstadoApp;
+using Brass.Materiais.AppGestao.QuerySide.ObterUmProjeto;
 using Brass.Materiais.AppPQClean.CommandSide.AddResumoParaPQ;
 using Brass.Materiais.AppPQClean.CommandSide.AdiconarItensResumo;
 using Brass.Materiais.AppPQClean.CommandSide.AtivarItens;
@@ -28,16 +22,13 @@ using Brass.Materiais.AppPQClean.QuerySide.ObterPQAtiva;
 using Brass.Materiais.AppPQClean.QuerySide.ObterTabelaAtividades;
 using Brass.Materiais.AppPQClean.QuerySide.ObterTodosItensPQ;
 using Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe;
-using Brass.Materiais.AppVPN.QuerySide.ObterAreasTags;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System.Reflection;
 
 namespace Brass.Materiais.ApiTotalPQ
 {
@@ -74,12 +65,12 @@ namespace Brass.Materiais.ApiTotalPQ
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
-            //Leituras   ObterCategoriasQuery
+            //Leituras   
             services.AddMediatR(typeof(ObtemArvoreCatalogoQuery).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(ObterCategoriasQuery).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(ObterEstadoAppQuery).GetTypeInfo().Assembly);
-            services.AddMediatR(typeof(ObterAreasTagsQuery).GetTypeInfo().Assembly);
-            services.AddMediatR(typeof(ObterAreasTagsQueryBIM360Query).GetTypeInfo().Assembly);
+            //services.AddMediatR(typeof(ObterAreasTagsQuery).GetTypeInfo().Assembly);
+            //services.AddMediatR(typeof(ObterAreasTagsQueryBIM360Query).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(ObterFamiliaParaAdicaoQuery).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(ObterTodosItensPQQuery).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(ObterItensFamiliaQuery).GetTypeInfo().Assembly);
@@ -91,6 +82,7 @@ namespace Brass.Materiais.ApiTotalPQ
             services.AddMediatR(typeof(ObterListaPQsQuery).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(ObterPQAtivaQuery).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(ObterPQQuery).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(ObterUmProjetoQuery).GetTypeInfo().Assembly);
 
             //Comandos  
             services.AddMediatR(typeof(IniciarEstadoAppCommand).GetTypeInfo().Assembly);
@@ -100,7 +92,7 @@ namespace Brass.Materiais.ApiTotalPQ
             services.AddMediatR(typeof(AddGuidProjetoEstadoAppCommand).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(AddGuidDisciplinaEstadoAppCommand).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(CarregarItensPQPipeCommand).GetTypeInfo().Assembly);
-            services.AddMediatR(typeof(CargaItensP3DBIM360Command).GetTypeInfo().Assembly);
+            //services.AddMediatR(typeof(CargaItensP3DBIM360Command).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(AtivarItensCommand).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(CriarPQValeCommand).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(EmitirPQCommand).GetTypeInfo().Assembly);

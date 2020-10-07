@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoSPE
+    public class RepoSPE : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<ItemSPE> _repoAreasSPE;
         RepoAtividade _repoAtividade;
 
-        public RepoSPE()
+        public RepoSPE(string conectionString) : base(conectionString)
         {
-            _repoAtividade = new RepoAtividade();
-            _repoAreasSPE = new BaseMDBRepositorio<ItemSPE>("Catalogo", "SPE");
+            _repoAtividade = new RepoAtividade(_conectionString);
+            _repoAreasSPE = new BaseMDBRepositorio<ItemSPE>(new ConexaoMongoDb("Catalogo", conectionString), "SPE");
         }
 
         public List<ItemSPE> ObterAtividadesPorCodigos(string guidAtividade)
@@ -45,6 +45,11 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
             }
            
             return areasDistintas;
+        }
+
+        public List<ItemSPE> ObterDoNomeDoCatalogo(string nomeCatalogo)
+        {
+           return _repoAreasSPE.Encontrar(Builders<ItemSPE>.Filter.Eq(x => x.SPEBook.Nome, nomeCatalogo));
         }
 
         private static bool ItemNaoFoiColetado(List<ItemSPE> areasDistintas, ItemSPE area)

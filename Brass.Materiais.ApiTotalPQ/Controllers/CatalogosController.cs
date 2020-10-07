@@ -16,7 +16,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class CatalogosController : ControllerBase
+    public class CatalogosController : GeralController
     {
         private readonly IMediator _mediator;
 
@@ -30,7 +30,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<RamalArvoreCatalogo[]> GetArvore(string guidDisciplina)//IEnumerable<RamalEstoque> GetArvore()
         {
 
-            var query = new ObtemArvoreCatalogoQuery(guidDisciplina);
+            var query = new ObtemArvoreCatalogoQuery(guidDisciplina, _conectStringMongo);
 
             return _mediator.Send(query);
 
@@ -60,7 +60,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         {
 
             //ObterCategoriasQuery
-            var query = new ObterCategoriasQuery(guidCatalogo, guidTipoItem);
+            var query = new ObterCategoriasQuery(guidCatalogo, guidTipoItem, _conectStringMongo);
 
             return _mediator.Send(query);
 

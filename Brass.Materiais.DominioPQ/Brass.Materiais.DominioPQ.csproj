@@ -44,15 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BIM\Coleta\Coletados.cs" />
+    <Compile Include="BIM\Coleta\Coletado.cs" />
     <Compile Include="BIM\Entities\Area.cs" />
-    <Compile Include="BIM\Entities\AreaPlanejada.cs" />
-    <Compile Include="BIM\Entities\AreaPlanejadaAbstrata.cs" />
     <Compile Include="BIM\Entities\EAP.cs" />
     <Compile Include="BIM\Entities\Hub.cs" />
     <Compile Include="BIM\Entities\ItemModelado.cs" />
     <Compile Include="BIM\Entities\ItemPQ.cs" />
     <Compile Include="BIM\Entities\ItemTag.cs" />
+    <Compile Include="BIM\Entities\Linha.cs" />
     <Compile Include="BIM\Entities\Projeto.cs" />
     <Compile Include="BIM\Entities\QtdArea.cs" />
     <Compile Include="BIM\Entities\QtdLinear.cs" />
@@ -60,18 +59,22 @@
     <Compile Include="BIM\Entities\QtdVolumetrica.cs" />
     <Compile Include="BIM\Entities\Quantidade.cs" />
     <Compile Include="BIM\Entities\Resumo.cs" />
+    <Compile Include="BIM\Enumerations\TipoAtivo.cs" />
     <Compile Include="BIM\Enumerations\TipoProjeto.cs" />
     <Compile Include="BIM\TabelasPlant\Pipe.cs" />
     <Compile Include="BIM\TabelasPlant\PipeLine.cs" />
     <Compile Include="BIM\TabelasPlant\PnPTables.cs" />
-    <Compile Include="BIM\ValueObjects\AreaTag.cs" />
+    <Compile Include="BIM\Entities\AreaTag.cs" />
     <Compile Include="BIM\ValueObjects\ArquivoOrigem.cs" />
     <Compile Include="BIM\ValueObjects\NomeArea.cs" />
     <Compile Include="BIM\ValueObjects\NomeProjeto.cs" />
+    <Compile Include="BIM\Entities\NumeroAtivo.cs" />
+    <Compile Include="BIM\ValueObjects\TipoAtivo.cs" />
     <Compile Include="BIM\ValueObjects\Usuario.cs" />
     <Compile Include="BIM\ViewsPlant\BaseComponentesPlant.cs" />
     <Compile Include="BIM\ViewsPlant\BlancPipe.cs" />
     <Compile Include="BIM\ViewsPlant\ConfigurableEntity.cs" />
+    <Compile Include="BIM\ViewsPlant\Instrumento.cs" />
     <Compile Include="BIM\ViewsPlant\UnidadePipe.cs" />
     <Compile Include="BIM\ViewsPlant\Gasket_PNP.cs" />
     <Compile Include="BIM\ViewsPlant\P3dDrawingLineGroupRelationship_PNP.cs" />
@@ -152,6 +155,7 @@
     <Folder Include="Spec\ValueObjects\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Diagramas\AgregadoItemPQ.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

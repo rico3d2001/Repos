@@ -15,49 +15,37 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterItenParaAtivarDeItemPQ
     public class ObterItenParaAtivarDeItemPQQueryHandle : Notifiable, IRequestHandler<ObterItenParaAtivarDeItemPQQuery, ItemParaAtivar[]>
     {
 
-        //BaseMDBRepositorio<ItemPipe> _repositorioItemPipe;
-        BaseMDBRepositorio<ItemPQ> _repositorioItemPQ;
+      
+        RepoItemPQ _repositorioItemPQ;
         RepoFamilia _repoFamilia;
         RepoItemPipe _repoItemPipe;
         RepoSPE _repoSPE;
-        RepoAtividade _repoAtividade;
+      
 
-        public ObterItenParaAtivarDeItemPQQueryHandle()
-        {
-            //_repositorioItemPipe = new BaseMDBRepositorio<ItemPipe>("Catalogo", "ItemPipe");
-            _repositorioItemPQ = new BaseMDBRepositorio<ItemPQ>("BIM_TESTE", "ItemPQPlant3d");
-            _repoFamilia = new RepoFamilia();
-            _repoItemPipe = new RepoItemPipe();
-            _repoSPE = new RepoSPE();
-            _repoAtividade = new RepoAtividade();
-        }
+       
 
 
 
         public Task<ItemParaAtivar[]> Handle(ObterItenParaAtivarDeItemPQQuery query, CancellationToken cancellationToken)
         {
-            
 
-            
-
-            var itemPQ = _repositorioItemPQ.Obter(query.GuidItem);
-
-            
-
-            //var collection = _repositorioItemPQ.Obter();
-
-            //foreach (var itemPQ in collection)
-            //{
+            _repositorioItemPQ =  new RepoItemPQ(query.TextoConexao);
+            _repoFamilia = new RepoFamilia(query.TextoConexao);
+            _repoItemPipe = new RepoItemPipe(query.TextoConexao);
+            _repoSPE = new RepoSPE(query.TextoConexao);
+        
 
 
+            var itemPQ = _repositorioItemPQ.ObterPorGuid(query.GuidItem);
 
+      
 
             var itemPipe = _repoItemPipe.ObterPorDescricaoComplexa(itemPQ.SpecPart, "532f43f4-59eb-4962-a4a9-edf7cee699a5");
             if (itemPipe != null)
             {
                 var itensCatalogoDaFamilia = _repoItemPipe.ObterItensCatalogadosDaFamilia(itemPipe.GUID_FAMILIA);
 
-                var listaDeItensParaAtivar = coletarItensParaAtivar(itensCatalogoDaFamilia);
+                var listaDeItensParaAtivar = coletarItensParaAtivar(itensCatalogoDaFamilia, query.TextoConexao);
 
                 return Task.FromResult(listaDeItensParaAtivar.ToArray());
             }
@@ -66,14 +54,12 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterItenParaAtivarDeItemPQ
 
                 var descricaoFamilia = TransformaEmDescricaoDeFamilia(itemPQ.SpecPart);
 
-                //descricaoFamilia = "FLANGE SOLTO, AFO ASTM A-105, CL 1500, FP, CONF. ASME B16.5";
-
                 var familia = _repoFamilia.ObterFamiliaPorDescricao(descricaoFamilia);
                 if (familia != null)
                 {
                     var itensCatalogoDaFamilia = _repoItemPipe.ObterItensCatalogadosDaFamilia(familia.GUID);
 
-                    var listaDeItensParaAtivar = coletarItensParaAtivar(itensCatalogoDaFamilia);
+                    var listaDeItensParaAtivar = coletarItensParaAtivar(itensCatalogoDaFamilia, query.TextoConexao);
 
                     return Task.FromResult(listaDeItensParaAtivar.ToArray());
                 }
@@ -99,16 +85,16 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterItenParaAtivarDeItemPQ
 
         }
 
-        private static List<ItemParaAtivar> coletarItensParaAtivar(List<ItemPipe> itensCatalogoDaFamilia)
+        private static List<ItemParaAtivar> coletarItensParaAtivar(List<ItemPipe> itensCatalogoDaFamilia, string conexao)
         {
             var listaDeItensParaAtivar = new List<ItemParaAtivar>();
 
             foreach (var itemDaFamilia in itensCatalogoDaFamilia)
             {
 
-                var atividade = new RepoAtividade().ObterDoItemCatalogado(itemDaFamilia);
+                var atividade = new RepoAtividade(conexao).ObterDoItemCatalogado(itemDaFamilia);
 
-                var descricao = RepoValores.InstanciaPorPropriedadeDefinida("PartSizeLongDesc").ObterPorItemPipe(itemDaFamilia);
+                var descricao = RepoValores.InstanciaPorPropriedadeDefinida("PartSizeLongDesc", conexao).ObterPorItemPipe(itemDaFamilia);
 
                 var item = new ItemParaAtivar(itemDaFamilia.GUID, atividade, descricao);
 
@@ -121,19 +107,7 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterItenParaAtivarDeItemPQ
             return listaDeItensParaAtivar;
         }
 
-        //private static string TransformaEmDescricaoDeFamilia(string specPart)
-        //{
-        //    var array = specPart.Split('-');
-
-        //    var descricaoFamilia = array[0];
-
-        //    for (int i = 1; i < array.Length - 1; i++)
-        //    {
-        //        descricaoFamilia = descricaoFamilia + "-" + array[i];
-        //    }
-
-        //    return descricaoFamilia.Trim();
-        //}
+     
 
         private static string TransformaEmDescricaoDeFamilia(string specPart)
         {

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoNomeTipoPropriedade
+    public class RepoNomeTipoPropriedade : RepositorioAbstratoGeral
     {
 
         BaseMDBRepositorio<NomeTipoPropriedade> _nomeTipoPropriedadeRepositorio;
 
-        public RepoNomeTipoPropriedade()
+        public RepoNomeTipoPropriedade(string conectionString) : base(conectionString)
         {
-            _nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>("Catalogo", "NomeTipoPropriedade");
+            _nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>(new ConexaoMongoDb("Catalogo", conectionString), "NomeTipoPropriedade");
         }
 
         public NomeTipoPropriedade ObterPorNome(string nome)

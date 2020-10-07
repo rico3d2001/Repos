@@ -58,12 +58,11 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
 
 
 
-        public void CadastrarItens(AreaPlanejada areaPlanejada)
+        public void CadastrarItens(AreaTag areaPlanejada)
         {
 
             var listaItensExistentesDiagramaParaArea = _listaItensDiagrama.Where(x =>
-                       x.ItemTag.AreaDesenho.Area == areaPlanejada.Area
-                       && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea).ToList();
+                       x.ItemTag.NumeroAtivo.AreaTag.Equals(areaPlanejada)).ToList();
 
             foreach (var itemDiagramaParaProcessar in listaItensExistentesDiagramaParaArea)
             {
@@ -116,7 +115,7 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
 
 
 
-        private void DefineItensComBaseNoItemDoDiagrama(AreaPlanejada areaPlanejada, ItemPQ itemDiagramaParaProcessar)
+        private void DefineItensComBaseNoItemDoDiagrama(AreaTag areaPlanejada, ItemPQ itemDiagramaParaProcessar)
         {
             //var tipoItemDiag = ObterTipoDeItemPelaDescricao(itemDiagramaParaProcessar);
 
@@ -204,21 +203,19 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
             return itensModeladosComDescricaoConformeItemDiagrama.Count() > 0;
         }
 
-        private List<ItemModelado> obterItensModeladosComMesmaDecricaoDeItensDoDiagrama(AreaPlanejada areaPlanejada, string descricao)
+        private List<ItemModelado> obterItensModeladosComMesmaDecricaoDeItensDoDiagrama(AreaTag areaPlanejada, string descricao)
         {
 
             return _listaDeItensModeladosDoProjeto
-          .Where(x =>
-          (x.ItemTag.AreaDesenho.Area == areaPlanejada.Area && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea) &&
-          x.DescricaoLongaDimensionada == descricao).ToList();
+          .Where(x => x.ItemTag.NumeroAtivo.AreaTag.Equals(areaPlanejada.Area)
+          && x.DescricaoLongaDimensionada == descricao).ToList();
         }
 
-        private bool ItemNaoFoiCadastrado(AreaPlanejada areaPlanejada, string descricao)
+        private bool ItemNaoFoiCadastrado(AreaTag areaPlanejada, string descricao)
         {
             var item = _itensPQIncluidos.FirstOrDefault(x =>
-                            (x.ItemTag.AreaDesenho.Area == areaPlanejada.Area && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea)
-                            && x.SpecPart == descricao
-                            );
+                            x.ItemTag.NumeroAtivo.AreaTag.Equals(areaPlanejada)
+                            && x.SpecPart == descricao);
 
             return item == null ? true : false;
         }

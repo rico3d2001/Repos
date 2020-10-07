@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoValores
+    public class RepoValores : RepositorioAbstratoGeral
     {
         private static RepoValores _instance;
 
@@ -16,34 +16,38 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 
         BaseMDBRepositorio<ValorTabelado> _valorTabeladoRepositorio;
 
-        private RepoValores()
+        private RepoValores(string conectionString) : base(conectionString)
         {
-            _valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>("Catalogo", "ValorTabelado");
+            _valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>(new ConexaoMongoDb("Catalogo", conectionString), "ValorTabelado");
         }
 
-        private RepoValores(List<PropriedadeItem> descricoesDisponiveis)
+        private RepoValores(List<PropriedadeItem> descricoesDisponiveis, string conectionString) : base(conectionString)
         {
             _descricoesDisponiveis = descricoesDisponiveis;
-            _valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>("Catalogo", "ValorTabelado");
+            _valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>(new ConexaoMongoDb("Catalogo", conectionString), "ValorTabelado");
         }
 
-        
-        public static RepoValores Instancia()
+        public object ObterTodos()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static RepoValores Instancia(string connectioString)
         {
             
                 if (_instance == null)
                 {
-                    _instance = new RepoValores();
+                    _instance = new RepoValores(connectioString);
                 }
                 return _instance;
             
         }
 
-        public static RepoValores InstanciaPorPropriedadeDefinida(string nomePropriedade)
+        public static RepoValores InstanciaPorPropriedadeDefinida(string nomePropriedade, string connectioString)
         {
             if (_instance == null)
             {
-                _instance = new RepoValores(new RepoPropriedadeItem().ObterPropriedadesDisponiveis(nomePropriedade));
+                _instance = new RepoValores(new RepoPropriedadeItem(connectioString).ObterPropriedadesDisponiveis(nomePropriedade), connectioString);
             }
             return _instance;
         }
@@ -63,7 +67,7 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         {
             PropriedadeItem propriedadeItem = null;
 
-            var relacoesPropItemPipe = new RepoRelacaoPropriedadeItem().ObterRelacoesEntrePropriedadeItem(itemDaFamilia);
+            var relacoesPropItemPipe = new RepoRelacaoPropriedadeItem(_conectionString).ObterRelacoesEntrePropriedadeItem(itemDaFamilia);
 
             foreach (var relacao in relacoesPropItemPipe)
             {
@@ -88,5 +92,12 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 
             return valores.Count() == 1 ? valores.First() : null;
         }
+
+        //public List<ValorTabelado> ObterValoresPorDescricao(string descricao)
+        //{
+        //    return _valorTabeladoRepositorio.Encontrar(
+        //      Builders<ValorTabelado>.Filter.Eq(x => x.VALOR, descricao));
+
+        //}
     }
 }

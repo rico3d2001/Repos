@@ -20,18 +20,14 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AdiconarItensResumo
      
         //BaseMDBRepositorio<ItemPQ> _repoItemPQPlant3d;
 
-        public AdiconarItensResumoCommnadHandle()
-        {
-
-            _repoResumo = new RepoResumo();
-            _repoItemPQ = new RepoItemPQ();
-            _repoPQ = new RepoPQ();
-            //_repoItemPQPlant3d = new BaseMDBRepositorio<ItemPQ>("BIM_TESTE", "ItemPQPlant3d");
-
-        }
+  
 
         public async Task<Unit> Handle(AdiconarItensResumoCommnad command, CancellationToken cancellationToken)
         {
+            _repoResumo = new RepoResumo(command.TextoConexao);
+            _repoItemPQ = new RepoItemPQ(command.TextoConexao);
+            _repoPQ = new RepoPQ(command.TextoConexao);
+
             DataPQ ultimaPQ = _repoPQ.ObterUltimaPQAtivaDoHub(command.IdentidadePQ.IdentidadeEstado);
 
             var itens = _repoItemPQ.ObterListaPorResumo(command.Itens);

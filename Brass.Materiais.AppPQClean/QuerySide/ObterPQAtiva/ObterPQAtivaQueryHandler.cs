@@ -17,15 +17,13 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterPQAtiva
     {
 
         RepoPQ _repoPQ;
-        public ObterPQAtivaQueryHandler()
-        {
-            _repoPQ = new RepoPQ();
-           
-        }
+        
 
 
         public Task<DataPQ> Handle(ObterPQAtivaQuery request, CancellationToken cancellationToken)
         {
+
+            _repoPQ = new RepoPQ(request.TextoConexao);
 
             var pqsAtivas = _repoPQ.ObterPQsAtivas(request.IdentidadePQ);
 

@@ -14,16 +14,14 @@ namespace Brass.Materiais.AppGestao.CommandSide.ModificarEstadoApp
     {
         RepoEstadoApp _repoEstadoApp;
 
-        public AddGuidDisciplinaEstadoAppCommandHandler()
-        {
-
-            _repoEstadoApp = new RepoEstadoApp();
-
-        }
+      
 
 
         public async Task<Unit> Handle(AddGuidDisciplinaEstadoAppCommand command, CancellationToken cancellationToken)
         {
+
+            _repoEstadoApp = new RepoEstadoApp(command.TextoConexao);
+
             var estado = _repoEstadoApp.ObterEstadoPorUsuario(command.IdentidadeEstado.SiglaUsuario);
 
             estado.IdentidadePQ.IdentidadeEstado.GuidDisciplina = command.IdentidadeEstado.GuidDisciplina;

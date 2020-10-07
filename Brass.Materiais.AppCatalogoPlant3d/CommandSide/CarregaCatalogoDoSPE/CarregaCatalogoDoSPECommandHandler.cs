@@ -15,35 +15,36 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoDoSPE
 {
     public class CarregaCatalogoDoSPECommandHandler : Notifiable, IRequestHandler<CarregaCatalogoDoSPECommand>
     {
-        BaseMDBRepositorio<ItemSPE> _repoSPE;
-        BaseMDBRepositorio<CatalogoEntidade> _catalogosMDBRepositorio;
+        RepoSPE _repoSPE;
+        RepoCatalogo _catalogosMDBRepositorio;
         RepoFamilia _familiasRepositorio;
         RepoItemPipe _itemPipeEstoqueRepositorio;
-        BaseMDBRepositorio<ValorTabelado> _valorTabeladoRepositorio;
-        BaseMDBRepositorio<NomeTipoPropriedade> _nomeTipoPropriedadeRepositorio;
-        BaseMDBRepositorio<RelacaoPropriedadeItem> _relacaoPropriedadeItemRepositorio;
-        BaseMDBRepositorio<Idioma> _repoIdioma;
+        RepoValores _valorTabeladoRepositorio;
+        RepoNomeTipoPropriedade _nomeTipoPropriedadeRepositorio;
+        RepoRelacaoPropriedadeItem _relacaoPropriedadeItemRepositorio;
+        RepoIdioma _repoIdioma;
         RepoAtividade _repoAtividade;
 
         private CatalogoEntidade _catalogo;
-        public CarregaCatalogoDoSPECommandHandler()
-        {
-            _repoSPE = new BaseMDBRepositorio<ItemSPE>("Catalogo", "SPE");
-            _repoIdioma = new BaseMDBRepositorio<Idioma>("Catalogo", "Idioma");
-            _catalogosMDBRepositorio = new BaseMDBRepositorio<CatalogoEntidade>("Catalogo", "Catalogo");
-            _familiasRepositorio = new RepoFamilia();
-            _itemPipeEstoqueRepositorio = new RepoItemPipe();
-            _valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>("Catalogo", "ValorTabelado");
-            _nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>("Catalogo", "NomeTipoPropriedade");
-            _relacaoPropriedadeItemRepositorio = new BaseMDBRepositorio<RelacaoPropriedadeItem>("Catalogo", "RelacaoPropriedadeItem");
-            _repoAtividade = new RepoAtividade();
-        }
+        
 
 
         public async Task<Unit> Handle(CarregaCatalogoDoSPECommand command, CancellationToken cancellationToken)
         {
 
-            var spes = _repoSPE.Encontrar(Builders<ItemSPE>.Filter.Eq(x => x.SPEBook.Nome, command.NomeCatalogo)).ToList();
+            _repoSPE = new RepoSPE(command.Conexao);
+            _repoIdioma = new RepoIdioma(command.Conexao);
+            _catalogosMDBRepositorio = new RepoCatalogo(command.Conexao);
+            _familiasRepositorio = new RepoFamilia(command.Conexao);
+            _itemPipeEstoqueRepositorio = new RepoItemPipe(command.Conexao);
+            _valorTabeladoRepositorio = RepoValores.Instancia(command.Conexao);
+            _nomeTipoPropriedadeRepositorio = new RepoNomeTipoPropriedade(command.Conexao);
+            _relacaoPropriedadeItemRepositorio = new RepoRelacaoPropriedadeItem( command.Conexao);
+            _repoAtividade = new RepoAtividade(command.Conexao);
+
+
+
+            //var spes = _repoSPE.ObterDoNomeDoCatalogo(command.NomeCatalogo);
 
             defineCatalogo(command); //command.Nome, command.Idioma, command.Pais, command.GuidDisciplina);
 
@@ -54,40 +55,31 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoDoSPE
         {
 
 
-            var catalogos = _catalogosMDBRepositorio
-                .Encontrar(Builders<CatalogoEntidade>.Filter.Eq(x => x.NOME, command.NomeCatalogo));
+            var catalogo = _catalogosMDBRepositorio.ObterPorNome(command.NomeCatalogo);
 
-            if (catalogos.Count == 0)
+            if (catalogo == null )
             {
 
                 string guidIdioma = string.Empty;
 
 
 
-                var idiomas = _repoIdioma.Encontrar(
-                    Builders<Idioma>.Filter.Eq(x => x.IDIOMA, command.Idioma)
-                    & Builders<Idioma>.Filter.Eq(x => x.PAIS, command.Pais));
+                var idioma = _repoIdioma.ObterIdiomaPorLinguaPais(command.Idioma, command.Pais);
 
 
-                if (idiomas.Count == 0)
+                if (idioma == null)
                 {
-                    guidIdioma = Guid.NewGuid().ToString();
-                    var idioma = new Idioma(command.Idioma, command.Pais);
-                    _repoIdioma.Inserir(idioma);
+                    //guidIdioma = Guid.NewGuid().ToString();
+                    idioma = new Idioma(command.Idioma, command.Pais);
+                    _repoIdioma.Cadastrar(idioma);
                 }
-                else
-                {
-                    guidIdioma = idiomas.First().GUID;
-                }
+              
 
                 _catalogo = new CatalogoEntidade(command.NomeCatalogo, guidIdioma, command.GuidDisciplina);
-                _catalogosMDBRepositorio.Inserir(_catalogo);
+                _catalogosMDBRepositorio.CadastrarCatalogo(_catalogo);
 
             }
-            else
-            {
-                _catalogo = catalogos.First();
-            }
+            
 
             return _catalogo;
         }
@@ -291,7 +283,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoDoSPE
             {
                 valorTabelado = new ValorTabelado(valor.ToString(), "");
 
-                _valorTabeladoRepositorio.Inserir(valorTabelado);
+                _valorTabeladoRepositorio.CadastrarValor(valorTabelado);
             }
             else
             {

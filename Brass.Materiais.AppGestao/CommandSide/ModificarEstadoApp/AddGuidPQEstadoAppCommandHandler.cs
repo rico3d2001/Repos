@@ -16,16 +16,15 @@ namespace Brass.Materiais.AppGestao.CommandSide.ModificarEstadoApp
         RepoEstadoApp _repoEstadoApp;
         RepoResumo _repoResumo;
 
-        public AddGuidPQEstadoAppCommandHandler()
-        {
-
-            _repoEstadoApp = new RepoEstadoApp();
-            _repoResumo = new RepoResumo();
-        }
+      
 
 
         public async Task<Unit> Handle(AddGuidPQEstadoAppCommand command, CancellationToken cancellationToken)
         {
+
+            _repoEstadoApp = new RepoEstadoApp(command.TextoConexao);
+            _repoResumo = new RepoResumo(command.TextoConexao);
+
             var resumo =  _repoResumo.ObterResumo(command.IdentidadePQ);
 
             var estado = _repoEstadoApp.ObterEstadoPorProjetoUsuarioDisciplina(command.IdentidadePQ.IdentidadeEstado);

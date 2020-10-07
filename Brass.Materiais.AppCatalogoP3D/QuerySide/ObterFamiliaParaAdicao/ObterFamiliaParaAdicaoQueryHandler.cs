@@ -14,13 +14,12 @@ namespace Brass.Materiais.AppCatalogoP3D.QuerySide.ObterFamiliaParaAdicao
         RepoItemPipe _repoItemPipe;
 
 
-        public ObterFamiliaParaAdicaoQueryHandler()
-        {
-            _repoItemPipe = new RepoItemPipe();
-        }
+        
 
         public Task<ItemParaAdicionar[]> Handle(ObterFamiliaParaAdicaoQuery request, CancellationToken cancellationToken)
         {
+
+            _repoItemPipe = new RepoItemPipe(request.TextoConexao);
 
             var listaDeItemParaAdicionar = new List<ItemParaAdicionar>();
 
@@ -29,7 +28,7 @@ namespace Brass.Materiais.AppCatalogoP3D.QuerySide.ObterFamiliaParaAdicao
             foreach (var itemDaFamilia in itensCatalogoDaFamilia)
             {
 
-                var descricao = RepoValores.InstanciaPorPropriedadeDefinida("PartSizeLongDesc").ObterPorItemPipe(itemDaFamilia);
+                var descricao = RepoValores.InstanciaPorPropriedadeDefinida("PartSizeLongDesc", request.TextoConexao).ObterPorItemPipe(itemDaFamilia);
 
                 listaDeItemParaAdicionar
                     .Add(new ItemParaAdicionar(itemDaFamilia.GUID, descricao));

@@ -14,15 +14,14 @@ namespace Brass.Materiais.AppGestao.QuerySide.ObterDisciplinas
     public class ObterDisciplinasQueryHandler : Notifiable, IRequestHandler<ObterDisciplinasQuery, Disciplina[]>
     {
         RepoDisciplinas _repoDisciplinas;
-        public ObterDisciplinasQueryHandler()
-        {
-            _repoDisciplinas = new RepoDisciplinas();
-        }
+    
 
 
 
         public Task<Disciplina[]> Handle(ObterDisciplinasQuery request, CancellationToken cancellationToken)
         {
+            _repoDisciplinas = new RepoDisciplinas(request.TextoConexao);
+
             var disciplinas = _repoDisciplinas.ObterTodasDisciplinas();
 
 

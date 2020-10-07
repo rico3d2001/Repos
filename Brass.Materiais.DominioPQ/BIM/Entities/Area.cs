@@ -1,4 +1,5 @@
 ﻿using Brass.Materiais.Dominio.Utils;
+using Brass.Materiais.DominioPQ.BIM.ValueObjects;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,27 +10,30 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
         protected string _pasta;
         
 
-        public Area(string pasta, string tipo, string numeroArea, string numeroSubArea, string nomeArea)
+        public Area(string guidProjeto, string pasta, string tipo, string area, string subArea,string numeroAtivo, string nomeArea)
         {
+            GuidProjeto = guidProjeto;
             _pasta = pasta;
-            var nmArea = pasta.Split('\\').Last();
-            NomeArea = nmArea;
+            //var nmArea = pasta.Split('\\').Last();
+            //NomeArea = nmArea;
             Tipo = tipo;
-            NumeroArea = numeroArea;
-            NumeroSubArea = numeroSubArea;
+            NumeroArea = area;
+            NumeroSubArea = subArea;
+            NumeroAtivo = numeroAtivo;
             NomeArea = nomeArea;
             //AreaSuperior = areaSuperior;
             children = new List<Area>();
         }
 
-
+        public string GuidProjeto { get; set; }
         public string NumeroSubArea { get; private set; }
         public string NumeroArea { get; private set; }
+
+        public string NumeroAtivo { get; private set; }
         //public string Pasta { get; private set; }
         public string NomeArea { get; private set; }
         //public Area AreaSuperior { get; private set; }
         public List<Area> children { get; private set; }
-
         public string Tipo { get; set; }
 
         public void AdicionaArea(Area area)

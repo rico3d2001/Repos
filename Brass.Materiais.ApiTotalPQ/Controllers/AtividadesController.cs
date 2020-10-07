@@ -17,7 +17,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AtividadesController : ControllerBase
+    public class AtividadesController : GeralController
     {
         private readonly IMediator _mediator;
 
@@ -31,7 +31,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<TabelaAtividades> Get()
         {
 
-            var query = new ObterTabelaAtividadesQuery();
+            var query = new ObterTabelaAtividadesQuery(_conectStringMongo);
 
             return _mediator.Send(query);
 
@@ -42,7 +42,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<RamalArvoreAtividade> Get(string guidDisciplina, string guidProjeto)
         {
 
-            var query = new ObterArvoreAtividadesQuery(guidProjeto, guidDisciplina);
+            var query = new ObterArvoreAtividadesQuery(guidProjeto, guidDisciplina, _conectStringMongo);
 
             return _mediator.Send(query);
 
@@ -55,7 +55,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public async Task<ActionResult> AtivarItens([FromBody] List<ItemParaAtivar> listaItens)
         {
 
-            var query = new AtivarItensCommand(listaItens);
+            var query = new AtivarItensCommand(listaItens, _conectStringMongo);
 
             await _mediator.Send(query);
 

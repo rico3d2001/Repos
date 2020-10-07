@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoPQ
+    public class RepoPQ : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<DataPQ> _repoPQs;
         BaseMDBRepositorio<Resumo> _repoResumos;
 
-        public RepoPQ()
+        public RepoPQ(string conectionString) : base(conectionString)
         {
-            _repoPQs = new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
-            _repoResumos = new BaseMDBRepositorio<Resumo>("BIM_TESTE", "ResumoItensPQPlant3d");
+            _repoPQs = new BaseMDBRepositorio<DataPQ>(new ConexaoMongoDb("BIM_TESTE", conectionString), "PQPipeVale");
+            _repoResumos = new BaseMDBRepositorio<Resumo>(new ConexaoMongoDb("BIM_TESTE", conectionString), "ResumoItensPQPlant3d");
         }
 
 

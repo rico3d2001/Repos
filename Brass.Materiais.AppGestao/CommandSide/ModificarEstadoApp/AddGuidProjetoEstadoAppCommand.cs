@@ -12,11 +12,13 @@ namespace Brass.Materiais.AppGestao.CommandSide.ModificarEstadoApp
 {
     public class AddGuidProjetoEstadoAppCommand : Notifiable, IRequest
     {
-        public AddGuidProjetoEstadoAppCommand(EstadoApp estadoApp)
+        public AddGuidProjetoEstadoAppCommand(EstadoApp estadoApp, string conectionString)
         {
+            TextoConexao = conectionString;
             EstadoApp = estadoApp;
         }
 
         public EstadoApp EstadoApp { get; set; }
+        public string TextoConexao { get; set; }
     }
 }

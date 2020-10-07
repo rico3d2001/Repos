@@ -1,57 +1,50 @@
-﻿using Brass.Materiais.DominioPQ.PQ.Entities;
+﻿using Brass.Materiais.DominioPQ.BIM.Coleta;
+using Brass.Materiais.DominioPQ.PQ.Entities;
 using Brass.Materiais.DominioPQ.PQ.ValueObjects;
+using Brass.Materiais.RepoDapperSQLServer.Service;
 using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
+using Brass.Materiais.ServicoDominio.Services.CommandSide;
 using Flunt.Notifications;
 using MediatR;
+using System.Collections.Generic;
 
 namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
 {
     public class CarregarItensPQPipeCommand : Notifiable, IRequest
     {
+        
+        public IdentidadeEstado IdentidadeEstado { get; set; }
+        public string DataBaseProjetoPiping { get; set; }
+        public string DataBaseProjetoPnId { get; set; }
+        public string TextoConexao { get; set; }
 
+        public List<Coletado> Coletados { get; set; }
 
-        public CarregarItensPQPipeCommand(IdentidadeEstado identidadeEstado)//string dataBaseProjeto, string guidProjeto)
+        public CarregarItensPQPipeCommand(IdentidadeEstado identidadeEstado, string conectionString)//string dataBaseProjeto, string guidProjeto)
         {
+            TextoConexao = conectionString;
+
+            RepoProjetos repoProjetos = new RepoProjetos(conectionString);
+
+            var projeto = repoProjetos.ObterProjeto(identidadeEstado.GuidProjeto);
 
             IdentidadeEstado = identidadeEstado;
 
-            RepoProjetos repoProjetos = new RepoProjetos();
-            
-            var projeto = repoProjetos.ObterProjeto(IdentidadeEstado.GuidProjeto);
+            DataBaseProjetoPnId = $"_{projeto.Sigla.ToLower()}_PnId";
+            DataBaseProjetoPiping = $"_{projeto.Sigla.ToLower()}_Piping";
 
-            // var areasPlanejadasProjeto = new RepoAreasPlanejadas().EncontrarAreasPlanejadasPorProjeto(request.GuidProjeto);
+            var repoColetadosPipe = new RepoColetadosPipe(conectionString);
 
-            //var databaseNexa = "_bdb1922_PnId";
-            //var databaseNexa = "_bdb1922_Piping";
+           
+  
+            if (repoColetadosPipe.NaoHouveColetaAinda(IdentidadeEstado.GuidProjeto))
+            {
+            TotaisSQL.GetViewPipe(DataBaseProjetoPiping, IdentidadeEstado.GuidProjeto, conectionString);
+            LinhasPipeSQL.ColetaLinhasProjeto(DataBaseProjetoPnId, IdentidadeEstado.GuidProjeto, conectionString);
+            }
 
 
 
-            
-            var dataBaseProjetoPnId = $"_{projeto.Sigla.ToLower()}_PnId";
-            var dataBaseProjetoPiping = $"_{projeto.Sigla.ToLower()}_Piping";
-            ColecaoItensDiagrama = new ColecaoVPNItensDiagrama(dataBaseProjetoPnId, IdentidadeEstado.GuidProjeto);
-            ColecaoItensModelados = new ColecaoVPNItensModelados(dataBaseProjetoPiping, IdentidadeEstado.GuidProjeto);
-
-            //switch (IdResumoCorrente.Origem)
-            //{
-            //    case "VPN":
-            //        {
-            //            var dataBaseProjetoPnId = $"_{projeto.Sigla.ToLower()}_PnId";
-            //            var dataBaseProjetoPiping = $"_{projeto.Sigla.ToLower()}_Piping";
-            //            ColecaoItensDiagrama = new ColecaoVPNItensDiagrama(dataBaseProjetoPnId, IdResumoCorrente.GuidProjeto);
-            //            ColecaoItensModelados = new ColecaoVPNItensModelados(dataBaseProjetoPiping, IdResumoCorrente.GuidProjeto);
-            //        }
-            //        break;
-
-            //    case "BIM360":
-            //        {
-            //            var dataBaseProjetoPnId = @"C:\Users\rpinto\Documents\Project PQ1\ProcessPower.dcf";
-            //            var dataBaseProjetoPiping = @"C:\Users\rpinto\Documents\Project PQ1\Piping.dcf"; //$"_{projeto.Sigla.ToLower()}_Piping";
-            //            ColecaoItensDiagrama = new ColecaoBIM360ItensDiagrama(dataBaseProjetoPnId, IdResumoCorrente.GuidProjeto);
-            //            ColecaoItensModelados = new ColecaoBIM360ItensModelados(dataBaseProjetoPiping, IdResumoCorrente.GuidProjeto);
-            //        }
-            //        break;
-            //}
 
 
 
@@ -59,12 +52,8 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
 
         }
 
-        //public string DataBaseProjetoPnId { get; set; }
-        //public string DataBaseProjetoPiping { get; set; }
-        public IdentidadeEstado IdentidadeEstado { get; set; }
 
-        public ColecaoVPNItensDiagrama ColecaoItensDiagrama { get; set; }
-        public ColecaoVPNItensModelados ColecaoItensModelados { get; set; }
+
 
 
     }

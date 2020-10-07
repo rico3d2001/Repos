@@ -17,7 +17,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ResumoController : ControllerBase
+    public class ResumoController : GeralController
     {
 
         private readonly IMediator _mediator;
@@ -31,7 +31,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpPost("SetItensResumo/{guidProjeto}/{siglaUsuario}/{guidDisciplina}/{numeroPQ}")]
         public async Task<ActionResult> SetItensResumo(string guidProjeto, string siglaUsuario, string guidDisciplina,int numeroPQ, [FromBody] List<ItemPQ> listaItens)
         {
-            var query = new AdiconarItensResumoCommnad(guidProjeto, siglaUsuario, guidDisciplina, numeroPQ, listaItens);
+            var query = new AdiconarItensResumoCommnad(guidProjeto, siglaUsuario, guidDisciplina, numeroPQ, listaItens, _conectStringMongo);
 
             await _mediator.Send(query);
 
@@ -57,7 +57,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpGet("GetItensResumo/{guidProjeto}/{siglaUsuario}/{guidDisciplina}/{numeroPQ}")]
         public Task<ResumoViewModel> GetItensResumo(string guidProjeto, string siglaUsuario,string guidDisciplina,int numeroPQ)
         {
-            var query = new ObterResumoPipeQuery(guidProjeto, siglaUsuario, guidDisciplina, numeroPQ);
+            var query = new ObterResumoPipeQuery(guidProjeto, siglaUsuario, guidDisciplina, numeroPQ, _conectStringMongo);
 
             return _mediator.Send(query);
 

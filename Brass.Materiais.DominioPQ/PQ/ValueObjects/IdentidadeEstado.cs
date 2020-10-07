@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Brass.Materiais.DominioPQ.BIM.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,28 +10,32 @@ namespace Brass.Materiais.DominioPQ.PQ.ValueObjects
     public class IdentidadeEstado
     {
 
+
+        public string GuidProjeto { get; set; }
+        public string SiglaUsuario { get; set; }
+        public string GuidDisciplina { get; set; }
+        public string GuidCliente { get; set; }
+        public string GuidIdioma { get; set; }
+
+
         public IdentidadeEstado()
         {
 
         }
-        public IdentidadeEstado(string siglaUsuario, string guidDisciplina)
+       
+
+        public IdentidadeEstado(Projeto projeto, string siglaUsuario, string guidDisciplina)
         {
+          
+            GuidProjeto = projeto == null ? "" : projeto.GUID;
             SiglaUsuario = siglaUsuario;
             GuidDisciplina = guidDisciplina;
-            GuidProjeto = "none";
+            GuidCliente = projeto == null ? "" : projeto.GUID_CLIENTE;
+            GuidIdioma = projeto == null ? "" : projeto.GUID_IDIOMA;
         }
 
-        public IdentidadeEstado(string guidProjeto, string siglaUsuario, string guidDisciplina)
-        {
-            GuidProjeto = guidProjeto;
-            SiglaUsuario = siglaUsuario;
-            GuidDisciplina = guidDisciplina;
-        }
+       
 
-        public string GuidProjeto { get; set; }
-
-        public string SiglaUsuario { get; set; }
-        public string GuidDisciplina { get; set; }
 
         public override bool Equals(object obj)
         {

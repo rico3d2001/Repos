@@ -16,7 +16,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ItemParaAtivarController : ControllerBase
+    public class ItemParaAtivarController : GeralController
     {
 
         private readonly IMediator _mediator;
@@ -30,7 +30,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpGet("Dimensoes/{guid_familia}/{guid_Atividade}")]
         public Task<ItemParaAtivar[]> GetDimensoes(string guid_familia, string guid_Atividade)
         {
-            var query = new ObterItensFamiliaQuery(guid_familia, guid_Atividade);
+            var query = new ObterItensFamiliaQuery(guid_familia, guid_Atividade, _conectStringMongo);
 
             return _mediator.Send(query);
         }
@@ -39,7 +39,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpGet("ItensPorItem/{guid_itemPQ}/{guid_AtividadePai}")]
         public Task<ItemParaAtivar[]> GetItensParaAtivar(string guid_itemPQ, string guid_AtividadePai)
         {
-            var query = new ObterItenParaAtivarDeItemPQQuery(guid_itemPQ, guid_AtividadePai);
+            var query = new ObterItenParaAtivarDeItemPQQuery(guid_itemPQ, guid_AtividadePai, _conectStringMongo);
 
             return _mediator.Send(query);
         }
@@ -48,7 +48,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public async Task<ActionResult> AtivarItens([FromBody] List<ItemParaAtivar> listaItens)
         {
 
-            var query = new AtivarItensCommand(listaItens);
+            var query = new AtivarItensCommand(listaItens, _conectStringMongo);
 
             await _mediator.Send(query);
 

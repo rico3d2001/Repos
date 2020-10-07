@@ -16,15 +16,15 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterItensFamilia
         RepoItemPipe _repoItemPipe;
         RepoSPE _repoSPE;
 
-        public ObterItensFamiliaQueryHandler()
-        {
-            _repoItemPipe = new RepoItemPipe();
-            _repoSPE = new RepoSPE();
-        }
+  
 
 
         public Task<ItemParaAtivar[]> Handle(ObterItensFamiliaQuery query, CancellationToken cancellationToken)
         {
+            _repoItemPipe = new RepoItemPipe(query.TextoConexao);
+            _repoSPE = new RepoSPE(query.TextoConexao);
+
+
             var listaDeItensParaAtivar = new List<ItemParaAtivar>();
 
 
@@ -36,9 +36,9 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterItensFamilia
             foreach (var itemDaFamilia in itensCatalogoDaFamilia)
             {
 
-                var atividade = new RepoAtividade().ObterDoItemCatalogado(itemDaFamilia);
+                var atividade = new RepoAtividade(query.TextoConexao).ObterDoItemCatalogado(itemDaFamilia);
 
-                var descricao = RepoValores.InstanciaPorPropriedadeDefinida("PartSizeLongDesc").ObterPorItemPipe(itemDaFamilia);
+                var descricao = RepoValores.InstanciaPorPropriedadeDefinida("PartSizeLongDesc",query.TextoConexao).ObterPorItemPipe(itemDaFamilia);
 
                 var itemAtivar = new ItemParaAtivar(itemDaFamilia.GUID, atividade, descricao);
 

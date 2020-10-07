@@ -27,17 +27,18 @@ namespace Brass.Materiais.AppPQClean.CommandSide.CriarPQ
         Atividade _atividadeTT;
         Atividade _atividadeK;
 
-        public CriarPQValeCommandHandle()
-        {
-            _repoPQPipeVale = new RepoPQ(); //new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
-            _repoResumos = new RepoResumo();
-            _repoEstado = new RepoEstadoApp();
-            _repoItemPQ = new RepoItemPQ();
-            _repoAtividade = new RepoAtividade();
-        }
+  
+            
 
         public async Task<Unit> Handle(CriarPQValeCommand command, CancellationToken cancellationToken)
         {
+
+                _repoPQPipeVale = new RepoPQ(command.TextoConexao); //new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
+            _repoResumos = new RepoResumo(command.TextoConexao);
+            _repoEstado = new RepoEstadoApp(command.TextoConexao);
+            _repoItemPQ = new RepoItemPQ(command.TextoConexao);
+            _repoAtividade = new RepoAtividade(command.TextoConexao);
+        
 
             var identidadeNovaPQ = obtemIdentificadorNovaPQ(command.DataPQ);
 
@@ -192,8 +193,8 @@ namespace Brass.Materiais.AppPQClean.CommandSide.CriarPQ
             {
                 var linhaDataPQ = new LinhaDataPQ(
                "1.1.1.1." + sequencialItem,
-               item.ItemTag.AreaDesenho.Area,
-               item.ItemTag.AreaDesenho.SubArea,
+               item.ItemTag.NumeroAtivo.AreaTag.Area,
+               item.ItemTag.NumeroAtivo.AreaTag.SubArea,
                "",
                 _atividadeK.Codigo,
                   _atividadeTT.Codigo,

@@ -10,8 +10,9 @@ namespace Brass.Materiais.AppPQClean.CommandSide.CriarPlanilhaPQ
 
 
 
-        public CriarPlanExcelPQCommand(string guidPQ, string cliente, string nomeArquivo, string nomePlanilha, string disciplina)
+        public CriarPlanExcelPQCommand(string guidPQ, string cliente, string nomeArquivo, string nomePlanilha, string disciplina, string conectionString)
         {
+            TextoConexao = conectionString;
             GuidPQ = guidPQ;
             selectPlanilha(disciplina);
             Cliente = cliente;
@@ -38,6 +39,7 @@ namespace Brass.Materiais.AppPQClean.CommandSide.CriarPlanilhaPQ
         public string NomePlanilha { get; set; }
         public string  Disciplina { get; set; }
         public string GuidPQ { get; set; }
+        public string TextoConexao { get; set; }
 
 
     }

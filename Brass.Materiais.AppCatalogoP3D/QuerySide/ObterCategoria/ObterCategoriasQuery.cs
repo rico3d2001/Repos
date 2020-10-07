@@ -8,12 +8,14 @@ namespace Brass.Materiais.AppCatalogoP3D.QuerySide.ObterCategoria
 {
     public class ObterCategoriasQuery : IRequest<Familia[]>
     {
-        public ObterCategoriasQuery(string guidCatalogo, string guidTipoItem)
+        public ObterCategoriasQuery(string guidCatalogo, string guidTipoItem, string conectionString)
         {
             GuidCatalogo = guidCatalogo;
-            GuidTipoItem = guidTipoItem;
+            GuidTipoItem = guidTipoItem; 
+            TextoConexao = conectionString;
         }
 
+        public string TextoConexao { get; set; }
         public string GuidCatalogo { get; set; }
         public string GuidTipoItem { get; set; }
 

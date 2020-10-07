@@ -1,12 +1,11 @@
 ﻿using Brass.ExcelLeitura.App.Comandos;
 using Brass.ExcelLeitura.App.Interface;
-using Brass.Materiais.BIM.Entities;
 using Brass.Materiais.DominioPQ.BIM.Entities;
 using Brass.Materiais.Nucleo.ValueObjects;
 
 namespace Brass.Materiais.TesteBulkload.Templates
 {
-    public class AreasPlanejadaXLS : LeitoraPlanilha<AreaPlanejada>, ILeitoraPlanilha<AreaPlanejada>
+    public class AreasPlanejadaXLS : LeitoraPlanilha<AreaTag>, ILeitoraPlanilha<AreaTag>
     {
         string _GUID_PROJETO;
        

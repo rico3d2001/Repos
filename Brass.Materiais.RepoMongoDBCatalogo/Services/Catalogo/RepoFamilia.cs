@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoFamilia
+    public class RepoFamilia : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<Familia> _repositorioFamilias;
-        public RepoFamilia()
+        public RepoFamilia(string conectionString) : base(conectionString)
         {
-            _repositorioFamilias = new BaseMDBRepositorio<Familia>("Catalogo", "Familias");
+
+            _repositorioFamilias = new BaseMDBRepositorio<Familia>(new ConexaoMongoDb("Catalogo", conectionString), "Familias");
         }
 
         public Familia ObterFamiliaPorDescricao(string descricao)
@@ -42,17 +43,16 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 
 
             var lista = new List<Familia>();
-
-            var itemPipeRepositorio = new BaseMDBRepositorio<ItemPipe>("Catalogo", "ItemPipe");
-
+            var itemPipeRepositorio = new BaseMDBRepositorio<ItemPipe>(new ConexaoMongoDb("Catalogo", _conectionString), "ItemPipe");
 
             var builder = Builders<ItemPipe>.Filter;
             var filterItemPipeEstoque = builder.Eq(x => x.GUID_CATALOGO, guidCatalogo) & builder.Eq(x => x.GUID_TIPO_ITEM, guidCategoria);
+
             var itens = itemPipeRepositorio.Encontrar(filterItemPipeEstoque);
 
-            var relacaoPropriedadeItemRepositorio = new BaseMDBRepositorio<RelacaoPropriedadeItem>("Catalogo", "RelacaoPropriedadeItem");
+            var relacaoPropriedadeItemRepositorio = new BaseMDBRepositorio<RelacaoPropriedadeItem>(new ConexaoMongoDb("Catalogo", _conectionString), "RelacaoPropriedadeItem");
 
-            var propriedadeItemRepositorio = new BaseMDBRepositorio<PropriedadeItem>("Catalogo", "PropriedadeItem");
+            var propriedadeItemRepositorio = new BaseMDBRepositorio<PropriedadeItem>(new ConexaoMongoDb("Catalogo", _conectionString), "PropriedadeItem");
 
             foreach (var item in itens)
             {
@@ -71,9 +71,9 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 
                     var propriedadeItem = propriedadeItemRepositorio.Encontrar(filtroPropriedadeItem).First();
 
-
-                    var nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>("Catalogo", "NomeTipoPropriedade");
+                    var nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>(new ConexaoMongoDb("Catalogo", _conectionString), "NomeTipoPropriedade");
                     var builderNomeTipoPropriedade = Builders<NomeTipoPropriedade>.Filter;
+
                     var filtroNomeTipoPropriedade = builderNomeTipoPropriedade.Eq(x => x.GUID, propriedadeItem.GUID_TIPO)
                                                     & builderNomeTipoPropriedade.Eq(x => x.NOME, "PartFamilyLongDesc");
                     var propriedades = nomeTipoPropriedadeRepositorio.Encontrar(filtroNomeTipoPropriedade);
@@ -86,7 +86,8 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 
                         if (strPropriedade == "PartFamilyLongDesc")
                         {
-                            var valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>("Catalogo", "ValorTabelado");
+                            var valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>(new ConexaoMongoDb("Catalogo", _conectionString), "ValorTabelado");
+
                             var filtroValorTabelado = Builders<ValorTabelado>.Filter.Eq(x => x.GUID, propriedadeItem.GUID_VALOR);
                             var valor = valorTabeladoRepositorio.Encontrar(filtroValorTabelado).First();
                             string strValor = valor.VALOR.Replace('"', '¨');

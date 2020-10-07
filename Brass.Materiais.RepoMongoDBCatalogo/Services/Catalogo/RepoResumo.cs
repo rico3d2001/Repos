@@ -11,22 +11,28 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoResumo
+    public class RepoResumo : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<Resumo> _repoResumo;
         RepoPQ _repoPQ;
 
-        public RepoResumo()
+        public RepoResumo(string conectionString) : base(conectionString)
         {
-            _repoResumo = new BaseMDBRepositorio<Resumo>("BIM_TESTE", "ResumoItensPQPlant3d");
-            _repoPQ = new RepoPQ();
+            _repoResumo = new BaseMDBRepositorio<Resumo>(new ConexaoMongoDb("BIM_TESTE", conectionString), "ResumoItensPQPlant3d");
+
+            _repoPQ = new RepoPQ(_conectionString);
         }
 
-        
+        public Resumo ObterPorGuid(string guidResumo)
+        {
+            return _repoResumo.Obter(guidResumo);
+        }
 
-        
 
-        
+
+
+
+
 
         //public Resumo ObterPorGuid(string guid)
         //{

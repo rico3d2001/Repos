@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoDisciplinas
+    public class RepoDisciplinas : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<Disciplina> _repoDisciplinas;
-        public RepoDisciplinas()
+        public RepoDisciplinas(string conectionString) : base(conectionString)
         {
-            _repoDisciplinas = new BaseMDBRepositorio<Disciplina>("MontagemPQ", "Disciplina");
+            _repoDisciplinas = new BaseMDBRepositorio<Disciplina>(new ConexaoMongoDb("MontagemPQ", conectionString), "Disciplina");
         }
 
         public List<Disciplina> ObterTodasDisciplinas()

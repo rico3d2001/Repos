@@ -26,7 +26,7 @@ namespace Brass.Materiais.AppPQClean.ViewModel
         public void AdicionaItem(ItemPQ itemPQ)
         {
             ItemResumo itemResumo = new ItemResumo();
-            itemResumo.GuidProjeto = itemPQ.GuidProjeto;
+            //itemResumo.GuidProjeto = itemPQ.GuidProjeto;
             itemResumo.PnPID = itemPQ.PnPID;
             itemResumo.SpecPart = itemPQ.SpecPart;
             itemResumo.SomaValorQuatidade = itemPQ.SomaValorQuatidade;
@@ -34,8 +34,10 @@ namespace Brass.Materiais.AppPQClean.ViewModel
             itemResumo.Guid = itemPQ.GUID;
             itemResumo.Unidade = itemPQ.Unidade;
             itemResumo.Catalogado = itemPQ.ItemPipe != null ? true : false;
-            itemResumo.Area = itemPQ.ItemTag.AreaDesenho.Area;
-            itemResumo.SubArea = itemPQ.ItemTag.AreaDesenho.SubArea;
+            //itemResumo.Area = itemPQ.ItemTag.AreaDesenho.Area;
+            //itemResumo.SubArea = itemPQ.ItemTag.AreaDesenho.SubArea;
+            itemResumo.NumeroAtivo = itemPQ.ItemTag.NumeroAtivo;
+            itemResumo.SiglaPrimeiraAtividade = "M";
 
             Itens.Add(itemResumo);
 

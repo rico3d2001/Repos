@@ -12,13 +12,11 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterPQ
     {
         RepoPQ _repoPQ;
 
-        public ObterPQQueryHandle()
-        {
-            _repoPQ = new RepoPQ();
-            //_pqsRepositorio = new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
-        }
+       
         public Task<DataPQ> Handle(ObterPQQuery request, CancellationToken cancellationToken)
         {
+            _repoPQ = new RepoPQ(request.TextoConexao);
+
             var pq = _repoPQ.ObterPQ(request.IdentidadePQ);
 
 

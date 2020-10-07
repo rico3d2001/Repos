@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Brass.Materiais.AppGestao.QuerySide.ObterHub;
+using Brass.Materiais.AppGestao.QuerySide.ObterUmProjeto;
 using Brass.Materiais.DominioPQ.BIM.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Cors;
@@ -14,7 +15,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class HubController : ControllerBase
+    public class HubController : GeralController
     {
         private readonly IMediator _mediator;
 
@@ -28,7 +29,17 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<Hub> Get(string siglaUsuario)
         {
 
-            var query = new ObterHubQuery(siglaUsuario);
+            var query = new ObterHubQuery(siglaUsuario, _conectStringMongo);
+
+            return _mediator.Send(query);
+
+        }
+
+        [HttpGet("{siglaUsuario}/{guidProjeto}")]
+        public Task<Projeto> Get(string siglaUsuario, string guidProjeto)
+        {
+
+            var query = new ObterUmProjetoQuery(siglaUsuario, guidProjeto, _conectStringMongo);
 
             return _mediator.Send(query);
 

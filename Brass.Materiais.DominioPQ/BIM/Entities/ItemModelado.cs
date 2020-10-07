@@ -1,4 +1,5 @@
 ﻿using Brass.Materiais.Dominio.Utils;
+using Brass.Materiais.DominioPQ.BIM.Enumerations;
 using Brass.Materiais.DominioPQ.BIM.ValueObjects;
 using Brass.Materiais.DominioPQ.BIM.ViewsPlant;
 using System;
@@ -12,7 +13,7 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
 {
     public class ItemModelado: Entidade
     {
-        private ItemModelado(ItemTag itemTag, string guidProjeto, string pnPID, 
+        public ItemModelado(ItemTag itemTag, string guidProjeto, string pnPID, 
             string descricaoLonga, string descricaoLongaDimensionada, string tipoQuantidade, int unidades, 
             double comprimento, double area, double volume)
         {
@@ -40,27 +41,27 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
         public double Area { get; set; }
         public double Volume { get; set; }
 
-        public static ItemModelado ConstroiItemModeladoDoTubo(BlancPipe blanc, string tag, AreaTag areaTag)
-        {
+        //public static ItemModelado ConstroiItemModeladoDoTubo(Projeto projeto,  BlancPipe blanc, string tag) //, AreaTag areaTag)
+        //{
 
-            ItemTag itemTag = new ItemTag(areaTag, "3D", tag, "");
+        //    ItemTag itemTag = ItemTag.ConstroiDoTextoDoTag(projeto,tag,TipoAtivo.TUBULACAO);//( new ItemTag(areaTag, "3D", tag, "");
 
-            var itemModel = new ItemModelado(itemTag, areaTag.GUID_PROJETO, blanc.PnPID.ToString(), blanc.PartFamilyLongDesc,
-                blanc.PartSizeLongDesc, "QtdLinear", 0, (double)blanc.Length, 0, 0);
-            itemModel.Comprimento = (double)blanc.Length;
-            return itemModel;
-        }
+        //    var itemModel = new ItemModelado(itemTag, projeto.GUID, blanc.PnPID.ToString(), blanc.PartFamilyLongDesc,
+        //        blanc.PartSizeLongDesc, "QtdLinear", 0, (double)blanc.Length, 0, 0);
+        //    itemModel.Comprimento = (double)blanc.Length;
+        //    return itemModel;
+        //}
 
-        public static ItemModelado ConstroiItemModeladoDeValvula(UnidadePipe unidade, string tag, AreaTag areaTag)
-        {
+        //public static ItemModelado ConstroiItemModeladoDeValvula(Projeto projeto, UnidadePipe unidade, string tag) //, AreaTag areaTag)
+        //{
 
-            ItemTag itemTag = new ItemTag(areaTag, "3D", tag, "");
+        //    ItemTag itemTag = ItemTag.ConstroiDoTextoDoTag(projeto,tag, TipoAtivo.TUBULACAO);  //(areaTag, "3D", tag, "");
 
-            var itemModel = new ItemModelado(itemTag, areaTag.GUID_PROJETO, unidade.PnPID.ToString(), unidade.PartFamilyLongDesc,
-                unidade.PartSizeLongDesc, "QtdUnitaria", 0, 1.0, 0, 0);
-            itemModel.Comprimento = 1.0;
-            return itemModel;
-        }
+        //    var itemModel = new ItemModelado(itemTag, projeto.GUID, unidade.PnPID.ToString(), unidade.PartFamilyLongDesc,
+        //        unidade.PartSizeLongDesc, "QtdUnitaria", 1, 0, 0, 0);
+        //    itemModel.Unidades = 1;
+        //    return itemModel;
+        //}
 
 
 

@@ -30,7 +30,7 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
         public string Filename { get; set; }
         public string GuidProjeto { get; set; }
 
-        public void ColetarItens(AreaPlanejada areaPlanejada, string filename)
+        public void ColetarItens(AreaTag areaPlanejada, string filename)
         {
            
             var areaDeBusca = areaPlanejada.Area + areaPlanejada.SubArea;
@@ -70,7 +70,7 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
 
         }
 
-        private ItemPQ obterItemPQ(AreaPlanejada areaPlanejada, PipeLine pipeLine)
+        private ItemPQ obterItemPQ(AreaTag areaPlanejada, PipeLine pipeLine)
         {
             return _repoItemPQ.ObterItemPQ(areaPlanejada.Area, areaPlanejada.SubArea, pipeLine.SpecPart);
         }

@@ -13,12 +13,13 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class EstadoAppController : ControllerBase
+    public class EstadoAppController : GeralController
     {
         private readonly IMediator _mediator;
 
         public EstadoAppController(IMediator mediator)
         {
+            //_conectStringMongo = "testeAtlas";
             _mediator = mediator;
         }
 
@@ -27,7 +28,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpGet("GetEstado/{guidProjeto}/{siglaUsuario}/{guidDisciplina}")]
         public Task<EstadoApp> ObterEstadoAppQuery(string guidProjeto,string siglaUsuario, string guidDisciplina)
         {
-            var query = new ObterEstadoAppQuery(guidProjeto, siglaUsuario, guidDisciplina);  //, guidDisciplina);
+            var query = new ObterEstadoAppQuery(guidProjeto, siglaUsuario, guidDisciplina, _conectStringMongo);  //, guidDisciplina);
 
             return _mediator.Send(query);
 
@@ -37,7 +38,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpPost("Iniciar")]
         public async Task<ActionResult> IniciarEstadoApp([FromBody] IdentidadeEstado identidadeEstado)
         {
-            var query = new IniciarEstadoAppCommand(identidadeEstado);
+            var query = new IniciarEstadoAppCommand(identidadeEstado, _conectStringMongo);
 
             await _mediator.Send(query);
 
@@ -45,10 +46,10 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
 
         }
 
-        [HttpPut("AddArea/{area}/{subArea}")]
-        public async Task<ActionResult> AddAreaEstadoApp(string area, string subArea,[FromBody] IdentidadeEstado identidadeEstado)
+        [HttpPut("AddArea/{area}/{subArea}/{ativo}")]
+        public async Task<ActionResult> AddAreaEstadoApp(string area, string subArea,string ativo, [FromBody] IdentidadeEstado identidadeEstado)
         {
-            var query = new AddAreaEstadoAppCommand(area, subArea, identidadeEstado);
+            var query = new AddAreaEstadoAppCommand(area, subArea, ativo, identidadeEstado, _conectStringMongo);
 
             await _mediator.Send(query);
 
@@ -59,7 +60,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpPut("AddGuidPQ/{numeroPQ}")]
         public async Task<ActionResult> AddGuidPQEstadoApp(int numeroPQ, [FromBody] IdentidadePQ identidadePQ)
         {
-            var query = new AddGuidPQEstadoAppCommand(identidadePQ);
+            var query = new AddGuidPQEstadoAppCommand(identidadePQ, _conectStringMongo);
 
             await _mediator.Send(query);
 
@@ -70,7 +71,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpPut("AddGuidResumo/{numeroPQ}")]
         public async Task<ActionResult> AddGuidResumoEstadoApp([FromBody] IdentidadePQ identidadePQ)
         {
-            var query = new AddGuidResumoEstadoAppCommand(identidadePQ);
+            var query = new AddGuidResumoEstadoAppCommand(identidadePQ, _conectStringMongo);
 
             await _mediator.Send(query);
 
@@ -81,7 +82,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpPut("AddGuidProjeto")]
         public async Task<ActionResult> AddGuidProjeto([FromBody] EstadoApp estado)
         {
-            var query = new AddGuidProjetoEstadoAppCommand(estado);
+            var query = new AddGuidProjetoEstadoAppCommand(estado, _conectStringMongo);
 
             await _mediator.Send(query);
 
@@ -92,7 +93,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpPut("AddGuidDisciplina/{guid}")]
         public async Task<ActionResult> AddGuidDisciplina([FromBody] IdentidadeEstado identidadeEstado)
         {
-            var query = new AddGuidDisciplinaEstadoAppCommand(identidadeEstado);
+            var query = new AddGuidDisciplinaEstadoAppCommand(identidadeEstado, _conectStringMongo);
 
             await _mediator.Send(query);
 

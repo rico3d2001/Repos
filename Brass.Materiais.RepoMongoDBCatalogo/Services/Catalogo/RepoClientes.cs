@@ -7,13 +7,24 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoClientes
+    public class RepoClientes : RepositorioAbstratoGeral
     {
 
-        BaseMDBRepositorio<Cliente> _repoAreasDiagramas;
-        public RepoClientes()
+        BaseMDBRepositorio<Cliente> _repoClientes;
+        public RepoClientes(string conectionString) : base(conectionString)
         {
-            _repoAreasDiagramas = new BaseMDBRepositorio<Cliente>("BIM", "Clientes");
+            _repoClientes = new BaseMDBRepositorio<Cliente>(new ConexaoMongoDb("BIM", conectionString), "Clientes");
+
+        }
+
+        public List<Cliente> ObterTodos()
+        {
+           return  _repoClientes.Obter();
+        }
+
+        public void Cadastar(Cliente cliente)
+        {
+            _repoClientes.Inserir(cliente);
         }
 
 

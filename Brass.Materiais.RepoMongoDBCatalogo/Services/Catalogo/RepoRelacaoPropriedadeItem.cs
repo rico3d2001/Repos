@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoRelacaoPropriedadeItem
+    public class RepoRelacaoPropriedadeItem : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<RelacaoPropriedadeItem> _relacaoPropriedadeItemRepositorio;
 
-        public RepoRelacaoPropriedadeItem()
+        public RepoRelacaoPropriedadeItem(string conectionString) : base(conectionString)
         {
-            _relacaoPropriedadeItemRepositorio = new BaseMDBRepositorio<RelacaoPropriedadeItem>("Catalogo", "RelacaoPropriedadeItem");
+            _relacaoPropriedadeItemRepositorio = new BaseMDBRepositorio<RelacaoPropriedadeItem>(new ConexaoMongoDb("Catalogo", conectionString), "RelacaoPropriedadeItem");
         }
         public List<RelacaoPropriedadeItem> ObterRelacoesEntrePropriedadeItem(ItemPipe itemDaFamilia)
         {
@@ -33,7 +33,11 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
                    Builders<RelacaoPropriedadeItem>.Filter.Eq(x => x.GUID_ITEM_ENG, itemPipeEstoque.GUID)
                    & Builders<RelacaoPropriedadeItem>.Filter.Eq(x => x.GUID_ITEM_ENG, propriedadeDoItem.GUID));
 
+           
+
             return relacoes.Count() == 1 ? relacoes.First() : null;
         }
+
+       
     }
 }

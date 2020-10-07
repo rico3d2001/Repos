@@ -10,5 +10,11 @@ namespace Brass.Materiais.AppGestao.QuerySide.ObterDisciplinas
 {
     public class ObterDisciplinasQuery : IRequest<Disciplina[]>
     {
+        public ObterDisciplinasQuery(string connecitonString)
+        {
+            TextoConexao = connecitonString;
+        }
+
+        public string TextoConexao { get; set; }
     }
 }

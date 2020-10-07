@@ -15,16 +15,13 @@ namespace Brass.Materiais.AppGestao.CommandSide.ModificarEstadoApp
         RepoEstadoApp _repoEstadoApp;
         RepoProjetos _repoProjetos;
 
-        public AddGuidProjetoEstadoAppCommandHandler()
-        {
-
-            _repoEstadoApp = new RepoEstadoApp();
-
-        }
+        
 
 
         public async Task<Unit> Handle(AddGuidProjetoEstadoAppCommand command, CancellationToken cancellationToken)
         {
+            _repoEstadoApp = new RepoEstadoApp(command.TextoConexao);
+
             var estado = _repoEstadoApp
                 .ObterEstadoPorUsuarioDisciplina(
                 command.EstadoApp.IdentidadePQ.IdentidadeEstado.SiglaUsuario,
@@ -35,11 +32,11 @@ namespace Brass.Materiais.AppGestao.CommandSide.ModificarEstadoApp
           
 
 
-            estado.NomeProjeto = command.EstadoApp.NomeProjeto;
-            estado.SiglaProjeto = command.EstadoApp.SiglaProjeto;
-            estado.Origem = command.EstadoApp.Origem;
+            //estado.IdentidadePQ.IdentidadeEstado.Projeto.NomeProjeto = command.EstadoApp.IdentidadePQ.IdentidadeEstado.Projeto.NomeProjeto;
+            //estado.IdentidadePQ.IdentidadeEstado.Projeto.Sigla = command.EstadoApp.IdentidadePQ.IdentidadeEstado.Projeto.Sigla;
+            //estado.IdentidadePQ.IdentidadeEstado.Projeto.Origem = command.EstadoApp.IdentidadePQ.IdentidadeEstado.Projeto.Origem;
             estado.Operacao = command.EstadoApp.Operacao;
-            estado.Endereco = command.EstadoApp.Endereco;
+            //estado.IdentidadePQ.IdentidadeEstado.Projeto.Endereco = command.EstadoApp.IdentidadePQ.IdentidadeEstado.Projeto.Endereco;
 
             _repoEstadoApp.Modificar(estado);
 

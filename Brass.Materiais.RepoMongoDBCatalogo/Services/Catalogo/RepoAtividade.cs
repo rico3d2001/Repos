@@ -10,14 +10,15 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoAtividade
+    public class RepoAtividade: RepositorioAbstratoGeral
     {
 
         BaseMDBRepositorio<Atividade> _atividadesRepositorio;
 
-        public RepoAtividade()
+        public RepoAtividade(string conectionString) : base(conectionString)
         {
-            _atividadesRepositorio = new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
+            
+            _atividadesRepositorio = new BaseMDBRepositorio<Atividade>(new ConexaoMongoDb("MontagemPQ", conectionString), "Atividade");
         }
 
         public Atividade ObterDoItemCatalogado(ItemPipe itemDaFamilia)
@@ -54,7 +55,7 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 
         public List<Atividade> ObterPorEstado(string guidProjeto, string guidDisciplina)
         {
-            RepoProjetos repoProjetos = new RepoProjetos();
+            RepoProjetos repoProjetos = new RepoProjetos(_conectionString);
 
             var projeto = repoProjetos.ObterProjeto(guidProjeto);
 
@@ -66,6 +67,11 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         public Atividade ObterPorGuid(string guid)
         {
             return _atividadesRepositorio.Obter(guid);
+        }
+
+        public void CatadastarAtividade(Atividade atividade)
+        {
+            _atividadesRepositorio.Atualizar(atividade);
         }
     
     }

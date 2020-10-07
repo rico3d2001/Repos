@@ -1,4 +1,5 @@
 ﻿using Brass.Materiais.DominioPQ.BIM.Entities;
+using Brass.Materiais.DominioPQ.BIM.ValueObjects;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -8,24 +9,26 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoItemPQ
+    public class RepoItemPQ : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<ItemPQ> _repositorioItemPipePlant3d;
-        public RepoItemPQ()
+        public RepoItemPQ(string conectionString) : base(conectionString)
         {
-            _repositorioItemPipePlant3d = new BaseMDBRepositorio<ItemPQ>("BIM_TESTE", "ItemPQPlant3d");
+            _repositorioItemPipePlant3d = new BaseMDBRepositorio<ItemPQ>(new ConexaoMongoDb("BIM_TESTE", conectionString), "ItemPQPlant3d");
         }
 
-        public void InserirItem(ItemPQ itemPQ)
+        public void InserirItem(ItemPQ itemPQ) 
         {
             _repositorioItemPipePlant3d.Inserir(itemPQ);
         }
 
-        public ItemPQ ObterItemPQ(string area, string subArea, string descricao)
+        public ItemPQ ObterItemPQ(NumeroAtivo numeroAtivo, string descricao)
         {
           var itens =  _repositorioItemPipePlant3d.Encontrar(
-              Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.AreaDesenho.Area, area)
-              & Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.AreaDesenho.SubArea, subArea)
+                Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.AreaTag.GUID_PROJETO, numeroAtivo.AreaTag.GUID_PROJETO)
+              & Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.AreaTag.Area, numeroAtivo.AreaTag.Area)
+              & Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.AreaTag.SubArea, numeroAtivo.AreaTag.SubArea)
+              & Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.Sigla, numeroAtivo.Sigla)
               & Builders<ItemPQ>.Filter.Eq(x => x.SpecPart, descricao));
 
             if (itens.Count == 1) 
@@ -38,6 +41,25 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
             }
 
             return null;
+        }
+
+        public List<ItemPQ> Obter(string guidProjeto, string area, string subArea, string ativo)
+        {
+            return _repositorioItemPipePlant3d
+                .Encontrar(Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.AreaTag.GUID_PROJETO, guidProjeto)
+                & Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.AreaTag.Area, area)
+                & Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.AreaTag.SubArea, subArea)
+                & Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.Sigla, ativo)
+                );
+        }
+
+        public bool NuncaFoiCadastrado(string GUID_PROJETO)
+        {
+            var itens = _repositorioItemPipePlant3d.Encontrar(
+                Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.AreaTag.GUID_PROJETO, GUID_PROJETO));
+
+            return itens.Count > 0 ? false : true;
+
         }
 
         public List<ItemPQ> ObterListaPorResumo(List<ItemPQ> itens)
@@ -57,7 +79,7 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         public List<ItemPQ> ObterItensPQPorProjeto(string guidProjeto)
         {
             return _repositorioItemPipePlant3d.Encontrar(
-            Builders<ItemPQ>.Filter.Eq(x => x.GuidProjeto, guidProjeto));
+            Builders<ItemPQ>.Filter.Eq(x => x.ItemTag.NumeroAtivo.AreaTag.GUID_PROJETO, guidProjeto));
         }
 
 
@@ -70,5 +92,7 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         {
            return _repositorioItemPipePlant3d.Obter(guid);
         }
+
+      
     }
 }

@@ -105,12 +105,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Brass.ExcelLeitura\Brass.ExcelLeitura.App\Brass.ExcelLeitura.App.csproj">
+      <Project>{f1a6b63d-f34d-4456-87b3-3c4b6d7db355}</Project>
+      <Name>Brass.ExcelLeitura.App</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.Dominio.Utils\Brass.Materiais.Dominio.Utils.csproj">
       <Project>{7DD22068-369A-47C4-9DFB-CAF52FF1C541}</Project>
       <Name>Brass.Materiais.Dominio.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.DominioPQ\Brass.Materiais.DominioPQ.csproj">
-      <Project>{038B303F-4C27-4A2E-BF4A-D38BCA4BB4E1}</Project>
+      <Project>{038b303f-4c27-4a2e-bf4a-d38bca4bb4e1}</Project>
       <Name>Brass.Materiais.DominioPQ</Name>
     </ProjectReference>
     <ProjectReference Include="..\Brass.Materiais.Nucleo\Brass.Materiais.Nucleo.csproj">

@@ -10,5 +10,11 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterTabelaAtividades
 {
     public class ObterTabelaAtividadesQuery : IRequest<TabelaAtividades>
     {
+        public ObterTabelaAtividadesQuery(string conectionString)
+        {
+            TextoConexao = conectionString;
+        }
+
+        public string TextoConexao { get; set; }
     }
 }

@@ -20,21 +20,16 @@ namespace Brass.Materiais.AppCatalogoP3D.QuerySide.ObterArvoreCatalogo
         RepoCategoria _repoCategoria;
         RepoFamilia _repoFamilia;
 
-        public ObtemArvoreCatalogoQueryHandler()
-        {
-
-            //_repoRamalEstoque = new RepoRamalEstoque();
-            _repoCatalogo = new RepoCatalogo();
-            _repoTipoDeItem = new RepoTipoDeItem();
-            _repoCategoria = new RepoCategoria();
-            _repoFamilia = new RepoFamilia();
-        }
+       
 
 
 
         public Task<RamalArvoreCatalogo[]> Handle(ObtemArvoreCatalogoQuery request, CancellationToken cancellationToken)
         {
-
+            _repoCatalogo = new RepoCatalogo(request.TextoConexao);
+            _repoTipoDeItem = new RepoTipoDeItem(request.TextoConexao);
+            _repoCategoria = new RepoCategoria(request.TextoConexao);
+            _repoFamilia = new RepoFamilia(request.TextoConexao);
 
             List<RamalArvoreCatalogo> ramalArvoreCatalogos = new List<RamalArvoreCatalogo>();
 

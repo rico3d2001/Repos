@@ -33,13 +33,13 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
 
 
 
-        public void CadastrarItens(AreaPlanejada areaPlanejada)
+        public void CadastrarItens(AreaTag areaPlanejada)
         {
 
 
 
             var itensModeladosNaoIncluidosEmItemDiagramaParaArea = _itensModeladosDeTodoProjetoNaoIncluidosEmItemDiagrama
-               .Where(x => x.ItemTag.AreaDesenho.Area == areaPlanejada.Area && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea).ToList();
+               .Where(x => x.ItemTag.NumeroAtivo.AreaTag.Area == areaPlanejada.Area && x.ItemTag.NumeroAtivo.AreaTag.SubArea == areaPlanejada.SubArea).ToList();
 
             foreach (var itemModelado in itensModeladosNaoIncluidosEmItemDiagramaParaArea)
             {
@@ -51,7 +51,7 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
                     var itemPipe = _repoItemPipe.ObterPorDescricaoComplexa(itemParaAnalize.DescricaoLongaDimensionada, "");
                     //if(itemPipe != null)
                     //{
-                    var itemPQPlant3D = ItemPQ.CriaItemPQSomenteModelado(areaPlanejada, itemParaAnalize, itemPipe);
+                    var itemPQPlant3D = ItemPQ.CriaItemPQSomenteModelado(itemParaAnalize, itemPipe);
 
                     UneAoItemModeladoAquelesComDescricaoIgual(areaPlanejada, itemParaAnalize, itemPQPlant3D);
 
@@ -66,11 +66,11 @@ namespace Brass.Materiais.AppBIM360.CommandSide.CargaItensP3DBIM360
             }
         }
 
-        private void UneAoItemModeladoAquelesComDescricaoIgual(AreaPlanejada areaPlanejada, ItemModelado itemParaAnalize, ItemPQ itemPQPlant3D)
+        private void UneAoItemModeladoAquelesComDescricaoIgual(AreaTag areaPlanejada, ItemModelado itemParaAnalize, ItemPQ itemPQPlant3D)
         {
             var itensDescricaoIgual = _listaItensModeladosAindaNaoAnalizados
               .Where(x =>
-              (x.ItemTag.AreaDesenho.Area == areaPlanejada.Area && x.ItemTag.AreaDesenho.SubArea == areaPlanejada.SubArea) &&
+              (x.ItemTag.NumeroAtivo.AreaTag.Area == areaPlanejada.Area && x.ItemTag.NumeroAtivo.AreaTag.SubArea == areaPlanejada.SubArea) &&
               x.DescricaoLongaDimensionada == itemParaAnalize.DescricaoLongaDimensionada).ToList();
 
             foreach (var itemDescricaoIgual in itensDescricaoIgual)

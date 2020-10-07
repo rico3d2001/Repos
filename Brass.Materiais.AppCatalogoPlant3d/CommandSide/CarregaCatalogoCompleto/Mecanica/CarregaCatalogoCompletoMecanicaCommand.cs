@@ -7,12 +7,13 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
 {
     public class CarregaCatalogoCompletoMecanicaCommand : Notifiable, IRequest<Response>
     {
-        public CarregaCatalogoCompletoMecanicaCommand(string nomeCatalogo, string idioma, string pais, string conexao, string guidDisciplina)
+        public CarregaCatalogoCompletoMecanicaCommand(string nomeCatalogo, string idioma, string pais, string guidDisciplina, string conexao)
         {
             NomeCatalogo = nomeCatalogo;
             Idioma = idioma;
             Pais = pais;
             GuidDisciplina = guidDisciplina;
+            TextoConexao = conexao;
             //QueryEquipment_PNP_SQL = Equipment_PNP_SQL.GetAllEquipment_PNP(nomeCatalogo,conexao);
         }
 
@@ -22,6 +23,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
         public string Pais { get; set; }
         public string GuidDisciplina { get; set; }
         public List<Dictionary<object, object>> QueryEquipment_PNP_SQL { get; set; }
+        public string TextoConexao { get; set; }
 
     }
 }

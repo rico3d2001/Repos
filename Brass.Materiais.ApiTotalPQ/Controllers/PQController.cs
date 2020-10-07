@@ -21,7 +21,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PQController : ControllerBase
+    public class PQController : GeralController
     {
         private readonly IMediator _mediator;
 
@@ -35,7 +35,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<List<EstadoApp>> IdsResumos(string siglaUsuario, string guidProjeto,string guidDisciplina)
         {
 
-            var query = new ObterListaPQsQuery(siglaUsuario, guidProjeto, guidDisciplina);
+            var query = new ObterListaPQsQuery(siglaUsuario, guidProjeto, guidDisciplina, _conectStringMongo);
 
             return _mediator.Send(query);
 
@@ -47,7 +47,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<DataPQ> GetPQAtiva(string siglaUsuario, string guidProjeto,string guidDisciplina, int numeroPQ)
         {
 
-            var query = new ObterPQAtivaQuery(siglaUsuario, guidProjeto, guidDisciplina, numeroPQ);
+            var query = new ObterPQAtivaQuery(siglaUsuario, guidProjeto, guidDisciplina, numeroPQ, _conectStringMongo);
 
             return _mediator.Send(query);
 
@@ -58,7 +58,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<DataPQ> Get(string guidProjeto, string siglaUsuario, string guidDisciplina, int numeroPQ)
         {
 
-            var query = new ObterPQQuery(guidProjeto, siglaUsuario, guidDisciplina, numeroPQ);
+            var query = new ObterPQQuery(guidProjeto, siglaUsuario, guidDisciplina, numeroPQ, _conectStringMongo);
 
             return _mediator.Send(query);
 
@@ -68,7 +68,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpPost("SalvarPQ")]
         public async Task<ActionResult> SalvarPQ([FromBody] DataPQ dataPQ)
         {
-            var query = new CriarPQValeCommand(dataPQ);
+            var query = new CriarPQValeCommand(dataPQ, _conectStringMongo);
 
             await _mediator.Send(query);
 
@@ -81,7 +81,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public async Task<ActionResult> EmitirPQ([FromBody] DataPQ dataPQ)
         {
 
-            var command = new EmitirPQCommand(dataPQ);
+            var command = new EmitirPQCommand(dataPQ, _conectStringMongo);
 
             await _mediator.Send(command);
 
@@ -96,7 +96,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
 
             //string guidPQ, List<ItemPQPlant3d> itens
 
-            var command = new AddResumoParaPQCommand(guidProjeto, siglaUsuario, guidDisciplina, numeroPQ, listaItens);
+            var command = new AddResumoParaPQCommand(guidProjeto, siglaUsuario, guidDisciplina, numeroPQ, listaItens, _conectStringMongo);
 
             await _mediator.Send(command);
 
@@ -109,7 +109,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public async Task<ActionResult> ImprimirPQ(string guidPQ)
         {
 
-            var command = new CriarPlanExcelPQCommand(guidPQ, "Vale", @"C:\Trabalho\Templates\TemplateVale.xlsx", "M-TUB", "Tubulacao");
+            var command = new CriarPlanExcelPQCommand(guidPQ, "Vale", @"C:\Trabalho\Templates\TemplateVale.xlsx", "M-TUB", "Tubulacao", _conectStringMongo);
 
             await _mediator.Send(command);
 

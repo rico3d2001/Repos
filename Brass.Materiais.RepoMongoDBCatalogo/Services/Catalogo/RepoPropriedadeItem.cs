@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoPropriedadeItem
+    public class RepoPropriedadeItem : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<PropriedadeItem> _propriedadeItemRepositorio;
         BaseMDBRepositorio<NomeTipoPropriedade> _nomeTipoPropriedadeRepositorio;
 
-        public RepoPropriedadeItem()
+        public RepoPropriedadeItem(string conectionString) : base(conectionString)
         {
-            _propriedadeItemRepositorio = new BaseMDBRepositorio<PropriedadeItem>("Catalogo", "PropriedadeItem"); 
-            _nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>("Catalogo", "NomeTipoPropriedade");
+            _propriedadeItemRepositorio = new BaseMDBRepositorio<PropriedadeItem>(new ConexaoMongoDb("Catalogo", conectionString), "PropriedadeItem");
+            _nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>(new ConexaoMongoDb("Catalogo", conectionString), "NomeTipoPropriedade");
         }
         public List<PropriedadeItem> ObterPropriedadesDisponiveis(string nomePropriedade)
         {
@@ -40,6 +40,8 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 
             return propriedades.Count() == 1 ? propriedades.First() : null;
         }
+
+        
 
         public void Cadastrar(PropriedadeItem propriedade)
         {

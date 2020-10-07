@@ -63,7 +63,7 @@ namespace Brass.Materiais.TesteBulkload.Templates.MontagensXLS
                     _atividadeK = atividadesSelect.FirstOrDefault(x => x.Descricao == descr);
                     if (_atividadeK == null)
                     {
-                        _atividadeK = new Atividade("K", "", "697cf50e-17fe-47b4-bfbe-32aa4f06de46", "909e5882-0b5e-414f-b37c-79514ac6f69f",
+                        _atividadeK = new Atividade(_identidade,"K", "", "697cf50e-17fe-47b4-bfbe-32aa4f06de46", "909e5882-0b5e-414f-b37c-79514ac6f69f",
                        "2c69c17b-fe23-4654-bade-6f7fc2eb2b5f", versao, codigo, descr);
                     }
                     else

@@ -12,49 +12,65 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoColetadosPipe
+    public class RepoColetadosPipe : RepositorioAbstratoGeral
     {
-        Coletados _coleta;
-        BaseMDBRepositorio<Coletados> _coletadosPipeRepositorio;
+        //Coletado _coleta;
+        BaseMDBRepositorio<Coletado> _coletadosPipeRepositorio;
 
       
 
 
 
 
-        public RepoColetadosPipe()
+        public RepoColetadosPipe(string conectionString) : base(conectionString)
         {
-            _coletadosPipeRepositorio = new BaseMDBRepositorio<Coletados>("Coletados", "ColetadosPipe");
+            
+            _coletadosPipeRepositorio = new BaseMDBRepositorio<Coletado>(new ConexaoMongoDb("Coletados", conectionString), "ColetadosPipe");
 
-            //var listaColetasDoProjeto = _coletadosPipeRepositorio.Encontrar(Builders<Coletados>.Filter.Eq(x => x.GuidProjeto, guidProjeto));
-
-            //if(listaColetasDoProjeto.Count > 0)
-            //{
-            //    var ultima = listaColetasDoProjeto.Last();
-            //    Versao version = new Versao(ultima.Versao.Numero, ultima.Versao.Origem, "Atualização", DateTime.Now);
-            //    _coleta = new Coletados(guidProjeto, version);
-            //}
-            //else
-            //{
-                
-            //    Versao versao = new Versao(0, "Plant3d", "Incio do Projeto", DateTime.Now);
-            //    _coleta = new Coletados(guidProjeto, versao);
-                
-            //}
-
-            //_coletadosPipeRepositorio.Inserir(_coleta);
 
         }
 
-        public List<Coletados> ObterUltimaColeta(string guidProjeto, int numeroVersao)
+        public void DeletaColetados(string guidProjeto)
         {
+            _coletadosPipeRepositorio.ApagarVarios(Builders<Coletado>.Filter.Eq(x => x.GuidProjeto, guidProjeto));
+        }
+
+        public int Contar(string guidProjeto)
+        {
+          return (int) _coletadosPipeRepositorio.Contar(Builders<Coletado>.Filter.Eq(x => x.GuidProjeto, guidProjeto));
+        }
+
+        //public int ContarTudo()
+        //{
+        //    return _coletadosPipeRepositorio.Obter();
+        //}
+
+        public List<Coletado> Todos()
+        {
+            return _coletadosPipeRepositorio.Obter();
+        }
+
+        public List<Coletado> ObterColetadosDaArea(string guidProjeto)
+        {
+
             return _coletadosPipeRepositorio.Encontrar(
-                Builders<Coletados>.Filter.Eq(x => x.GuidProjeto, guidProjeto)
-                & Builders<Coletados>.Filter.Eq(x => x.Versao.Numero, numeroVersao));
+                Builders<Coletado>.Filter.Eq(x => x.GuidProjeto, guidProjeto));
 
         }
 
+        public bool NaoHouveColetaAinda(string guidProjeto)
+        {
+            var possuiUmRegistro = _coletadosPipeRepositorio.PossuiUmRegistro(Builders<Coletado>.Filter.Eq(x => x.GuidProjeto, guidProjeto));
 
+            return possuiUmRegistro ? false : true;
+        }
+
+        public bool JaHouveColeta(string guidProjeto)
+        {
+            var possuiUmRegistro = _coletadosPipeRepositorio.PossuiUmRegistro(Builders<Coletado>.Filter.Eq(x => x.GuidProjeto, guidProjeto));
+
+            return possuiUmRegistro ? true : false;
+        }
 
         //public List<Coletados> ObterTubos(string guidProjeto, int numeroVersao)
         //{
@@ -78,7 +94,7 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 
 
 
-        public void CadastrarColetado(Coletados coletado)
+        public void Cadastrar (Coletado coletado)
         {
             _coletadosPipeRepositorio.Inserir(coletado);
         }

@@ -14,7 +14,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProjetosController : Controller
+    public class ProjetosController : GeralController
     {
         private readonly IMediator _mediator;
 
@@ -28,7 +28,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         public Task<Projeto[]> Get()
         {
 
-            var query = new ObterProjectosQuery();
+            var query = new ObterProjectosQuery(_conectStringMongo);
 
             return _mediator.Send(query);
 

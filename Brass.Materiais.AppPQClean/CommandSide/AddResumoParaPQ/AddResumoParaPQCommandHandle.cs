@@ -8,6 +8,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,21 +24,25 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AddResumoParaPQ
         Atividade _atividadeUU;
         Atividade _atividadeTT;
         Atividade _atividadeK;
+        List<ItemPQ> _itensParametro;
 
-        public AddResumoParaPQCommandHandle()
-        {
-            _repoPQPipeVale = new RepoPQ(); //new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
-            _repoAtividade = new RepoAtividade(); //new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
-            _repoItemPQ = new RepoItemPQ();
-            _repoResumo = new RepoResumo();
-        }
+ 
 
         public async Task<Unit> Handle(AddResumoParaPQCommand command, CancellationToken cancellationToken)
         {
 
+            _repoPQPipeVale = new RepoPQ(command.TextoConexao); //new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
+            _repoAtividade = new RepoAtividade(command.TextoConexao); //new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
+            _repoItemPQ = new RepoItemPQ(command.TextoConexao);
+            _repoResumo = new RepoResumo(command.TextoConexao);
+
+
+
+            _itensParametro = command.ItensParametro;
+
             var dataPQ = _repoPQPipeVale.ObterUltimaPQAtivaDoHub(command.IdentidadePQ.IdentidadeEstado);
 
-            criaListaLinhas(command.Itens, dataPQ);
+            criaListaLinhas(dataPQ);
 
            
 
@@ -48,7 +53,7 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AddResumoParaPQ
             return Unit.Value;
         }
 
-        public void criaListaLinhas(List<ItemPQ> itensParametro, DataPQ dataPQ)
+        public void criaListaLinhas(DataPQ dataPQ)
         {
 
            
@@ -61,15 +66,15 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AddResumoParaPQ
 
             dataPQ.ResetLinhas();
 
-            var itens = new List<ItemPQ>();
+            //var itens = new List<ItemPQ>();
 
             
-                foreach (var item in itensParametro)
-                {
-                    var itemEncontrado = _repoItemPQ.ObterPorGuid(item.GUID);
-                    itens.Add(itemEncontrado);
+                //foreach (var item in itensParametro)
+                //{
+                //    var itemEncontrado = _repoItemPQ.ObterPorGuid(item.GUID);
+                //    itens.Add(itemEncontrado);
 
-                }
+                //}
            
                
 
@@ -78,8 +83,9 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AddResumoParaPQ
             
 
 
-            foreach (var itemGlobal in itens)
+            foreach (var itemParametro in _itensParametro)
             {
+                var itemGlobal = _repoItemPQ.ObterPorGuid(itemParametro.GUID);
 
                 if (dataPQ.ListaDataPQ == null || dataPQ.ListaDataPQ.Count <= 0)
                 {
@@ -92,7 +98,7 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AddResumoParaPQ
                     var atividadePai = dataPQ.ListaDataPQ.LastOrDefault(x => x.GuidAtividade == itemGlobal.Atividade.GUID_PAI);
                     if (atividadePai != null)
                     {
-                        sequencialItem = AdcionarGrupoItens(itens, dataPQ, sequencialItem, ItensAdicicionados);
+                        sequencialItem = AdcionarGrupoItens(dataPQ, sequencialItem, ItensAdicicionados);
 
                     }
                     else
@@ -101,7 +107,7 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AddResumoParaPQ
 
                         InsereClassificacao(dataPQ, itemGlobal, ItensAdicicionados);
 
-                        sequencialItem = AdcionarGrupoItens(itens, dataPQ, sequencialItem, ItensAdicicionados);
+                        sequencialItem = AdcionarGrupoItens(dataPQ, sequencialItem, ItensAdicicionados);
                     }
 
                 }
@@ -113,45 +119,69 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AddResumoParaPQ
 
         }
 
-        private int AdcionarGrupoItens(List<ItemPQ> itens, DataPQ dataPQ, int sequencialItem, List<ItemPQ> ItensAdicicionados)
+        private int AdcionarGrupoItens(DataPQ dataPQ, int sequencialItem, List<ItemPQ> itensAdicicionados)
         {
+            var itens = new List<ItemPQ>();
+
+            foreach (var item in _itensParametro)
+            {
+                var itemEncontrado = _repoItemPQ.ObterPorGuid(item.GUID);
+                itens.Add(itemEncontrado);
+
+            }
+
             var agrupamento = itens.Where(x => x.Atividade.GUID_PAI == _atividadeVVV.GUID).OrderBy(x => x.Atividade.Codigo).ToList();
 
-            foreach (var item in agrupamento)
+           
+            foreach (var itemPQ in agrupamento)
             {
-                var linhaDataPQ = new LinhaDataPQ(
-               "1.1.1.1." + sequencialItem,
-               item.ItemTag.AreaDesenho.Area,
-               item.ItemTag.AreaDesenho.SubArea,
-               "",
-                _atividadeK.Codigo,
-                  _atividadeTT.Codigo,
-                  _atividadeUU.Codigo,
-                  _atividadeVVV.Codigo,
-               item.Atividade.Codigo,
-               item.SpecPart,
-               "m",
-               "CMS",
-                 _atividadeK.Codigo,
-                  _atividadeTT.Codigo,
-                  _atividadeUU.Codigo,
-                "000",
-                Math.Round((double)item.SomaValorQuatidade / 1000, 2).ToString(),
-                "20%",
-                "",
-                "",
-                "",
-                "",
-                item.Atividade.GUID,
-                item.Atividade.GUID_PAI
-               );
+                var itemParametro = _itensParametro.First(i => i.GUID == itemPQ.GUID);
+
+                var linhaDataPQ = CriarLinhaVindaDoItem(sequencialItem, itemPQ, (double)itemParametro.SomaValorQuatidade);
 
                 dataPQ.AddItem(linhaDataPQ);
-                ItensAdicicionados.Add(item);
+                itensAdicicionados.Add(itemPQ);
+                //CadastaraNumeroDoAtivoNoItemPQ(itemParametro.ItemTag.NumeroAtivo.Sigla, itemPQ);
                 sequencialItem++;
             }
 
             return sequencialItem;
+        }
+
+        //private void CadastaraNumeroDoAtivoNoItemPQ(string siglaAtivo, ItemPQ itemPQ)
+        //{
+        //    itemPQ.ItemTag.NumeroAtivo.Sigla = siglaAtivo;
+        //    _repoItemPQ.ModificarItemPQ(itemPQ);
+        //}
+
+        private LinhaDataPQ CriarLinhaVindaDoItem(int sequencialItem, ItemPQ itemPQ, double somaValorQuatidade)
+        {
+            return new LinhaDataPQ(
+           "1.1.1.1." + sequencialItem,
+           itemPQ.ItemTag.NumeroAtivo.AreaTag.Area,
+           itemPQ.ItemTag.NumeroAtivo.AreaTag.SubArea,
+           itemPQ.ItemTag.NumeroAtivo.Sigla,
+            _atividadeK.Codigo,
+              _atividadeTT.Codigo,
+              _atividadeUU.Codigo,
+              _atividadeVVV.Codigo,
+           itemPQ.Atividade.Codigo,
+           itemPQ.SpecPart,
+           "m",
+           "CMS",
+             _atividadeK.Codigo,
+              _atividadeTT.Codigo,
+              _atividadeUU.Codigo,
+            "000",
+            Math.Round(somaValorQuatidade / 1000, 2).ToString(),
+            "20%",
+            "",
+            "",
+            "",
+            "",
+            itemPQ.Atividade.GUID,
+            itemPQ.Atividade.GUID_PAI
+           );
         }
 
         private void InsereClassificacao(DataPQ dataPQ, ItemPQ itemGlobal, List<ItemPQ> itensAdiconados)

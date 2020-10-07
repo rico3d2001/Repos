@@ -1,4 +1,5 @@
 ﻿using Brass.Materiais.DominioPQ.BIM.Entities;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +8,27 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoHub
+    public class RepoHub : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<Hub> _repoHub;
         BaseMDBRepositorio<Projeto> _repoProjetos;
 
-        public RepoHub()
+        public RepoHub(string conectionString) : base(conectionString)
         {
-            _repoHub = new BaseMDBRepositorio<Hub>("BIM", "Hubs");
-            _repoProjetos = new BaseMDBRepositorio<Projeto>("BIM", "Projetos");
+            _repoHub = new BaseMDBRepositorio<Hub>(new ConexaoMongoDb("BIM", conectionString), "Hubs");
         }
 
         public List<Hub> ObterTodosHubs()
         {
             return _repoHub.Obter();
+        }
+
+        public Hub ObterDaSiglaDoUsuario(string siglaUsuario)
+        {
+            var hubs = _repoHub.Encontrar(
+            Builders<Hub>.Filter.Eq(x => x.Usuario.Sigla, siglaUsuario));
+
+            return hubs.Count() == 1 ? hubs.First() : null;
         }
 
         public void PassarProjetosParaVPN(Hub hub)

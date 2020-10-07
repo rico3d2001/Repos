@@ -65,8 +65,9 @@ namespace Brass.Materiais.DominioPQ.PQ.ValueObjects
         public string Classe { get; set; }
         public string GuidAtividade { get; set; }
         public string GuidAtividadePai { get; set; }
-
         
+
+
 
     }
 }

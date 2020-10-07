@@ -1,5 +1,6 @@
 ﻿using Brass.Materiais.DominioPQ.Catalogo.Entities;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
+using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
 using Flunt.Notifications;
 using MediatR;
 using MongoDB.Driver;
@@ -14,28 +15,29 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
 {
     public class CarregaCatalogoCompletoTubulacaoCommandHandler : Notifiable, IRequestHandler<CarregaCatalogoCompletoTubulacaoCommand>
     {
-        BaseMDBRepositorio<CatalogoEntidade> _catalogosMDBRepositorio;
-        BaseMDBRepositorio<Familia> _familiasRepositorio;
-        BaseMDBRepositorio<ItemPipe> _itemPipeEstoqueRepositorio;
-        BaseMDBRepositorio<ValorTabelado> _valorTabeladoRepositorio;
-        BaseMDBRepositorio<NomeTipoPropriedade> _nomeTipoPropriedadeRepositorio; 
-        BaseMDBRepositorio<RelacaoPropriedadeItem> _relacaoPropriedadeItemRepositorio;
+        RepoCatalogo _catalogosMDBRepositorio;
+        RepoFamilia _familiasRepositorio;
+        RepoItemPipe _itemPipeEstoqueRepositorio;
+        RepoValores  _valorTabeladoRepositorio;
+        RepoNomeTipoPropriedade _nomeTipoPropriedadeRepositorio; 
+        RepoRelacaoPropriedadeItem _relacaoPropriedadeItemRepositorio;
+        RepoIdioma _idiomaMDBRepositorio;
+        CatalogoEntidade _catalogo;
+        RepoPropriedadeItem _repoPropriedadeItem;
 
-        private CatalogoEntidade _catalogo;
 
-        public CarregaCatalogoCompletoTubulacaoCommandHandler()
-        {
-            _catalogosMDBRepositorio = new BaseMDBRepositorio<CatalogoEntidade>("Catalogo", "Catalogo");
-            _familiasRepositorio = new BaseMDBRepositorio<Familia>("Catalogo", "Familias");
-            _itemPipeEstoqueRepositorio = new BaseMDBRepositorio<ItemPipe>("Catalogo", "ItemPipe");
-            _valorTabeladoRepositorio = new BaseMDBRepositorio<ValorTabelado>("Catalogo", "ValorTabelado");
-            _nomeTipoPropriedadeRepositorio = new BaseMDBRepositorio<NomeTipoPropriedade>("Catalogo", "NomeTipoPropriedade");
-            _relacaoPropriedadeItemRepositorio = new BaseMDBRepositorio<RelacaoPropriedadeItem>("Catalogo", "RelacaoPropriedadeItem");
-        }
 
 
         public async Task<Unit> Handle(CarregaCatalogoCompletoTubulacaoCommand command, CancellationToken cancellationToken)
         {
+            _catalogosMDBRepositorio = new RepoCatalogo(command.Conexao);
+            _familiasRepositorio = new RepoFamilia(command.Conexao);
+            _itemPipeEstoqueRepositorio = new RepoItemPipe(command.Conexao);
+            _valorTabeladoRepositorio = RepoValores.Instancia(command.Conexao);
+            _nomeTipoPropriedadeRepositorio = new RepoNomeTipoPropriedade(command.Conexao);
+            _relacaoPropriedadeItemRepositorio = new RepoRelacaoPropriedadeItem(command.Conexao);
+            _idiomaMDBRepositorio = new RepoIdioma(command.Conexao);
+            _repoPropriedadeItem = new RepoPropriedadeItem(command.Conexao);
 
             defineCatalogo(command);
 
@@ -48,40 +50,29 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
         {
             string nomeCatalogo = command.Endereco.Split('\\').Last().Split('.').First();
 
-            var catalogos = _catalogosMDBRepositorio
-                .Encontrar(Builders<CatalogoEntidade>.Filter.Eq(x => x.NOME, nomeCatalogo));
+            var catalogo = _catalogosMDBRepositorio.ObterPorNome(nomeCatalogo);
     
-            if (catalogos.Count == 0)
+            if (catalogo == null)
             {
 
-                string guidIdioma = string.Empty;
-
-                var idiomaMDBRepositorio = new BaseMDBRepositorio<Idioma>("Catalogo", "Idioma");
-
-                var builder = Builders<Idioma>.Filter;
-                var filter = builder.Eq(x => x.IDIOMA, command.Idioma) & builder.Eq(x => x.PAIS, command.Pais);
-
-                var idiomas = idiomaMDBRepositorio.Encontrar(filter);
+  
+                var idioma = _idiomaMDBRepositorio.ObterPorIdiomaComPais(command.Idioma, command.Pais); 
 
 
-                if (idiomas.Count == 0)
+                if (idioma == null)
                 {
-                    guidIdioma = Guid.NewGuid().ToString();
-                    var idioma = new Idioma(command.Idioma, command.Pais);
-                    idiomaMDBRepositorio.Inserir(idioma);
+                    idioma = new Idioma(command.Idioma, command.Pais);
+                    _idiomaMDBRepositorio.Cadastrar(idioma);
                 }
-                else
-                {
-                    guidIdioma = idiomas.First().GUID;
-                }
+             
 
-                _catalogo = new CatalogoEntidade(nomeCatalogo,guidIdioma, command.GuidDisciplina);
-                _catalogosMDBRepositorio.Inserir(_catalogo);
+                _catalogo = new CatalogoEntidade(nomeCatalogo, idioma.GUID, command.GuidDisciplina);
+                _catalogosMDBRepositorio.CadastrarCatalogo(_catalogo);
 
             }
             else
             {
-                _catalogo = catalogos.First();
+                _catalogo = catalogo;
             }
 
             return nomeCatalogo;
@@ -91,11 +82,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
         {
           
 
-            
-
-            
-
-            int conta = _itemPipeEstoqueRepositorio.Obter().Count();
+            int conta = _itemPipeEstoqueRepositorio.ObterTodos().Count();
 
             if (conta < command.EngineeringItems.Count())
             {
@@ -106,27 +93,20 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
 
                     var partFamilyLongDesc = item.PartFamilyLongDesc;
 
-                    var familias = _familiasRepositorio.Encontrar(Builders<Familia>.Filter.Eq(x => x.PartFamilyLongDesc.VALOR, partFamilyLongDesc)).ToList();
+                    var familia = _familiasRepositorio.ObterFamiliaPorDescricao(partFamilyLongDesc);
 
-                    string guidFamilia = "";
-                    if (familias.Count == 1)
+
+                    if (familia != null)
                     {
-                        guidFamilia = familias.First().GUID;
-
-
-                        var itensPipeEstoque = _itemPipeEstoqueRepositorio.Encontrar(
-                            Builders<ItemPipe>.Filter.Eq(x => x.PnPID, (int)item.PnPID)
-                            & Builders<ItemPipe>.Filter.Eq(x => x.GUID_CATALOGO, _catalogo.GUID)).ToList();
-
-
-
-                        if (itensPipeEstoque.Count == 0)
+                        var itemPipeEstoque = _itemPipeEstoqueRepositorio.ObterPorPnPIDComCatalogo((int)item.PnPID, _catalogo.GUID);
+ 
+                        if (itemPipeEstoque == null)
                         {
 
                             
-                            var itemPipe = new ItemPipe(guidFamilia,"",_catalogo.GUID,(int)item.PnPID);
+                            var itemPipe = new ItemPipe(familia.GUID, "",_catalogo.GUID,(int)item.PnPID);
 
-                            _itemPipeEstoqueRepositorio.Inserir(itemPipe);
+                            _itemPipeEstoqueRepositorio.CadastrarItemPipe(itemPipe);
 
                             Type type = item.GetType();
 
@@ -136,77 +116,46 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
                                 if (info.Name != "GUID" && info.Name != "CODIGO" && info.Name != "PnPID")
                                 {
 
-                                    NomeTipoPropriedade nomeTipoPropriedade = null;
+                            
 
+                                    var nomeTipoPropriedade = _nomeTipoPropriedadeRepositorio.ObterPorNome(info.Name);
 
-                                    
-
-                                    var nomesTiposPropriedade = _nomeTipoPropriedadeRepositorio.Encontrar(
-                                                  Builders<NomeTipoPropriedade>.Filter.Eq(x => x.NOME, info.Name));
-
-
-
-                                    if (nomesTiposPropriedade.Count == 0)
+                                    if (nomeTipoPropriedade == null)
                                     {
                                         nomeTipoPropriedade = new NomeTipoPropriedade(info.Name);
 
-                                        _nomeTipoPropriedadeRepositorio.Inserir(nomeTipoPropriedade);
+                                        _nomeTipoPropriedadeRepositorio.CadastrarNomeTipoPropriedade(nomeTipoPropriedade);
 
                                     }
-                                    else
-                                    {
-                                        nomeTipoPropriedade = nomesTiposPropriedade.First();
-                                    }
+                                   
 
-                                 
-
-                                    PropertyInfo campo = type.GetProperty(info.Name);
                                     var valor = info.GetValue(item, null);
 
                                     if (valor != null)
                                     {
 
+                                       
 
+                                        ValorTabelado valorTabelado = CriaValorTabelado(valor);
 
+                                        
 
-                                        var valoresTabelados = _valorTabeladoRepositorio.Encontrar(
-                                              Builders<ValorTabelado>.Filter.Eq(x => x.VALOR, valor.ToString()));
+                                        var propriedadeEng = _repoPropriedadeItem.ObterPorTipoMaisValor(nomeTipoPropriedade.GUID, valorTabelado.GUID);
 
-                                        ValorTabelado valorTabelado = CriaValorTabelado(valor, valoresTabelados);
-
-                                        PropriedadeItem propriedadeEng = null;
-
-                                        var propriedadeRepositorio = new BaseMDBRepositorio<PropriedadeItem>("Catalogo", "PropriedadeItem");
-
-
-                                        var propriedades = propriedadeRepositorio.Encontrar(
-                                            Builders<PropriedadeItem>.Filter.Eq(x => x.GUID_TIPO, nomeTipoPropriedade.GUID)
-                                            & Builders<PropriedadeItem>.Filter.Eq(x => x.GUID_VALOR, valorTabelado.GUID));
-
-                                        if (propriedades.Count == 0)
+                                        if (propriedadeEng == null)
                                         {
 
                                             propriedadeEng = new PropriedadeItem(nomeTipoPropriedade.GUID, valorTabelado.GUID);
 
 
-                                            propriedadeRepositorio.Inserir(propriedadeEng);
+                                            _repoPropriedadeItem.Cadastrar(propriedadeEng);
 
 
                                         }
-                                        else
-                                        {
-                                            propriedadeEng = propriedades.First();
-                                        }
-
-
-
-
 
                                         var relacaoPropriedadeItem = new RelacaoPropriedadeItem(propriedadeEng.GUID, itemPipe.GUID);
 
-
-
-                                        _relacaoPropriedadeItemRepositorio.Inserir(relacaoPropriedadeItem);
+                                        _relacaoPropriedadeItemRepositorio.Cadastrar(relacaoPropriedadeItem);
 
 
                                     }
@@ -223,20 +172,17 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
 
         }
 
-        private ValorTabelado CriaValorTabelado(object valor, List<ValorTabelado> valoresTabelados)
+        private ValorTabelado CriaValorTabelado(object valor)
         {
-            ValorTabelado valorTabelado = null;
+            var valorTabelado = _valorTabeladoRepositorio.ObterDescricao(valor.ToString());
 
-            if (valoresTabelados.Count == 0)
+            if (valorTabelado == null)
             {
                 valorTabelado = new ValorTabelado(valor.ToString(), "");
 
-                _valorTabeladoRepositorio.Inserir(valorTabelado);
+                _valorTabeladoRepositorio.CadastrarValor(valorTabelado);
             }
-            else
-            {
-                valorTabelado = valoresTabelados.First();
-            }
+           
 
             return valorTabelado;
         }

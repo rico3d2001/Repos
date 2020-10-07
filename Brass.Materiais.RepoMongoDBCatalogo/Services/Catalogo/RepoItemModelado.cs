@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoItemModelado
+    public class RepoItemModelado : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<ItemModelado> _repositorioItemModelado;
-        public RepoItemModelado()
+        public RepoItemModelado(string conectionString) : base(conectionString)
         {
-            _repositorioItemModelado = new BaseMDBRepositorio<ItemModelado>("BIM_TESTE", "ItensModelados");
+            _repositorioItemModelado = new BaseMDBRepositorio<ItemModelado>(new ConexaoMongoDb("BIM_TESTE", conectionString), "ItensModelados");
         }
 
         public void InserirItemModelado(ItemModelado itemModel)
@@ -30,22 +30,13 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
                    Builders<ItemModelado>.Filter.Eq(x => x.GuidProjeto, guidProjeto));
         }
 
-        public void CadastraColetado(AreaPlanejada areaPlanejada, Coletados coletado, string tag, AreaTag areaTagModelo)
+        public void Cadastrar(ItemModelado itemModelado) //, NumeroAtivo numeroAtivo)
         {
-
-
-            if (coletado.ComponentePlant.PnPClassName == "Pipe")
-            {
-                _repositorioItemModelado.Inserir(ItemModelado.ConstroiItemModeladoDoTubo((BlancPipe)coletado.ComponentePlant, tag, areaTagModelo));
-                
-            }
-            else
-            {
-                _repositorioItemModelado.Inserir(ItemModelado.ConstroiItemModeladoDeValvula((UnidadePipe)coletado.ComponentePlant, tag, areaTagModelo));
-                
-            }
-
             
+
+            _repositorioItemModelado.Inserir(itemModelado);
+
+
         }
 
     }

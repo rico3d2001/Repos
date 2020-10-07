@@ -21,10 +21,7 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterArvoreAtividades
 
         List<Atividade> _atividades;
 
-        public ObterArvoreAtividadesQueryHandle()
-        {
-            _repoAtividade = new RepoAtividade();
-        }
+      
 
 
        
@@ -33,7 +30,7 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterArvoreAtividades
         public Task<RamalArvoreAtividade> Handle(ObterArvoreAtividadesQuery request, CancellationToken cancellationToken)
         {
 
-            
+            _repoAtividade = new RepoAtividade(request.TextoConexao);
 
             _atividades = _repoAtividade.ObterPorEstado(request.GuidProjeto,request.GuidDisciplina);
 

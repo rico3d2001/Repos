@@ -5,15 +5,16 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterItensFamilia
 {
     public class ObterItensFamiliaQuery : IRequest<ItemParaAtivar[]> 
     {
-        public ObterItensFamiliaQuery(string guidFamilia, string guidAtividade)
+        public ObterItensFamiliaQuery(string guidFamilia, string guidAtividade, string conectionString)
         {
+            TextoConexao = conectionString;
             GuidFamilia = guidFamilia;
             GuidAtividade = guidAtividade;
         }
 
         public string GuidFamilia { get; private set; }
         public string GuidAtividade { get; set; }
-
+        public string TextoConexao { get; set; }
         public void Validate()
         {
            

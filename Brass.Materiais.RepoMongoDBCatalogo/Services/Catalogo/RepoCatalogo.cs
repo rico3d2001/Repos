@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoCatalogo
+    public class RepoCatalogo : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<CatalogoEntidade> _catalogosMDBRepositorio;
-        public RepoCatalogo()
+        public RepoCatalogo(string conectionString) : base(conectionString)
         {
-            _catalogosMDBRepositorio = new BaseMDBRepositorio<CatalogoEntidade>("Catalogo", "Catalogo");
+            _catalogosMDBRepositorio = new BaseMDBRepositorio<CatalogoEntidade>(new ConexaoMongoDb("Catalogo", conectionString), "Catalogo");
         }
 
         public CatalogoEntidade ObterPorNome(string nomeCatalogo)
@@ -23,6 +23,8 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
             return catalogos.Count == 1 ? catalogos.First() : null;
             
         }
+
+      
 
         public List<CatalogoEntidade> ObterPorGuidDisciplina(string guidDisciplina)
         {

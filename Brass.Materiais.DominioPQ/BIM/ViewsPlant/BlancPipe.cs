@@ -8,8 +8,16 @@ namespace Brass.Materiais.DominioPQ.BIM.ViewsPlant
 {
     public class BlancPipe : BaseComponentesPlant
     {
+
+        public BlancPipe()
+        {
+            _indicadorAtivo = 1;
+        }
+        
         public string? LengthUnit { get; set; }
 
         public double? Length { get; set; }
+
+       
     }
 }

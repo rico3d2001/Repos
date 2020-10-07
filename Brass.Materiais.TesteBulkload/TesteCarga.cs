@@ -197,7 +197,7 @@ namespace Brass.Materiais.TesteBulkload
         [TestMethod]
         public void I_Carga_EAPPlanejada_Assertivo()
         {
-            var repoEAPsPlanejadas = new BaseMDBRepositorio<AreaPlanejada>("BIM", "AreasPlanejadas");
+            var repoEAPsPlanejadas = new BaseMDBRepositorio<AreaTag>("BIM", "AreasPlanejadas");
 
             string guidProjeto = "a050dc55-009d-4f19-b867-4bdbe0ee3523";
 
@@ -205,7 +205,7 @@ namespace Brass.Materiais.TesteBulkload
 
             var xls = new AreasPlanejadaXLS(2, guidProjeto, versao);
 
-            var leituraArquivo = new LeituraArquivo<AreaPlanejada>(xls);
+            var leituraArquivo = new LeituraArquivo<AreaTag>(xls);
 
             string siglaProjeto = "BdB1901";
 
@@ -218,7 +218,7 @@ namespace Brass.Materiais.TesteBulkload
             }
 
             var inseridos = repoEAPsPlanejadas
-                .Encontrar(Builders<AreaPlanejada>.Filter.Eq(x => x.GUID_PROJETO, guidProjeto));
+                .Encontrar(Builders<AreaTag>.Filter.Eq(x => x.GUID_PROJETO, guidProjeto));
 
 
             Assert.IsTrue(inseridos.Count > 0);

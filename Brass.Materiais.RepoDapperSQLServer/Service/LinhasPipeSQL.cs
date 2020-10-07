@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using Brass.Materiais.DominioPQ.BIM.Entities;
+using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,14 @@ namespace Brass.Materiais.RepoDapperSQLServer.Service
 {
     public class LinhasPipeSQL
     {
+        RepoLinhas _repoLinhas;
+
+        
+
+
+
+
+
         public static List<string> GetLinhas(string arquivoCAD, string database)
         {
             List<string> linhas = new List<string>();
@@ -116,8 +126,53 @@ namespace Brass.Materiais.RepoDapperSQLServer.Service
             return lista;
         }
 
-        public static List<Dictionary<object, object>> GetItensArea(string database,string area) 
+        public static void ColetaLinhasProjeto(string database, string guidProjeto, string conexao)
         {
+
+            var repoLinhas = new RepoLinhas(conexao);
+
+            repoLinhas.ApagarDoProjeto(guidProjeto);
+
+            //List<Linha> linhas = new List<Linha>();
+
+            //List<Dictionary<object, object>> lista = new List<Dictionary<object, object>>();
+
+            using (var conexaoBD = new Conexao(database))
+            {
+
+                string qry = $"SELECT [PnPID],[Spec Part],[Tag] FROM[{database}].[dbo].[PipeLines]";
+
+                var reader = conexaoBD.SQLServerConexao.Query(qry).ToList();
+
+                foreach (var rdr in reader)
+                {
+                    var dic = new Dictionary<object, object>();
+                    foreach (var item in rdr)
+                    {
+                        dic.Add(item.Key, item.Value);
+                    }
+
+                    var tag = dic["Tag"];
+                    var descricao = dic["Spec Part"];
+                    var pnPID = dic["PnPID"];
+                    Linha linha = new Linha(guidProjeto, tag.ToString(), descricao.ToString(), pnPID.ToString());
+                    repoLinhas.Cadastrar(linha);
+
+                }
+
+                
+
+
+            }
+
+           
+        }
+
+
+        public static List<Dictionary<object, object>> GetItensArea(string database,AreaTag areaTag) 
+        {
+            var area = areaTag.Area + areaTag.SubArea;
+
             List<Dictionary<object, object>> lista = new List<Dictionary<object, object>>();
 
             using (var conexaoBD = new Conexao(database))

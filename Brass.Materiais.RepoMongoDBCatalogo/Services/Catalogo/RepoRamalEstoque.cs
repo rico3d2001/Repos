@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
 {
-    public class RepoRamalEstoque
+    public class RepoRamalEstoque : RepositorioAbstratoGeral
     {
         BaseMDBRepositorio<RamalArvoreCatalogo> _ramalRepo;
 
-        public RepoRamalEstoque()
+        public RepoRamalEstoque(string conectionString) : base(conectionString)
         {
-            var _ramalRepo = new BaseMDBRepositorio<RamalArvoreCatalogo>("Catalogo", "RamalEstoque");
+            _ramalRepo = new BaseMDBRepositorio<RamalArvoreCatalogo>(new ConexaoMongoDb("Catalogo", conectionString), "RamalEstoque");
         }
     }
 }
