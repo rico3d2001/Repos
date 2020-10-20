@@ -55,9 +55,8 @@ namespace Brass.Materiais.DominioPQ.PQ.Entities
         public string NumeroPQCliente { get; set; }
         public bool PQEstaEmitida { get; set; }
         public string Operacao { get; set; }
+        //public string DescricaoParaAtivar { get; set; }
 
-
-        
 
 
     }

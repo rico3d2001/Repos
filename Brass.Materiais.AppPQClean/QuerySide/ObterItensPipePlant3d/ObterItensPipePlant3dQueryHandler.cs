@@ -22,32 +22,32 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterItensPipePlant3d
 
             var repositorioItemPipe = new RepoItemPipe(request.TextoConexao);
             var repositorioItemPQPlant3d = new RepoItemPQ(request.TextoConexao);
-            var itensPQ = ObterItensOrdenadosPorDescricao(request, repositorioItemPQPlant3d);
+            var itensPQ = ObterItensOrdenadosPorDescricao(request, repositorioItemPQPlant3d).ToList();
 
-            foreach (var itemPQ in itensPQ)
-            {
+            //foreach (var itemPQ in itensPQ)
+            //{
 
-                if (itemPQEstaCatalogado(itemPQ))
-                {
-                    if (itemPQNaoPossuiAtividadeDefinida(itemPQ))
-                    {
-                        var itemPipe = repositorioItemPipe.ObterPorGuid(itemPQ.ItemPipe.GUID);
+            //    if (itemPQEstaCatalogado(itemPQ))
+            //    {
+            //        if (itemPQNaoPossuiAtividadeDefinida(itemPQ))
+            //        {
+            //            var itemPipe = repositorioItemPipe.ObterPorGuid(itemPQ.ItemPipe.GUID);
 
-                        if (atividadeEstaCadastrada(itemPipe))
-                        {
-                            RepoAtividade repositorioAtividade = new RepoAtividade(request.TextoConexao);
+            //            if (atividadeEstaCadastrada(itemPipe))
+            //            {
+            //                RepoAtividade repositorioAtividade = new RepoAtividade(request.TextoConexao);
 
-                            var atividade = repositorioAtividade.ObterPorGuid(itemPipe.GUID_ATIVIDADE);
-                            itemPQ.Atividade = atividade;
-                            repositorioItemPQPlant3d.ModificarItemPQ(itemPQ);
-                        }
+            //                var atividade = repositorioAtividade.ObterPorGuid(itemPipe.GUID_ATIVIDADE);
+            //                itemPQ.Atividade = atividade;
+            //                repositorioItemPQPlant3d.ModificarItemPQ(itemPQ);
+            //            }
 
-                    }
+            //        }
 
-                }
+            //    }
 
 
-            }
+            //}
 
 
 

@@ -1,6 +1,7 @@
 ﻿using Brass.Materiais.DominioPQ.BIM.Entities;
 using Brass.Materiais.DominioPQ.BIM.Enumerations;
 using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
+using Brass.Materiais.ServicoDominio.Fabrica;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,10 +36,10 @@ namespace Brass.Materiais.ServicoDominio.Services.CommandSide
 
       
 
-        public void CadastrarItens(NumeroAtivo ativo)
+        public void CadastrarItens(NumeroAtivo ativo, string conexao)
         {
-             
 
+            var construtorItemPQDiagrama = new ConstrutorItemPQDiagrama(conexao);
 
             var itensModeladosNaoIncluidosEmItemDiagramaParaArea = _itensModeladosDeTodoProjetoNaoIncluidosEmItemDiagrama
                .Where(x => x.ItemTag.NumeroAtivo.Equals(ativo)).ToList();
@@ -52,7 +53,9 @@ namespace Brass.Materiais.ServicoDominio.Services.CommandSide
 
                     var itemPipe = _repoItemPipe.ObterPorDescricaoComplexa(itemParaAnalize.DescricaoLongaDimensionada, "");
 
-                    var itemPQPlant3D = ItemPQ.CriaItemPQSomenteModelado(itemParaAnalize, itemPipe); //_projeto, itemParaAnalize, itemPipe,tipoAtivo);
+                   
+
+                    var itemPQPlant3D = construtorItemPQDiagrama.ConstruirItemPQSomenteModelado(itemParaAnalize, itemPipe); 
 
                     UneAoItemModeladoAquelesComDescricaoIgual(ativo, itemParaAnalize, itemPQPlant3D);
 

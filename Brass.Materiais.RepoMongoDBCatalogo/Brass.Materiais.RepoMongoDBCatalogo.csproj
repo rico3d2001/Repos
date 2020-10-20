@@ -79,6 +79,7 @@
     <Compile Include="Services\BaseMDBRepositorio.cs" />
     <Compile Include="Services\Catalogo\RepoAreasDiagramas.cs" />
     <Compile Include="Services\Catalogo\RepoLinhas.cs" />
+    <Compile Include="Services\Catalogo\RepoNivelAtividade.cs" />
     <Compile Include="Services\Catalogo\RepoNumerosAtivos.cs" />
     <Compile Include="Services\Catalogo\RepoAtividade.cs" />
     <Compile Include="Services\Catalogo\RepoColetadosPipe.cs" />
@@ -105,9 +106,11 @@
     <Compile Include="Services\Catalogo\RepoResumo.cs" />
     <Compile Include="Services\Catalogo\RepositorioAbstratoGeral.cs" />
     <Compile Include="Services\Catalogo\RepoSPE.cs" />
+    <Compile Include="Services\Catalogo\RepoSPEBook.cs" />
     <Compile Include="Services\Catalogo\RepoTipoDeItem.cs" />
     <Compile Include="Services\Catalogo\RepoValores.cs" />
     <Compile Include="Services\ConexaoMongoDb.cs" />
+    <Compile Include="Services\ConstrutorRepositorios.cs" />
     <Compile Include="ViewModel\RamalArvoreCatalogo.cs" />
   </ItemGroup>
   <ItemGroup>

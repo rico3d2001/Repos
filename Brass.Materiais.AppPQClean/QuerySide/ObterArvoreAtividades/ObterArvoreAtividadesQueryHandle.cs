@@ -48,7 +48,9 @@ namespace Brass.Materiais.AppPQClean.QuerySide.ObterArvoreAtividades
            
 
 
-            var atividadesPai = _atividades.Where(x => x.GUID_PAI == "" && x.Codigo == "M").ToList();
+            //var atividadesPai = _atividades.Where(x => x.GUID_PAI == "" && x.Codigo == "M").ToList();
+
+            var atividadesPai = _atividades.Where(x => x.GUID_PAI == "" && x.Codigo != "D").ToList();
 
             foreach (var atividade in atividadesPai)
             {

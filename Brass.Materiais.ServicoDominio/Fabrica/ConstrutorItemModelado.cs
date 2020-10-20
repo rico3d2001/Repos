@@ -29,7 +29,7 @@ namespace Brass.Materiais.ServicoDominio.Fabrica
                     var blanc = (BlancPipe)coletado.ComponentePlant;
 
                     return new ItemModelado(itemPQ.ItemTag, _projeto.GUID, blanc.PnPID.ToString(), blanc.PartFamilyLongDesc,
-                        blanc.PartSizeLongDesc, "QtdLinear", 0, (double)blanc.Length, 0, 0);
+                        blanc.PartSizeLongDesc, "QtdLinear", 0, (double)blanc.Length, 0, 0,(double)blanc.Weigth);
 
                 }
                 else
@@ -43,7 +43,7 @@ namespace Brass.Materiais.ServicoDominio.Fabrica
                     ItemTag itemTag = new ItemTag(numeroAtivo, unidade.LineNumberTag);
 
                     return new ItemModelado(itemTag, _projeto.GUID, unidade.PnPID.ToString(), unidade.PartFamilyLongDesc,
-                        unidade.PartSizeLongDesc, "QtdUnitaria", 1, 0, 0, 0);
+                        unidade.PartSizeLongDesc, "QtdUnitaria", 1, 0, 0, 0,(double)unidade.Weigth);
 
                 }
             
@@ -69,7 +69,7 @@ namespace Brass.Materiais.ServicoDominio.Fabrica
                     ItemTag itemTag = new ItemTag(numeroAtivo, blanc.LineNumberTag);
 
                     return new ItemModelado(itemTag, _projeto.GUID, blanc.PnPID.ToString(), blanc.PartFamilyLongDesc,
-                        blanc.PartSizeLongDesc, "QtdLinear", 0, (double)blanc.Length, 0, 0);
+                        blanc.PartSizeLongDesc, "QtdLinear", 0, (double)blanc.Length, 0, 0, (double)blanc.Weigth);
 
                 }
                 else
@@ -86,7 +86,7 @@ namespace Brass.Materiais.ServicoDominio.Fabrica
                     ItemTag itemTag = new ItemTag(numeroAtivo, unidade.LineNumberTag);
 
                     return new ItemModelado(itemTag, _projeto.GUID, unidade.PnPID.ToString(), unidade.PartFamilyLongDesc,
-                        unidade.PartSizeLongDesc, "QtdUnitaria", 1, 0, 0, 0);
+                        unidade.PartSizeLongDesc, "QtdUnitaria", 1, 0, 0, 0,(double)unidade.Weigth);
 
                 }
 

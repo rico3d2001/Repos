@@ -1,6 +1,7 @@
 ﻿using Brass.Materiais.DominioPQ.BIM.Entities;
 using Brass.Materiais.DominioPQ.BIM.Enumerations;
 using Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo;
+using Brass.Materiais.ServicoDominio.Fabrica;
 using System.Collections.Generic;
 
 namespace Brass.Materiais.ServicoDominio.Services.CommandSide
@@ -40,7 +41,7 @@ namespace Brass.Materiais.ServicoDominio.Services.CommandSide
 
             List<Linha> linhas = _repoLinhas.ObterDoNumeroAtivo(ativo);
 
-
+            var construtorItemPQDiagrama = new ConstrutorItemPQDiagrama(conexao);
 
             foreach (var linha in linhas)
             {
@@ -61,8 +62,9 @@ namespace Brass.Materiais.ServicoDominio.Services.CommandSide
 
                         var itemPipe = linha.Descricao == "" ? null : new RepoItemPipe(conexao).ObterPorDescricaoComplexa(linha.Descricao, "");
 
+                        
 
-                        var itemPQ = ItemPQ.ConstruirItemPQDoDiagrama(itemPipe, linha);
+                         var itemPQ = construtorItemPQDiagrama.ConstruirItemPQDoDiagrama(itemPipe, linha);
 
                         _repoItemPQ.InserirItemDiagramaPlant3d(itemPQ);
                     }

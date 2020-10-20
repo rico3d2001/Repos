@@ -15,7 +15,7 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
     {
         public ItemModelado(ItemTag itemTag, string guidProjeto, string pnPID, 
             string descricaoLonga, string descricaoLongaDimensionada, string tipoQuantidade, int unidades, 
-            double comprimento, double area, double volume)
+            double comprimento, double area, double volume, double pesoUnitario)
         {
             ItemTag = itemTag;
             GuidProjeto = guidProjeto;
@@ -27,6 +27,7 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
             Comprimento = comprimento;
             Area = area;
             Volume = volume;
+            PesoUnitario = pesoUnitario;
         }
 
         public ItemTag ItemTag { get; set; }
@@ -40,6 +41,8 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
         public double Comprimento { get; set; }
         public double Area { get; set; }
         public double Volume { get; set; }
+
+        public double PesoUnitario { get; set; }
 
         //public static ItemModelado ConstroiItemModeladoDoTubo(Projeto projeto,  BlancPipe blanc, string tag) //, AreaTag areaTag)
         //{

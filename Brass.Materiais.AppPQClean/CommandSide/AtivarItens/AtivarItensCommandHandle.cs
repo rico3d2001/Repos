@@ -42,16 +42,18 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AtivarItens
                     {
                         var versao = new Versao(0, "Brass usuario", "Acrescimo  permitido Vale", DateTime.Now);
 
-                        IdentidadeEstado identidadeEstado = new IdentidadeEstado(null,"RRP", itemParaAtivar.GuidDisciplina);
+                        var identidadeAtividade = new IdentidadeAtividade("", itemParaAtivar.GuidDisciplina, ""); //null,"RRP", itemParaAtivar.GuidDisciplina);
 
-                       
+
+
                         var atividade = new Atividade(
-                            identidadeEstado,
+                            identidadeAtividade,
                             "WWW",
                             itemParaAtivar.GuidAtividadePai,
                             versao,
                             itemParaAtivar.CodigoAtividade,
-                            itemParaAtivar.DecricaoAtividade);
+                            itemParaAtivar.DecricaoAtividade,
+                            "");
 
                         atividadeRepositorio.CatadastarAtividade(atividade);
 

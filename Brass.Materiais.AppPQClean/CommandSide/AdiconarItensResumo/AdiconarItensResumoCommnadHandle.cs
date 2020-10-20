@@ -7,6 +7,7 @@ using Flunt.Notifications;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,6 +32,15 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AdiconarItensResumo
             DataPQ ultimaPQ = _repoPQ.ObterUltimaPQAtivaDoHub(command.IdentidadePQ.IdentidadeEstado);
 
             var itens = _repoItemPQ.ObterListaPorResumo(command.Itens);
+
+            RepoAtividade repoAtividade = new RepoAtividade(command.TextoConexao);
+
+            var itensParateste = itens.Where(x => x.ItemPipe != null && x.SiglaPrimeiraAtividade == "X");
+
+            foreach (var itemParateste in itensParateste)
+            {
+                var sigla = repoAtividade.ObterSiglaPrimeiraAtividade(itemParateste.ItemPipe);
+            }
 
             if (naoHaPQCadastrada(ultimaPQ))
             {

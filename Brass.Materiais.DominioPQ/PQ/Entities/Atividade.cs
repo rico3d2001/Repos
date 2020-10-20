@@ -7,30 +7,21 @@ namespace Brass.Materiais.DominioPQ.PQ.Entities
 {
     public class Atividade : Entidade
     {
-        //public Atividade(string nivelAtividade, string gUID_PAI, string gUID_CLIENTE, string gUID_DISCIPLINA, 
-        //    string gUID_IDIOMA, Versao versao, string codigo, string descricao)
-        //{
-        //    NivelAtividade = nivelAtividade;
-        //    GUID_CLIENTE = gUID_CLIENTE;
-        //    GUID_PAI = gUID_PAI;
-        //    GUID_DISCIPLINA = gUID_DISCIPLINA;
-        //    GUID_IDIOMA = gUID_IDIOMA;
-        //    Versao = versao;
-        //    Codigo = codigo;
-        //    Descricao = descricao;
+   
 
-        //}
-
-        public Atividade(IdentidadeEstado identidadeEstado, string nivelAtividade, string gUID_PAI, Versao versao, string codigo, string descricao)
+        public Atividade(IdentidadeAtividade identidadeAtividade,  string nivelAtividade, string gUID_PAI, Versao versao, string codigo, string descricao, string unidade)
         {
             NivelAtividade = nivelAtividade;
-            GUID_CLIENTE = identidadeEstado == null ? "" : identidadeEstado.GuidCliente;
-            GUID_DISCIPLINA = identidadeEstado == null ? "" : identidadeEstado.GuidDisciplina;
+            GUID_CLIENTE = identidadeAtividade == null ? "" : identidadeAtividade.GUID_CLIENTE;
+            GUID_DISCIPLINA = identidadeAtividade == null ? "" : identidadeAtividade.GUID_DISCIPLINA;
+            GUID_IDIOMA = identidadeAtividade == null ? "" : identidadeAtividade.GUID_IDIOMA;
             GUID_PAI = gUID_PAI;
-            GUID_IDIOMA = identidadeEstado == null ? "" : identidadeEstado.GuidIdioma;
+          
             Versao = versao;
             Codigo = codigo;
             Descricao = descricao;
+
+            Unidade = unidade;
         }
 
         public string NivelAtividade { get; set; }
@@ -41,10 +32,11 @@ namespace Brass.Materiais.DominioPQ.PQ.Entities
         public Versao Versao { get; set; }
         public string Codigo { get; set; }
         public string Descricao { get; set; }
+        public string Unidade { get; set; }
 
 
 
-      
+
 
     }
 }

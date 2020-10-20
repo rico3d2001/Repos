@@ -101,7 +101,10 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
 
                 string PartFamilyLongDesc = item["PartFamilyLongDesc"] == null ? "" : item["PartFamilyLongDesc"].ToString();
                 string PartSizeLongDesc = item["PartSizeLongDesc"] == null ? "" : item["PartSizeLongDesc"].ToString();
+                string PartFamilyId = item["PartFamilyId"] == null ? "" : item["PartFamilyId"].ToString();
                 string PnPID = item["PnPID"] == null ? "" : item["PnPID"].ToString();
+                string NominalDiameter = item["NominalDiameter"] == null ? "0" : item["NominalDiameter"].ToString(); //
+                string Weigth = item["Weigth"] == null ? "0" : item["Weigth"].ToString();
 
                 var tipoDeItemEngenharia = DefineTipoDeItem(PnPClassName);
 
@@ -113,9 +116,9 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
                 }
                 var valor = DefinirValor(PartFamilyLongDesc, conexao);
 
-                var familia = DefinirFamilia(catalogo, categoria, valor);
+                var familia = DefinirFamilia(catalogo, categoria, valor,PartFamilyId);
 
-                var itemPipeEstoque = DefineItemPipe(catalogo, int.Parse(PnPID), tipoDeItemEngenharia, familia);
+                var itemPipeEstoque = DefineItemPipe(catalogo, int.Parse(PnPID), tipoDeItemEngenharia, familia, double.Parse(NominalDiameter), double.Parse(Weigth));
 
                 foreach (var info in item.Keys)
                 {
@@ -207,27 +210,27 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
             return nomeTipoPropriedade;
         }
 
-        private ItemPipe DefineItemPipe(CatalogoEntidade catalogo, int pnPidItemPipe, TipoItemEng tipoDeItemEngenharia, Familia familia)
+        private ItemPipe DefineItemPipe(CatalogoEntidade catalogo, int pnPidItemPipe, TipoItemEng tipoDeItemEngenharia, Familia familia, double nominalDiameter, double weigth)
         {
             var itemPipe = _repoItemPipe.ObterPorTipoDeItemNoCatalogo(tipoDeItemEngenharia, catalogo);
 
             if (itemPipe == null)
             {
-                itemPipe = new ItemPipe(tipoDeItemEngenharia.GUID, catalogo.GUID, "", pnPidItemPipe, familia.GUID);
+                itemPipe = new ItemPipe(tipoDeItemEngenharia.GUID, catalogo.GUID, "", pnPidItemPipe, familia.GUID, familia.PartFamilyId, nominalDiameter, weigth);
                 _repoItemPipe.CadastrarItemPipe(itemPipe);
             }
 
             return itemPipe;
         }
 
-        private Familia DefinirFamilia(CatalogoEntidade catalogo, Categoria categoria, ValorTabelado valor)
+        private Familia DefinirFamilia(CatalogoEntidade catalogo, Categoria categoria, ValorTabelado valor, string partFamilyId)
         {
             var familia = _repoFamilia.ObterFamiliaPorValor(valor);
 
 
             if (familia == null)
             {
-                familia = new Familia(catalogo.GUID, categoria.GUID, valor);
+                familia = new Familia(catalogo.GUID, categoria.GUID, valor, partFamilyId);
                 _repoFamilia.Cadastrar(familia);
             }
 

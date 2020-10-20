@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brass.Materiais.DominioPQ.PQ.ValueObjects
+namespace Brass.Materiais.RepoMongoDBCatalogo.Services
 {
-    public class LinhaNexa : LinhaPQ
+    public class ConstrutorRepositorios
     {
     }
 }

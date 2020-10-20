@@ -8,12 +8,13 @@ namespace Brass.Materiais.DominioPQ.Catalogo.Entities
 
         List<string> _idsItens;
 
-        public Familia(string gUID_CATALOGO, string gUID_CATEGORIA, ValorTabelado valor)
+        public Familia(string gUID_CATALOGO, string gUID_CATEGORIA, ValorTabelado valor, string partFamilyId)
         {
             GUID_CATALOGO = gUID_CATALOGO;
             GUID_CATEGORIA = gUID_CATEGORIA;
             PartFamilyLongDesc = valor;
             _idsItens = new List<string>();
+            PartFamilyId = partFamilyId;
         }
 
         public void AdicionaIdentificadorItem(string guidItem)

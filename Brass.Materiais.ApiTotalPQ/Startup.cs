@@ -1,4 +1,6 @@
-﻿using Brass.Materiais.AppCatalogoP3D.QuerySide.ObterArvoreCatalogo;
+﻿using Brass.Materiais.AppBulkLoad.Services.CommandSide;
+using Brass.Materiais.AppBulkLoad.Services.CommandSide.AtividadeBulkLoad;
+using Brass.Materiais.AppCatalogoP3D.QuerySide.ObterArvoreCatalogo;
 using Brass.Materiais.AppCatalogoP3D.QuerySide.ObterCategoria;
 using Brass.Materiais.AppCatalogoP3D.QuerySide.ObterFamiliaParaAdicao;
 using Brass.Materiais.AppGestao.CommandSide.IniciarEstadoApp;
@@ -99,7 +101,7 @@ namespace Brass.Materiais.ApiTotalPQ
             services.AddMediatR(typeof(AddResumoParaPQCommand).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(CriarPlanExcelPQCommand).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(AdiconarItensResumoCommnad).GetTypeInfo().Assembly);
-
+            services.AddMediatR(typeof(AtividadeBulkLoadCommand).GetTypeInfo().Assembly);
 
 
 

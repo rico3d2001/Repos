@@ -9,22 +9,30 @@ namespace Brass.Materiais.DominioPQ.Catalogo.Entities
 {
     public class ItemPipe : Entidade
     {
-        public ItemPipe(string gUID_TIPO_ITEM, string gUID_CATALOGO, string gUID_ITEM_PAI, int pnPID)
+        public ItemPipe(string gUID_TIPO_ITEM, string gUID_CATALOGO, string gUID_ITEM_PAI, int pnPID, double nominalDiameter, double weigth)
         {
             GUID_TIPO_ITEM = gUID_TIPO_ITEM;
             GUID_CATALOGO = gUID_CATALOGO;
             GUID_ITEM_PAI = gUID_ITEM_PAI;
             PnPID = pnPID;
+            NominalDiameter = nominalDiameter;
+            Weigth = weigth;
         }
 
-        public ItemPipe(string gUID_TIPO_ITEM, string gUID_CATALOGO, string gUID_ITEM_PAI, int pnPID, string guidFamilia)
+        public ItemPipe(string gUID_TIPO_ITEM, string gUID_CATALOGO, string gUID_ITEM_PAI, int pnPID, string guidFamilia, string partFamilyId, double nominalDiameter, double weigth)
         {
             GUID_TIPO_ITEM = gUID_TIPO_ITEM;
             GUID_CATALOGO = gUID_CATALOGO;
             GUID_ITEM_PAI = gUID_ITEM_PAI;
             PnPID = pnPID;
             GUID_FAMILIA = guidFamilia;
+            PartFamilyId = partFamilyId;
+            NominalDiameter = nominalDiameter;
+            Weigth = weigth;
         }
+
+        public double NominalDiameter { get; set; }
+        public double Weigth { get; set; }
 
         //public string GUID { get; set; }
         public string GUID_TIPO_ITEM { get; set; }

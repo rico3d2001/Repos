@@ -134,7 +134,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaValoresTabelasDo
                            
 
 
-                            var itemPipe = new ItemPipe(familia.GUID,tipoItem.GUID,_catalogo.GUID,(int)item.PnPID);
+                            var itemPipe = new ItemPipe(familia.GUID,tipoItem.GUID,_catalogo.GUID,(int)item.PnPID, item.NominalDiameter, item.Weight);
 
                             itemPipeEstoqueRepositorio.CadastrarItemPipe(itemPipe);
 

@@ -86,6 +86,9 @@
     <Compile Include="Catalogo\Entities\ItemTubulacaoEstoque.cs" />
     <Compile Include="Catalogo\Entities\SPEBook.cs" />
     <Compile Include="PQ\Entities\EstadoApp.cs" />
+    <Compile Include="PQ\ValueObjects\CelulaPQ.cs" />
+    <Compile Include="PQ\ValueObjects\LinhaPQ.cs" />
+    <Compile Include="PQ\ValueObjects\LinhaVale.cs" />
     <Compile Include="PQ\ValueObjects\CabecalhoTabelaAtividades.cs" />
     <Compile Include="Catalogo\Entities\CatalogoEntidade.cs" />
     <Compile Include="Catalogo\Entities\Categoria.cs" />
@@ -119,14 +122,11 @@
     <Compile Include="PQ\Entities\NivelAtividade.cs" />
     <Compile Include="PQ\Enumeration\TipoDisciplina.cs" />
     <Compile Include="PQ\ValueObjects\CabecalhoPQ.cs" />
-    <Compile Include="PQ\ValueObjects\CelulaPQ.cs" />
     <Compile Include="PQ\ValueObjects\CelulaVale.cs" />
+    <Compile Include="PQ\ValueObjects\IdentidadeAtividade.cs" />
     <Compile Include="PQ\ValueObjects\IdentidadeEstado.cs" />
     <Compile Include="PQ\ValueObjects\IdentidadePQ.cs" />
     <Compile Include="PQ\ValueObjects\LinhaDataPQ.cs" />
-    <Compile Include="PQ\ValueObjects\LinhaNexa.cs" />
-    <Compile Include="PQ\ValueObjects\LinhaPQ.cs" />
-    <Compile Include="PQ\ValueObjects\LinhaVale.cs" />
     <Compile Include="PQ\ValueObjects\PlanilhaPQ.cs" />
     <Compile Include="PQ\ValueObjects\PlanilhaVale.cs" />
     <Compile Include="PQ\ValueObjects\PlanPIPEVale.cs" />

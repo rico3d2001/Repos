@@ -1,4 +1,6 @@
-﻿using Brass.Materiais.DominioPQ.BIM.Entities;
+﻿using Brass.Materiais.AppPQClean.CommandSide.AdiconarItensResumo;
+using Brass.Materiais.AppPQClean.ViewModel;
+using Brass.Materiais.DominioPQ.BIM.Entities;
 using Brass.Materiais.DominioPQ.PQ.Entities;
 using Brass.Materiais.DominioPQ.PQ.ValueObjects;
 using Brass.Materiais.RepoMongoDBCatalogo.Services;
@@ -16,320 +18,383 @@ namespace Brass.Materiais.AppPQClean.CommandSide.AddResumoParaPQ
 {
     public class AddResumoParaPQCommandHandle : Notifiable, IRequestHandler<AddResumoParaPQCommand>
     {
-        RepoPQ _repoPQPipeVale;
-        RepoAtividade _repoAtividade;
-        RepoItemPQ _repoItemPQ;
-        RepoResumo _repoResumo;
-        Atividade _atividadeVVV;
-        Atividade _atividadeUU;
-        Atividade _atividadeTT;
-        Atividade _atividadeK;
-        List<ItemPQ> _itensParametro;
 
- 
+
+        SequencialItem _sequencialItem;
+        AtividadesPQ _atividadesPQ;
+        string _conexao;
+        RepoNivelAtividade _repoNivelAtividade;
+        RepoSPE _repoSPE;
+
+        public AddResumoParaPQCommandHandle()
+        {
+            
+        }
 
         public async Task<Unit> Handle(AddResumoParaPQCommand command, CancellationToken cancellationToken)
         {
+            _repoNivelAtividade = new RepoNivelAtividade(command.TextoConexao);
+            _repoSPE = new RepoSPE(command.TextoConexao);
+            _conexao = command.TextoConexao;
 
-            _repoPQPipeVale = new RepoPQ(command.TextoConexao); //new BaseMDBRepositorio<DataPQ>("BIM_TESTE", "PQPipeVale");
-            _repoAtividade = new RepoAtividade(command.TextoConexao); //new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
-            _repoItemPQ = new RepoItemPQ(command.TextoConexao);
-            _repoResumo = new RepoResumo(command.TextoConexao);
-
-
-
-            _itensParametro = command.ItensParametro;
-
-            var dataPQ = _repoPQPipeVale.ObterUltimaPQAtivaDoHub(command.IdentidadePQ.IdentidadeEstado);
-
-            criaListaLinhas(dataPQ);
-
-           
-
-            
+            var repoPQPipeVale = new RepoPQ(command.TextoConexao);
+            var repoItemPQ = new RepoItemPQ(command.TextoConexao);
 
 
+            var dataPQ = repoPQPipeVale.ObterUltimaPQAtivaDoHub(command.IdentidadePQ.IdentidadeEstado);
 
-            return Unit.Value;
-        }
-
-        public void criaListaLinhas(DataPQ dataPQ)
-        {
-
-           
-
-            var sequencialItem = 1;
-
-            var ItensAdicicionados = new List<ItemPQ>();
-
-            
+            _sequencialItem = new SequencialItem(4);
 
             dataPQ.ResetLinhas();
 
-            //var itens = new List<ItemPQ>();
+            var itensComSomatoriaDePesoCorridigida = RetornaItensComSomatoriaDePesoCorridigida(command.ItensParametro);
 
-            
-                //foreach (var item in itensParametro)
-                //{
-                //    var itemEncontrado = _repoItemPQ.ObterPorGuid(item.GUID);
-                //    itens.Add(itemEncontrado);
+            var itensAdicicionados = new List<ItemPQ>();
 
-                //}
-           
-               
-
-            
-
-            
-
-
-            foreach (var itemParametro in _itensParametro)
+            foreach (var itemCorrigido in itensComSomatoriaDePesoCorridigida)
             {
-                var itemGlobal = _repoItemPQ.ObterPorGuid(itemParametro.GUID);
 
-                if (dataPQ.ListaDataPQ == null || dataPQ.ListaDataPQ.Count <= 0)
-                {
-                    InsereClassificacao(dataPQ, itemGlobal, ItensAdicicionados);
-                }
-               
+                _atividadesPQ = new AtividadesPQ(itemCorrigido, _conexao);
 
-                if (ItensAdicicionados.FirstOrDefault(x => x.GUID == itemGlobal.GUID) == null)
+                //if (dataPQ.ListaDataPQ == null || dataPQ.ListaDataPQ.Count <= 0)
+                //{
+
+                //    InsereClassificacao(dataPQ, atividadesPQ);
+                //}
+
+
+                if (itensAdicicionados.FirstOrDefault(x => x.GUID == itemCorrigido.GUID) == null)
                 {
-                    var atividadePai = dataPQ.ListaDataPQ.LastOrDefault(x => x.GuidAtividade == itemGlobal.Atividade.GUID_PAI);
+
+
+
+                    var atividadePai = dataPQ.ListaDataPQ.LastOrDefault(x => x.GuidAtividade == itemCorrigido.Atividade.GUID_PAI);
                     if (atividadePai != null)
                     {
-                        sequencialItem = AdcionarGrupoItens(dataPQ, sequencialItem, ItensAdicicionados);
+
+                        //InsereClassificacao(dataPQ, atividadesPQ);
+
+                        _sequencialItem.IniciaSequencia();
+
+                        var agrupamento = itensComSomatoriaDePesoCorridigida.Where(x => x.Atividade.GUID_PAI == _atividadesPQ.VVV.GUID).OrderBy(x => x.Atividade.Codigo).ToList();
+
+
+                        foreach (var itemPQ in agrupamento)
+                        {
+                            _sequencialItem.Soma();
+
+                            var linhaDataPQ = CriarLinhaVindaDoItem(itemPQ);
+
+                            dataPQ.AddItem(linhaDataPQ);
+                            itensAdicicionados.Add(itemPQ);
+
+                        }
+
+
 
                     }
                     else
                     {
-                       
 
-                        InsereClassificacao(dataPQ, itemGlobal, ItensAdicicionados);
 
-                        sequencialItem = AdcionarGrupoItens(dataPQ, sequencialItem, ItensAdicicionados);
+                        InsereClassificacao(dataPQ);
+
+                        _sequencialItem.IniciaSequencia();
+
+                        var agrupamento = itensComSomatoriaDePesoCorridigida
+                                                     .Where(x => x.Atividade.GUID_PAI == _atividadesPQ.VVV.GUID)
+                                                     .OrderBy(x => x.Atividade.Codigo).ToList();
+
+
+                        foreach (var itemPQ in agrupamento)
+                        {
+                            _sequencialItem.Soma();
+
+                            var linhaDataPQ = CriarLinhaVindaDoItem(itemPQ);
+
+                            dataPQ.AddItem(linhaDataPQ);
+                            itensAdicicionados.Add(itemPQ);
+
+                        }
+
+
                     }
 
                 }
-                
+
 
             }
 
-            _repoPQPipeVale.Modificar(dataPQ);
+            repoPQPipeVale.Modificar(dataPQ);
 
+            return Unit.Value;
         }
 
-        private int AdcionarGrupoItens(DataPQ dataPQ, int sequencialItem, List<ItemPQ> itensAdicicionados)
+        private List<ItemPQ> RetornaItensComSomatoriaDePesoCorridigida(List<ItemPQ> itensParametro)
         {
+
             var itens = new List<ItemPQ>();
 
-            foreach (var item in _itensParametro)
+            var repoItemPQ = new RepoItemPQ(_conexao);
+
+            foreach (var item in itensParametro)
             {
-                var itemEncontrado = _repoItemPQ.ObterPorGuid(item.GUID);
+                var itemEncontrado = repoItemPQ.ObterPorGuid(item.GUID);
+                itemEncontrado.SomaValorQuatidade = item.SomaValorQuatidade;
                 itens.Add(itemEncontrado);
 
             }
 
-            var agrupamento = itens.Where(x => x.Atividade.GUID_PAI == _atividadeVVV.GUID).OrderBy(x => x.Atividade.Codigo).ToList();
+            return itens;
+        }
 
-           
-            foreach (var itemPQ in agrupamento)
+
+
+
+        private LinhaDataPQ CriarLinhaVindaDoItem(ItemPQ itemCorrigido) //, double somaValorQuatidade)
+        {
+
+            var quantidade = itemCorrigido.SomaValorQuatidade;
+
+
+
+
+            string unidade = itemCorrigido.Unidade;
+            if (itemCorrigido.Atividade != null && itemCorrigido.Atividade.Unidade != "")
             {
-                var itemParametro = _itensParametro.First(i => i.GUID == itemPQ.GUID);
+                unidade = itemCorrigido.Atividade.Unidade;
 
-                var linhaDataPQ = CriarLinhaVindaDoItem(sequencialItem, itemPQ, (double)itemParametro.SomaValorQuatidade);
+                if (itemCorrigido.Unidade == "unid." && unidade == "t")
+                {
+                    quantidade = (int)(quantidade * itemCorrigido.PesoUnidade / 1000);
+                }
 
-                dataPQ.AddItem(linhaDataPQ);
-                itensAdicicionados.Add(itemPQ);
-                //CadastaraNumeroDoAtivoNoItemPQ(itemParametro.ItemTag.NumeroAtivo.Sigla, itemPQ);
-                sequencialItem++;
             }
 
-            return sequencialItem;
-        }
-
-        //private void CadastaraNumeroDoAtivoNoItemPQ(string siglaAtivo, ItemPQ itemPQ)
-        //{
-        //    itemPQ.ItemTag.NumeroAtivo.Sigla = siglaAtivo;
-        //    _repoItemPQ.ModificarItemPQ(itemPQ);
-        //}
-
-        private LinhaDataPQ CriarLinhaVindaDoItem(int sequencialItem, ItemPQ itemPQ, double somaValorQuatidade)
-        {
-            return new LinhaDataPQ(
-           "1.1.1.1." + sequencialItem,
-           itemPQ.ItemTag.NumeroAtivo.AreaTag.Area,
-           itemPQ.ItemTag.NumeroAtivo.AreaTag.SubArea,
-           itemPQ.ItemTag.NumeroAtivo.Sigla,
-            _atividadeK.Codigo,
-              _atividadeTT.Codigo,
-              _atividadeUU.Codigo,
-              _atividadeVVV.Codigo,
-           itemPQ.Atividade.Codigo,
-           itemPQ.SpecPart,
-           "m",
-           "CMS",
-             _atividadeK.Codigo,
-              _atividadeTT.Codigo,
-              _atividadeUU.Codigo,
-            "000",
-            Math.Round(somaValorQuatidade / 1000, 2).ToString(),
-            "20%",
-            "",
-            "",
-            "",
-            "",
-            itemPQ.Atividade.GUID,
-            itemPQ.Atividade.GUID_PAI
-           );
-        }
-
-        private void InsereClassificacao(DataPQ dataPQ, ItemPQ itemGlobal, List<ItemPQ> itensAdiconados)
-        {
             
 
 
-            _atividadeVVV = _repoAtividade.ObterPorGuid(itemGlobal.Atividade.GUID_PAI);
-            _atividadeUU = _repoAtividade.ObterPorGuid(_atividadeVVV.GUID_PAI);
-            _atividadeTT = _repoAtividade.ObterPorGuid(_atividadeUU.GUID_PAI);
-            _atividadeK = _repoAtividade.ObterPorGuid(_atividadeTT.GUID_PAI);
+            string descricao = itemCorrigido.SpecPart;
 
-
-            if(dataPQ.ListaDataPQ.LastOrDefault(x => x.GuidAtividade == _atividadeK.GUID) == null)
+            if ((_atividadesPQ.K.Codigo == "M" || _atividadesPQ.K.Codigo == "D") &&  descricao.Split(',')[0].Trim() == "TUBO")
             {
-                var linhaK = new LinhaDataPQ(
-                "1",
-                "", "", "",
-                _atividadeK.Codigo,
-                "00", "00", "000", "000",
-                _atividadeK.Descricao,
-                "", "", "", "", "", "", "", "", "", "", "",
-                "mat-grid-tile-K",
-                _atividadeK.GUID,
-                _atividadeK.GUID_PAI);
-                dataPQ.AddItem(linhaK);
+                if(itemCorrigido.NominalDiameter <= 8)
+                {
+                    descricao = descricao + " INCLUSIVE VÁLVULAS E CONEXÕES .";
+                }
+                else
+                {
+                    descricao = descricao + " INCLUSIVE CONEXÕES .";
+                }
             }
 
 
-            if (dataPQ.ListaDataPQ.LastOrDefault(x => x.GuidAtividade == _atividadeTT.GUID) == null)
+
+            if(itemCorrigido.Unidade == "unid.")
             {
-                var linhaTT = new LinhaDataPQ(
-                "1.1",
-                "", "", "",
-                _atividadeK.Codigo,
-                _atividadeTT.Codigo,
-                "00", "000", "000",
-                _atividadeTT.Descricao,
-                "", "", "", "", "", "", "", "", "", "", "",
-                "mat-grid-tile-TT",
-                _atividadeTT.GUID,
-                _atividadeK.GUID);
+                return new LinhaDataPQ(
+                         _sequencialItem.Escrita,
+                         itemCorrigido.ItemTag.NumeroAtivo.AreaTag.Area,
+                         itemCorrigido.ItemTag.NumeroAtivo.AreaTag.SubArea,
+                         itemCorrigido.ItemTag.NumeroAtivo.Sigla,
+                          _atividadesPQ.K.Codigo,
+                            _atividadesPQ.TT.Codigo,
+                            _atividadesPQ.UU.Codigo,
+                            _atividadesPQ.VVV.Codigo,
+                         itemCorrigido.Atividade.Codigo,
+                         descricao,
+                         unidade == "unid." ? "un" : unidade,
+                         "CMS",
+                           _atividadesPQ.K.Codigo,
+                            _atividadesPQ.TT.Codigo,
+                            _atividadesPQ.UU.Codigo,
+                          "000",
+                          quantidade.ToString(),
+                          "20%",
+                          "",
+                          "",
+                          "",
+                          "",
+                          itemCorrigido.Atividade.GUID,
+                          itemCorrigido.Atividade.GUID_PAI
+                         );
+            }
+            else
+            {
+                return new LinhaDataPQ(
+                         _sequencialItem.Escrita,
+                         itemCorrigido.ItemTag.NumeroAtivo.AreaTag.Area,
+                         itemCorrigido.ItemTag.NumeroAtivo.AreaTag.SubArea,
+                         itemCorrigido.ItemTag.NumeroAtivo.Sigla,
+                          _atividadesPQ.K.Codigo,
+                            _atividadesPQ.TT.Codigo,
+                            _atividadesPQ.UU.Codigo,
+                            _atividadesPQ.VVV.Codigo,
+                         itemCorrigido.Atividade.Codigo,
+                         descricao,
+                         unidade == "mm" ? "m" : unidade,
+                         "CMS",
+                           _atividadesPQ.K.Codigo,
+                            _atividadesPQ.TT.Codigo,
+                            _atividadesPQ.UU.Codigo,
+                          "000",
+                          Math.Round((double)quantidade / 1000, 2).ToString(),
+                          "20%",
+                          "",
+                          "",
+                          "",
+                          "",
+                          itemCorrigido.Atividade.GUID,
+                          itemCorrigido.Atividade.GUID_PAI
+                         );
+            }
+
+          
+        }
+
+        private void InsereClassificacao(DataPQ dataPQ)
+        {
+
+            int indiceParametro = 1;
+
+            if (SeNovaEmRealacaoA(_atividadesPQ.K, dataPQ))
+            {
+
+                if (_sequencialItem.EstaEmReinicio())
+                {
+                    _sequencialItem.Reincia();
+                }
+                else if (_sequencialItem.EstaAvancado(indiceParametro))
+                {
+
+                    _sequencialItem.Recua(indiceParametro);
+                }
+                else
+                {
+                    _sequencialItem.Avanca();
+                }
+
+
+
+                var linhaK = CriaLinha(_atividadesPQ.K, indiceParametro);
+
+                dataPQ.AddItem(linhaK);
+
+
+
+            }
+
+
+            indiceParametro++;
+
+            if (SeNovaEmRealacaoA(_atividadesPQ.TT, dataPQ))
+            {
+
+                if (_sequencialItem.EstaAvancado(indiceParametro))
+                {
+                    _sequencialItem.Recua(indiceParametro);
+                }
+                else
+                {
+                    _sequencialItem.Avanca();
+                }
+
+
+
+
+                var linhaTT = CriaLinha(_atividadesPQ.TT, indiceParametro);
+
                 dataPQ.AddItem(linhaTT);
             }
 
-            if (dataPQ.ListaDataPQ.LastOrDefault(x => x.GuidAtividade == _atividadeUU.GUID) == null)
+
+            indiceParametro++;
+
+
+            if (SeNovaEmRealacaoA(_atividadesPQ.UU, dataPQ))
             {
-                var linhaUU = new LinhaDataPQ(
-                "1.1.1",
-                "", "", "",
-                _atividadeK.Codigo,
-                _atividadeTT.Codigo,
-                _atividadeUU.Codigo,
-                "000", "000",
-                _atividadeUU.Descricao,
-                "", "", "", "", "", "", "", "", "", "", "",
-                "mat-grid-tile-UU",
-                _atividadeUU.GUID,
-                _atividadeTT.GUID);
+                if (_sequencialItem.EstaAvancado(indiceParametro))
+                {
+                    _sequencialItem.Recua(indiceParametro);
+                }
+                else
+                {
+                    _sequencialItem.Avanca();
+                }
+
+
+
+                var linhaUU = CriaLinha(_atividadesPQ.UU, indiceParametro);
+
                 dataPQ.AddItem(linhaUU);
             }
 
-            if (dataPQ.ListaDataPQ.LastOrDefault(x => x.GuidAtividade == _atividadeVVV.GUID) == null)
+            indiceParametro++;
+
+            if (SeNovaEmRealacaoA(_atividadesPQ.VVV, dataPQ))
             {
-                var linhaVVV = new LinhaDataPQ(
-             "1.1.1.1",
-             "", "", "",
-             _atividadeK.Codigo,
-             _atividadeTT.Codigo,
-             _atividadeUU.Codigo,
-             _atividadeVVV.Codigo,
-             "000",
-             _atividadeVVV.Descricao,
-             "", "", "", "", "", "", "", "", "", "", "",
-             "mat-grid-tile-VVV",
-              _atividadeVVV.GUID,
-              _atividadeUU.GUID);
+
+
+                if (_sequencialItem.EstaAvancado(indiceParametro))
+                {
+                    _sequencialItem.Recua(indiceParametro);
+                }
+                else
+                {
+                    _sequencialItem.Avanca();
+                }
+
+
+
+                LinhaDataPQ linhaVVV = CriaLinha(_atividadesPQ.VVV, indiceParametro);
+
                 dataPQ.AddItem(linhaVVV);
             }
-              
+
+        }
+
+        private bool SeNovaEmRealacaoA(Atividade atividade, DataPQ dataPQ)
+        {
+            return dataPQ.ListaDataPQ.LastOrDefault(x => x.GuidAtividade == atividade.GUID) == null;
+        }
+
+
+
+        private LinhaDataPQ CriaLinha(Atividade atividade, int indiceParametro)
+        {
+
+            //var nivelAtividade = _repoNivelAtividade.ObterPorNomeDoNivel(atividade.NivelAtividade);
+
+            //var ordenador = nivelAtividade.Oredenador;
+
+            string cor = "mat-grid-tile-" + atividade.NivelAtividade;
+
+            var k = 0 <= (indiceParametro - 1) ? _atividadesPQ.K.Codigo : "0";
+            //ordenador++;
+            var tt = 1 <= (indiceParametro - 1) ? _atividadesPQ.TT.Codigo : "00";
+            //ordenador++;
+            var uu = 2 <= (indiceParametro - 1) ? _atividadesPQ.UU.Codigo : "000";
+            //ordenador++;
+            var vvv = 3 <= (indiceParametro - 1) ? _atividadesPQ.VVV.Codigo : "000";
+
+            return new LinhaDataPQ(
+                             _sequencialItem.Escrita,
+                             "",
+                             "",
+                             "",
+                             k,
+                             tt,
+                             uu,
+                             vvv,
+                              "000",
+                             atividade.Descricao,
+                             "", "", "", "", "", "", "", "", "", "", "",
+                             cor,
+                             atividade.GUID,
+                             atividade.GUID_PAI); ;
+
         }
     }
 }
 
 
-//public void criaListaLinhas(List<ItemPQPlant3d> itens)
-//{
-//    //PlanilhaVale planilhaVale = new PlanMECVale();
-
-//    DataPQ dataPQ = new DataPQ(
-//        new Versao(0, "Resumo", "Primeiro PQ", DateTime.Now),
-//        new CabecalhoPQ(
-//            "BdB181119-0000-L-PQ0001",
-//            "PQ-1860CC-T-21853",
-//            "RESTRITA",
-//            0, 
-//            "0",
-//            "PROJETO DETALHADO",
-//            "SISTEMA DE CAPTAÇÃO DE ÁGUA RIO DO PEIXE",
-//            "PLANILHA DE QUANTIDADES - MONTAGEM"
-//        ));
-
-
-
-
-
-//    var sequencialItem = 1;
-
-
-//    foreach (var item in itens)
-//    {
-
-//        LinhaDataPQ linhaDataPQ = new LinhaDataPQ(
-//            "1.1.1.1." + sequencialItem,
-//            item.ItemTag.AreaDesenho.Area,
-//            item.ItemTag.AreaDesenho.SubArea,
-//            "",
-//            "M",
-//            "60",
-//            "10",
-//            "010",
-//            "001",
-//            item.SpecPart,
-//            "m",
-//            "CMS",
-//             "M",
-//             "60",
-//             "10",
-//             "000",
-//             Math.Round((double)item.SomaValorQuatidade / 1000, 2).ToString(),
-//             "20%",
-//             "",
-//             "",
-//             ""
-//            );
-
-
-//        dataPQ.AddItem(linhaDataPQ);
-
-//        //planilha.AddLinha(linhaValeItem);
-
-//        //sequencialItem++;
-//    }
-
-
-
-
-//    _repoPQPipeVale.Inserir(dataPQ);
-
-
-//}

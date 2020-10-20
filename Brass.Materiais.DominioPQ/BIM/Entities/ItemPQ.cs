@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Brass.Materiais.DominioPQ.BIM.ValueObjects;
 using System.Linq;
 using Brass.Materiais.DominioPQ.BIM.Enumerations;
+using System;
 
 namespace Brass.Materiais.DominioPQ.BIM.Entities
 {
@@ -17,15 +18,26 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
 
         }
 
-        private ItemPQ(ItemTag itemTag, string pnPID, string specPart, ItemPipe itemPipe)
+        public ItemPQ(ItemTag itemTag, string pnPID, string specPart, ItemPipe itemPipe, string siglaPrimeiraAtividade, Atividade atividade)
         {
+            if (itemPipe != null)
+            {
+                NominalDiameter = itemPipe.NominalDiameter;
+                PesoUnidade = itemPipe.Weigth;
+            }
+            else
+            {
+                NominalDiameter = 0.0;
+                PesoUnidade = 0.0;
+            }
 
-            SiglaPrimeiraAtividade = "X";
+
+
+            SiglaPrimeiraAtividade = siglaPrimeiraAtividade;
+
+            Atividade = atividade;
 
             Catalogado = defineSeCatalogado(itemPipe);
-
-            //GuidProjeto = guidProjeto;
-            //SiglaUsuario = siglaUsuario;
             ItemTag = itemTag;
             PnPID = pnPID;
             SpecPart = specPart;
@@ -39,31 +51,25 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
 
         }
 
-        //private ItemPQ(string guidProjeto, string siglaUsuario, ItemTag itemTag, ItemModelado itemParaAnalize, string specPart, ItemPipe itemPipe)
-        //{
+     
 
-        //    SiglaPrimeiraAtividade = "X";
-
-        //    Catalogado = defineSeCatalogado(itemPipe);
-
-        //    GuidProjeto = guidProjeto;
-        //    SiglaUsuario = siglaUsuario;
-        //    ItemTag = itemTag;
-        //    PnPID = itemParaAnalize.PnPID;
-        //    SpecPart = specPart;
-        //    _itensModelados = new List<ItemModelado>();
-        //    ItemPipe = itemPipe;
-        //    NumeroAtivo = "YY01";
-
-        //    defineUnidadePorItemParaAnalize(itemParaAnalize);
-
-        //    defineQuantidadeInicial(Unidade);
-        //}
-
-        private ItemPQ(ItemTag itemTag, ItemModelado itemParaAnalize, string specPart, ItemPipe itemPipe)
+        public ItemPQ(ItemTag itemTag, ItemModelado itemParaAnalize, string specPart, ItemPipe itemPipe,string siglaPrimeiraAtividade, Atividade atividade)
         {
 
-            SiglaPrimeiraAtividade = "X";
+            if (itemPipe != null)
+            {
+                NominalDiameter = itemPipe.NominalDiameter;
+                PesoUnidade = itemPipe.Weigth;
+            }
+            else
+            {
+                NominalDiameter = 0.0;
+                PesoUnidade = 0.0;
+            }
+
+            SiglaPrimeiraAtividade = siglaPrimeiraAtividade;
+
+            Atividade = atividade;
 
             Catalogado = defineSeCatalogado(itemPipe);
 
@@ -81,6 +87,8 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
             defineQuantidadeInicial(Unidade);
         }
 
+
+
         private void defineQuantidadeInicial(string unidade)
         {
 
@@ -97,6 +105,7 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
             }
 
         }
+
 
 
 
@@ -121,38 +130,9 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
 
 
 
-        public static ItemPQ ConstruirItemPQDoDiagrama(ItemPipe itemPipe, Linha linha) //string tag, string pnPID, string specPart)
-        {
-            //AreaTag areaTag = AreaTag.ObterDoTag(projeto, tag);
-            //TipoAtivo tipoAtivo = TipoAtivo.ObterDoTag(tag);
-            //NumeroAtivo numeroAtivo = new NumeroAtivo(areaTag, tipoAtivo);
-            var itemTag = new ItemTag(linha.NumeroAtivo, linha.TagOrigem);
-            return new ItemPQ(itemTag, linha.PnPID, linha.Descricao, itemPipe);
-        }
+        
 
-        public static ItemPQ CriaItemPQSomenteModelado(ItemModelado itemParaAnalize, ItemPipe itemPipe)
-        {
-
-            //var areaTag =
-            //AreaTag.Criar(areaPlanejada,itemParaAnalize.ItemTag.AreaDesenho.NumeroAtivo,itemParaAnalize.ItemTag.AreaDesenho.Nome);
-
-            //ItemTag itemTag = new ItemTag(itemParaAnalize.ItemTag.NumeroAtivo,)
-
-
-            //ItemTag itemTag = ItemTag.ConstroiDoTextoDoTag(projeto, itemParaAnalize.ItemTag.TagCompleto, tipoAtivo);
-            //new ItemTag(itemParaAnalize.ItemTag.NumeroAtivo, "3D", itemParaAnalize.ItemTag.TagCompleto, "");
-
-
-
-
-            ItemPQ itemPQPlant3D =
-             new ItemPQ(itemParaAnalize.ItemTag, itemParaAnalize,
-             itemParaAnalize.DescricaoLongaDimensionada, itemPipe);
-
-            itemPQPlant3D.CorAvanco = "red";
-
-            return itemPQPlant3D;
-        }
+        
 
 
 
@@ -215,7 +195,8 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
         }
 
 
-
+        public double NominalDiameter { get; set; }
+        public double PesoUnidade { get; set; }
         public Atividade Atividade { get; set; }
         public ItemPipe ItemPipe { get; set; }
 
@@ -223,18 +204,21 @@ namespace Brass.Materiais.DominioPQ.BIM.Entities
         public string PnPID { get; set; }
         public string SpecPart { get; set; }
 
-        public List<ItemModelado> ItensModelados { get => _itensModelados; set => _itensModelados = value; }
-
         public int SomaValorQuatidade { get; set; }
 
         public string CorAvanco { get; set; }
 
         public string Unidade { get; set; }
         public bool Catalogado { get; set; }
-
-
-
         public string SiglaPrimeiraAtividade { get; set; }
+
+        public List<ItemModelado> ItensModelados { get => _itensModelados; set => _itensModelados = value; }
+
+       
+
+
+
+       
 
 
     }

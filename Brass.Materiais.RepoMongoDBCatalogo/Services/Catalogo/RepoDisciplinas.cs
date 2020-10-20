@@ -24,5 +24,10 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         {
             _repoDisciplinas.Inserir(disciplina);
         }
+
+        public Disciplina ObterPorGuid(string guidDisciplina)
+        {
+           return  _repoDisciplinas.Obter(guidDisciplina);
+        }
     }
 }

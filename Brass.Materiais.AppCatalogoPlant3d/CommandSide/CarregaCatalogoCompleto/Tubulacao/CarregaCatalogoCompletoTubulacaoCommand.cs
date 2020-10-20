@@ -10,10 +10,10 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
 {
     public class CarregaCatalogoCompletoTubulacaoCommand : Notifiable, IRequest
     {
-        public CarregaCatalogoCompletoTubulacaoCommand(string endereco, string idioma, string pais, string conexao, string guidDisciplina)
+        public CarregaCatalogoCompletoTubulacaoCommand(string endereco, string lingua, string pais, string conexao, string guidDisciplina)
         {
             Endereco = endereco;
-            Idioma = idioma;
+            Lingua = lingua;
             Pais = pais;
             Conexao = conexao;
             GuidDisciplina = guidDisciplina;
@@ -22,7 +22,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoCompleto
         }
 
         public string Endereco { get; set; }
-        public string Idioma { get; set; }
+        public string Lingua { get; set; }
         public string Pais { get; set; }
         public string Conexao { get; set; }
         public string GuidDisciplina { get; set; }

@@ -18,7 +18,7 @@ namespace Brass.Materiais.TesteBulkload.Templates.MontagensXLS
         //string _GUID_DISCIPLINA;
         //string _GUID_IDIOMA;
         //string _GUID_CLIENTE;
-        IdentidadeEstado _identidadeEstado;
+        //IdentidadeEstado _identidadeEstado;
         Versao _versao;
         List<NivelAtividade> _niveisAtividade;
 
@@ -33,10 +33,10 @@ namespace Brass.Materiais.TesteBulkload.Templates.MontagensXLS
        // string guidDisciplia, string guidCliente, string guidIdioma, Versao versao, int numeroLinha,
            //List<NivelAtividade> niveisAtividade) : base(numeroLinha)
 
-        public MontagemXLS(IdentidadeEstado identidadeEstado, Versao versao, List<NivelAtividade> niveisAtividade, int numeroLinha) : base(numeroLinha)
+        public MontagemXLS(IdentidadeAtividade identidadeAtividade, Versao versao, List<NivelAtividade> niveisAtividade, int numeroLinha, string conectionString) : base(numeroLinha)
         {
-            _identidadeEstado = identidadeEstado;
-            _repoAtividade = new BaseMDBRepositorio<Atividade>("MontagemPQ", "Atividade");
+            
+            _repoAtividade = new BaseMDBRepositorio<Atividade>(new ConexaoMongoDb("MontagemPQ", conectionString), "Atividade");
 
             var lista = _repoAtividade.Obter().ToList();
             if(lista.Count > 0)

@@ -28,7 +28,7 @@ namespace Brass.Materiais.ApiTotalPQ.Controllers
         [HttpGet("GetEstado/{guidProjeto}/{siglaUsuario}/{guidDisciplina}")]
         public Task<EstadoApp> ObterEstadoAppQuery(string guidProjeto,string siglaUsuario, string guidDisciplina)
         {
-            var query = new ObterEstadoAppQuery(guidProjeto, siglaUsuario, guidDisciplina, _conectStringMongo);  //, guidDisciplina);
+            var query = new ObterEstadoAppQuery(guidProjeto, siglaUsuario, guidDisciplina, _conectStringMongo);
 
             return _mediator.Send(query);
 

@@ -27,6 +27,9 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
             _repoClientes.Inserir(cliente);
         }
 
-
+        public Cliente ObterDoGuid(string guidClienteVALE)
+        {
+            return _repoClientes.Obter(guidClienteVALE);
+        }
     }
 }

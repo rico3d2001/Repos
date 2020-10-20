@@ -18,9 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.AppBulkLoad\Brass.Materiais.AppBulkLoad.csproj" />
     <ProjectReference Include="..\Brass.Materiais.AppCatalogoPlant3d\Brass.Materiais.AppCatalogoPlant3d.csproj" />
     <ProjectReference Include="..\Brass.Materiais.Dominio.Servico\Brass.Materiais.Dominio.Servico.csproj" />
     <ProjectReference Include="..\Brass.Materiais.DominioPQ\Brass.Materiais.DominioPQ.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepoDapperSQLServer\Brass.Materiais.RepoDapperSQLServer.csproj" />
     <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj" />
     <ProjectReference Include="..\Brass.Materiais.RepositorioAppEFSQLite\Brass.Materiais.RepositorioAppEFSQLite.csproj" />
   </ItemGroup>

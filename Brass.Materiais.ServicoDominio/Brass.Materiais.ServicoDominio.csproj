@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Brass.Materiais.RepoMongoDBCatalogo\Brass.Materiais.RepoMongoDBCatalogo.csproj" />
+    <ProjectReference Include="..\Brass.Materiais.RepositorioSQLitePlant\Brass.Materiais.RepositorioSQLitePlant.csproj" />
   </ItemGroup>
 
   <ItemGroup>

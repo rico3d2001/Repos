@@ -109,7 +109,7 @@ namespace Brass.Materiais.AppVPN.CommandSide.CarregarItensPQPipe
                 var cadastroItensSomenteModelados = 
                     new CadastroItensSomenteModelados(cadastroItensDiagramas.ObtemItensModeladosNaoIncluidosEmItemDiagrama(), request.IdentidadeEstado.GuidProjeto, conexao);
 
-                cadastroItensSomenteModelados.CadastrarItens(areaPlanejada);
+                cadastroItensSomenteModelados.CadastrarItens(areaPlanejada, conexao);
 
             }
         }

@@ -25,9 +25,11 @@ namespace Brass.Materiais.DominioPQ.BIM.ViewsPlant
         public string? LineNumberTag { get; set; }
         public int IndicadorAtivo { get => _indicadorAtivo; set => _indicadorAtivo = value; }
 
-        
+        public double NominalDiameter { get; set; }
 
-        
+        public double Weigth { get; set; }
+
+
 
     }
 }

@@ -62,7 +62,7 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
                 var relacoes = relacaoPropriedadeItemRepositorio.Encontrar(filtroRelacaoPropriedadeItem);
 
 
-                var familia = new Familia(guidCatalogo, guidCategoria, new ValorTabelado("", ""));
+                var familia = new Familia(guidCatalogo, guidCategoria, new ValorTabelado("", ""),"");
 
                 foreach (var relacao in relacoes)
                 {

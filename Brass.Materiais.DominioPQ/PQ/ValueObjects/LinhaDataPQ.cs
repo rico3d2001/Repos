@@ -9,11 +9,13 @@ namespace Brass.Materiais.DominioPQ.PQ.ValueObjects
 {
     public class LinhaDataPQ: ObjetoValor
     {
+    
+
         public LinhaDataPQ(string item, string area, string subArea, string numeroAtivo, string k, string tT,
-            string uU, string vVV, string wWW, string descricaoAtividade, string unidade, 
-            string cMS, string cM_K, string cM_TT, string cM_UU, string sequencial, 
-            string quantidade, string provisaoEng, string nCM_TEC, string precoUnitario, string precoTotal, string classe,
-            string guidAtividade, string guidAtividadePai)
+           string uU, string vVV, string wWW, string descricaoAtividade, string unidade,
+           string cMS, string cM_K, string cM_TT, string cM_UU, string sequencial,
+           string quantidade, string provisaoEng, string nCM_TEC, string precoUnitario, string precoTotal, string classe,
+           string guidAtividade, string guidAtividadePai)
         {
             Item = item;
             Area = area;
@@ -40,6 +42,7 @@ namespace Brass.Materiais.DominioPQ.PQ.ValueObjects
             GuidAtividade = guidAtividade;
             GuidAtividadePai = guidAtividadePai;
         }
+
 
         public string Item { get; set; }
         public string Area { get; set; }

@@ -19,6 +19,29 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
             _repoAreasSPE = new BaseMDBRepositorio<ItemSPE>(new ConexaoMongoDb("Catalogo", conectionString), "SPE");
         }
 
+        public ItemSPE ObterPorNiveis(string nivelK, string nivelTT, string nivelUU, string nivelVVV, string nivelWWW)
+        {
+            var atividadesSPE = _repoAreasSPE.Encontrar(
+                Builders<ItemSPE>.Filter.Eq(x => x.Nivel_K, nivelK)
+                & Builders<ItemSPE>.Filter.Eq(x => x.Nivel_TT, nivelTT)
+                & Builders<ItemSPE>.Filter.Eq(x => x.Nivel_UU, nivelUU)
+                & Builders<ItemSPE>.Filter.Eq(x => x.Nivel_VVV, nivelVVV)
+                & Builders<ItemSPE>.Filter.Eq(x => x.Nivel_WWW, nivelWWW));
+
+            return atividadesSPE.Count() > 0 ? atividadesSPE.First() : null;
+        }
+
+        public ItemSPE ObterPorNiveisAteVVV(string nivelK, string nivelTT, string nivelUU, string nivelVVV)
+        {
+            var atividadesSPE = _repoAreasSPE.Encontrar(
+                Builders<ItemSPE>.Filter.Eq(x => x.Nivel_K, nivelK)
+                & Builders<ItemSPE>.Filter.Eq(x => x.Nivel_TT, nivelTT)
+                & Builders<ItemSPE>.Filter.Eq(x => x.Nivel_UU, nivelUU)
+                & Builders<ItemSPE>.Filter.Eq(x => x.Nivel_VVV, nivelVVV));
+
+            return atividadesSPE.Count() > 0 ? atividadesSPE.Last() : null;
+        }
+
         public List<ItemSPE> ObterAtividadesPorCodigos(string guidAtividade)
         {
             List<ItemSPE> areasDistintas = new List<ItemSPE>();
@@ -47,6 +70,16 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
             return areasDistintas;
         }
 
+        public void Cadastrar(ItemSPE item)
+        {
+            _repoAreasSPE.Inserir(item);
+        }
+
+        public void Modificar(ItemSPE speLinha)
+        {
+            _repoAreasSPE.Atualizar(speLinha);
+        }
+
         public List<ItemSPE> ObterDoNomeDoCatalogo(string nomeCatalogo)
         {
            return _repoAreasSPE.Encontrar(Builders<ItemSPE>.Filter.Eq(x => x.SPEBook.Nome, nomeCatalogo));
@@ -55,6 +88,11 @@ namespace Brass.Materiais.RepoMongoDBCatalogo.Services.Catalogo
         private static bool ItemNaoFoiColetado(List<ItemSPE> areasDistintas, ItemSPE area)
         {
             return areasDistintas.FirstOrDefault(x => x.Descricao == area.Descricao) == null;
+        }
+
+        public ItemSPE ObterPorGuid(string gUID)
+        {
+            return _repoAreasSPE.Obter(gUID);
         }
     }
 }

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
     <PackageReference Include="MediatR" Version="8.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -14,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Brass.Materiais.AppBulkLoad\Brass.Materiais.AppBulkLoad.csproj" />
     <ProjectReference Include="..\Brass.Materiais.AppCatalogoP3D\Brass.Materiais.AppCatalogoP3D.csproj" />
     <ProjectReference Include="..\Brass.Materiais.AppGestao\Brass.Materiais.AppGestao.csproj" />
     <ProjectReference Include="..\Brass.Materiais.AppPQClean\Brass.Materiais.AppPQClean.csproj" />

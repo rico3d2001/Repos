@@ -37,7 +37,7 @@ namespace Brass.Materiais.AppPQClean.ViewModel
             //itemResumo.Area = itemPQ.ItemTag.AreaDesenho.Area;
             //itemResumo.SubArea = itemPQ.ItemTag.AreaDesenho.SubArea;
             itemResumo.NumeroAtivo = itemPQ.ItemTag.NumeroAtivo;
-            itemResumo.SiglaPrimeiraAtividade = "M";
+            itemResumo.SiglaPrimeiraAtividade = itemPQ.SiglaPrimeiraAtividade;
 
             Itens.Add(itemResumo);
 

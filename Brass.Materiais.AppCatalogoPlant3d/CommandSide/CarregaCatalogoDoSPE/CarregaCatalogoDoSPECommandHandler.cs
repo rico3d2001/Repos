@@ -134,7 +134,7 @@ namespace Brass.Materiais.AppCatalogoPlant3d.CommandSide.CarregaCatalogoDoSPE
                     {
                         itemPipePnpID++;
 
-                        itemPipe = new ItemPipe(guidFamilia, "", _catalogo.GUID, itemPipePnpID);
+                        itemPipe = new ItemPipe(guidFamilia, "", _catalogo.GUID, itemPipePnpID,0.0, 0.0);
 
                         //itemPipe.GUID_ATIVIDADE;
 
